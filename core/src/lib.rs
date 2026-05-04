@@ -6,13 +6,14 @@ mod walker;
 #[cfg(test)]
 pub mod test_utils;
 
+pub use crate::errors::SeyfrError;
+pub use crate::progress::ProgressSink;
+
 use std::path::PathBuf;
 use std::sync::Arc;
 use tokio::runtime::{Builder, Runtime};
 use uniffi;
 
-use crate::errors::SeyfrError;
-use crate::progress::ProgressSink;
 use crate::transfers::TransferEngine;
 
 struct Seyfr {
