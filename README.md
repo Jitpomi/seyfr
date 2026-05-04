@@ -46,6 +46,8 @@ This architecture follows a clear separation of concerns:
 
 ## 🔐 Security Features
 
+All security protections are implemented at the core level and enforced consistently across every platform. See [`SECURITY.md`](./SECURITY.md) for detailed threat analysis and mitigation strategies.
+
 - **Path Traversal Protection**: Uses `path_jail` to prevent malicious paths
 - **File Size Limits**: 1 GB per file, 10 GB per collection
 - **Collection Limits**: Maximum 10,000 files per transfer
