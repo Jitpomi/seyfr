@@ -387,7 +387,7 @@ impl TransferEngine {
         Ok(ticket.to_string())
     }
 
-    /// Receive from a ticket. Supports Raw (legacy) and HashSeq (file or folder with metadata).
+    /// Receive from a ticket. Only HashSeq with metadata is supported.
     /// 
     /// # Progress Reporting
     /// - **File-level**: `on_file_start`, `on_file_complete`, `on_complete` 
@@ -575,55 +575,9 @@ impl TransferEngine {
                 }
             }
             BlobFormat::Raw => {
-                // Single file transfer
-                let hash = ticket.hash();
-
-                if let Some(p) = progress {
-                    p.on_file_start("file".to_string(), 1, 1);
-                }
-
-                // Query size dynamically during download
-                let mut file_size = get_blob_size(store.blobs(), hash).await.unwrap_or(0);
-                
-                let download_progress = downloader.download(hash, Some(ticket.addr().id));
-                let mut stream = download_progress.stream().await.map_err(|e| SeyfrError::Network {
-                    message: format!("failed to start download: {}", e),
-                })?;
-                
-                while let Some(event) = stream.next().await {
-                    let event_str = format!("{:?}", event);
-                    
-                    if event_str.starts_with("Progress(") {
-                        if file_size == 0 {
-                            file_size = get_blob_size(store.blobs(), hash).await.unwrap_or(0);
-                        }
-                        if let Some(p) = progress {
-                            if let Some(current) = parse_progress_bytes(&event_str) {
-                                p.on_file_progress("file".to_string(), current, file_size);
-                            }
-                        }
-                    } else if event_str.contains("AllDone") || event_str.contains("Done") {
-                        break;
-                    } else if event_str.contains("Error") || event_str.contains("Abort") {
-                        return Err(SeyfrError::Network {
-                            message: format!("download failed: {}", event_str),
-                        });
-                    }
-                }
-
-                // Use jail.join() for secure path - even for default filename
-                let file_dest = jail.join("received_file").map_err(|e| SeyfrError::PathTraversal {
-                    path: "received_file".to_string(),
-                    message: format!("{}", e),
-                })?;
-                store.blobs().export(hash, &file_dest).await.map_err(|e| SeyfrError::Store {
-                    message: format!("export failed: {}", e),
-                })?;
-
-                if let Some(p) = progress {
-                    p.on_file_complete("file".to_string(), 1, 1);
-                    p.on_complete("File received successfully".to_string());
-                }
+                return Err(SeyfrError::InvalidTicket {
+                    message: "Raw format tickets are not supported — use HashSeq with metadata".to_string(),
+                });
             }
         }
 
@@ -772,7 +726,7 @@ mod tests {
             
             // Verify ticket is valid
             let parsed: iroh_blobs::ticket::BlobTicket = ticket.parse()?;
-            assert_eq!(parsed.format(), iroh_blobs::BlobFormat::Raw);
+            assert_eq!(parsed.format(), iroh_blobs::BlobFormat::HashSeq);
             
             engine.router.shutdown().await?;
             engine.endpoint.close().await;
@@ -804,8 +758,8 @@ mod tests {
             assert_eq!(recv_progress.file_completes.lock().unwrap().len(), 1);
             assert_eq!(recv_progress.completes.lock().unwrap().len(), 1);
             
-            // Verify received file content
-            let received_file = recv_dir.join("received_file");
+            // Verify received file content (original name preserved from metadata)
+            let received_file = recv_dir.join("test.txt");
             assert!(received_file.exists());
             let received_data = fs::read(&received_file)?;
             assert_eq!(received_data, test_data);
@@ -876,7 +830,7 @@ mod tests {
             
             let ticket = engine.send(test_file.to_str().unwrap(), None).await?;
             let parsed: iroh_blobs::ticket::BlobTicket = ticket.parse()?;
-            assert_eq!(parsed.format(), iroh_blobs::BlobFormat::Raw);
+            assert_eq!(parsed.format(), iroh_blobs::BlobFormat::HashSeq);
             
             engine.router.shutdown().await?;
             engine.endpoint.close().await;
@@ -1022,8 +976,8 @@ mod tests {
             let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap(), None);
             tokio::time::timeout(Duration::from_secs(SMALL_TRANSFER_TIMEOUT_SECS), recv_future).await??;
             
-            // Verify received file
-            let received_file = recv_dir.join("received_file");
+            // Verify received file (original name preserved from metadata)
+            let received_file = recv_dir.join("test.txt");
             assert!(received_file.exists());
             let received_data = fs::read(&received_file)?;
             assert_eq!(received_data, test_data);
@@ -1133,7 +1087,7 @@ mod tests {
             let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap(), None);
             tokio::time::timeout(Duration::from_secs(LARGE_TRANSFER_TIMEOUT_SECS), recv_future).await??;
             
-            let received_file = recv_dir.join("received_file");
+            let received_file = recv_dir.join("large.bin");
             let received_data = fs::read(&received_file)?;
             assert_eq!(received_data.len(), test_data.len());
             assert_eq!(received_data, test_data);

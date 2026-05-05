@@ -31,8 +31,8 @@ let node_id = core.node_id();
 
 ### Transfer Formats
 
-- **Single File**: `BlobFormat::Raw` - Direct blob transfer
-- **Folders**: `BlobFormat::HashSeq` - Collection with metadata + individual file blobs
+- **Single File**: `BlobFormat::HashSeq` - Hash sequence with metadata JSON + file blob
+- **Folders**: `BlobFormat::HashSeq` - Hash sequence with metadata JSON + individual file blobs
 
 ## 🔐 Security Features
 

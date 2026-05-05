@@ -72,10 +72,11 @@ seyfr receive "<ticket>" -d /path/to/destination
 Node ID: debbf5fdd24a243dbb8a53291f6e3feb475b7d5a261b1bdbd51d79d3f371762c
 Receiving to: /tmp/received
 
-[  1/1  ] Starting: file
-  file: 35 bytes
-[  1/1  ] Complete: file
+[  1/1  ] Starting: file.txt
+  ████████████████████████ 100.0%  2.1 MB/s  35 B/35 B
+[  1/1  ] Complete: file.txt
 
+✅ File received successfully
 Transfer complete.
 ```
 

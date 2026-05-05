@@ -74,6 +74,7 @@ impl Core {
     }
 
     /// Send a file or folder. Auto-detects type and returns a compact ticket string.
+    /// All tickets use `HashSeq` format with embedded metadata JSON (filename, timestamps, MIME type).
     pub fn send(&self, path: String, progress: Option<Box<dyn ProgressSink>>) -> Result<String, SeyfrError> {
         self.inner.runtime.block_on(async {
             self.inner.engine.send(&path, progress.as_deref()).await
@@ -81,7 +82,8 @@ impl Core {
     }
 
     /// Receive from a ticket into `dest_dir`.
-    /// Works for both single-file (Raw) and folder (HashSeq) tickets.
+    /// Only `HashSeq` tickets with embedded metadata are supported.
+    /// Original filenames and timestamps are preserved from the metadata JSON.
     pub fn receive(&self, ticket: String, dest_dir: String, progress: Option<Box<dyn ProgressSink>>) -> Result<(), SeyfrError> {
         self.inner.runtime.block_on(async {
             self.inner.engine.receive(&ticket, &dest_dir, progress.as_deref()).await
