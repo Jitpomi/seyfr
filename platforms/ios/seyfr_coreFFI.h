@@ -303,13 +303,22 @@ void uniffi_seyfr_core_fn_free_core(uint64_t handle, RustCallStatus *_Nonnull ou
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_CONSTRUCTOR_CORE_NEW
 #define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_CONSTRUCTOR_CORE_NEW
-uint64_t uniffi_seyfr_core_fn_constructor_core_new(RustCallStatus *_Nonnull out_status
-    
+uint64_t uniffi_seyfr_core_fn_constructor_core_new(RustBuffer data_dir, RustCallStatus *_Nonnull out_status
 );
 #endif
-#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_GREETING
-#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_GREETING
-RustBuffer uniffi_seyfr_core_fn_method_core_greeting(uint64_t ptr, RustCallStatus *_Nonnull out_status
+#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_NODE_ID
+#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_NODE_ID
+RustBuffer uniffi_seyfr_core_fn_method_core_node_id(uint64_t ptr, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_RECEIVE
+#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_RECEIVE
+void uniffi_seyfr_core_fn_method_core_receive(uint64_t ptr, RustBuffer ticket, RustBuffer dest_dir, RustBuffer progress, RustCallStatus *_Nonnull out_status
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_SEND
+#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_METHOD_CORE_SEND
+RustBuffer uniffi_seyfr_core_fn_method_core_send(uint64_t ptr, RustBuffer path, RustBuffer progress, RustCallStatus *_Nonnull out_status
 );
 #endif
 #ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_FN_INIT_CALLBACK_VTABLE_PROGRESSSINK
@@ -577,9 +586,21 @@ void ffi_seyfr_core_rust_future_free_void(uint64_t handle
 void ffi_seyfr_core_rust_future_complete_void(uint64_t handle, RustCallStatus *_Nonnull out_status
 );
 #endif
-#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_GREETING
-#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_GREETING
-uint16_t uniffi_seyfr_core_checksum_method_core_greeting(void
+#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_NODE_ID
+#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_NODE_ID
+uint16_t uniffi_seyfr_core_checksum_method_core_node_id(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_RECEIVE
+#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_RECEIVE
+uint16_t uniffi_seyfr_core_checksum_method_core_receive(void
+    
+);
+#endif
+#ifndef UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_SEND
+#define UNIFFI_FFIDEF_UNIFFI_SEYFR_CORE_CHECKSUM_METHOD_CORE_SEND
+uint16_t uniffi_seyfr_core_checksum_method_core_send(void
     
 );
 #endif

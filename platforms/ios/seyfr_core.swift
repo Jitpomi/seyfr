@@ -484,7 +484,23 @@ fileprivate struct FfiConverterString: FfiConverter {
 
 public protocol CoreProtocol: AnyObject, Sendable {
     
-    func greeting()  -> String
+    /**
+     * Human-readable node ID. Useful for debugging / logging.
+     */
+    func nodeId()  -> String
+    
+    /**
+     * Receive from a ticket into `dest_dir`.
+     * Only `HashSeq` tickets with embedded metadata are supported.
+     * Original filenames and timestamps are preserved from the metadata JSON.
+     */
+    func receive(ticket: String, destDir: String, progress: ProgressSink?) throws 
+    
+    /**
+     * Send a file or folder. Auto-detects type and returns a compact ticket string.
+     * All tickets use `HashSeq` format with embedded metadata JSON (filename, timestamps, MIME type).
+     */
+    func send(path: String, progress: ProgressSink?) throws  -> String
     
 }
 open class Core: CoreProtocol, @unchecked Sendable {
@@ -526,10 +542,15 @@ open class Core: CoreProtocol, @unchecked Sendable {
     public func uniffiCloneHandle() -> UInt64 {
         return try! rustCall { uniffi_seyfr_core_fn_clone_core(self.handle, $0) }
     }
-public convenience init() {
+    /**
+     * Construct the core with a persistent on-disk store.
+     * `data_dir` is the iOS app sandbox path (e.g. `.../Library/Application Support/seyfr`).
+     */
+public convenience init(dataDir: String)throws  {
     let handle =
-        try! rustCall() {
-    uniffi_seyfr_core_fn_constructor_core_new($0
+        try rustCallWithError(FfiConverterTypeSeyfrError_lift) {
+    uniffi_seyfr_core_fn_constructor_core_new(
+        FfiConverterString.lower(dataDir),$0
     )
 }
     self.init(unsafeFromHandle: handle)
@@ -547,10 +568,42 @@ public convenience init() {
     
 
     
-open func greeting() -> String  {
+    /**
+     * Human-readable node ID. Useful for debugging / logging.
+     */
+open func nodeId() -> String  {
     return try!  FfiConverterString.lift(try! rustCall() {
-    uniffi_seyfr_core_fn_method_core_greeting(
+    uniffi_seyfr_core_fn_method_core_node_id(
             self.uniffiCloneHandle(),$0
+    )
+})
+}
+    
+    /**
+     * Receive from a ticket into `dest_dir`.
+     * Only `HashSeq` tickets with embedded metadata are supported.
+     * Original filenames and timestamps are preserved from the metadata JSON.
+     */
+open func receive(ticket: String, destDir: String, progress: ProgressSink?)throws   {try rustCallWithError(FfiConverterTypeSeyfrError_lift) {
+    uniffi_seyfr_core_fn_method_core_receive(
+            self.uniffiCloneHandle(),
+        FfiConverterString.lower(ticket),
+        FfiConverterString.lower(destDir),
+        FfiConverterOptionCallbackInterfaceProgressSink.lower(progress),$0
+    )
+}
+}
+    
+    /**
+     * Send a file or folder. Auto-detects type and returns a compact ticket string.
+     * All tickets use `HashSeq` format with embedded metadata JSON (filename, timestamps, MIME type).
+     */
+open func send(path: String, progress: ProgressSink?)throws  -> String  {
+    return try  FfiConverterString.lift(try rustCallWithError(FfiConverterTypeSeyfrError_lift) {
+    uniffi_seyfr_core_fn_method_core_send(
+            self.uniffiCloneHandle(),
+        FfiConverterString.lower(path),
+        FfiConverterOptionCallbackInterfaceProgressSink.lower(progress),$0
     )
 })
 }
@@ -628,6 +681,10 @@ public enum SeyfrError: Swift.Error, Equatable, Hashable, Foundation.LocalizedEr
     case Timeout
     case Internal(message: String
     )
+    case PathTraversal(path: String, message: String
+    )
+    case InvalidPath(message: String
+    )
 
     
 
@@ -681,6 +738,13 @@ public struct FfiConverterTypeSeyfrError: FfiConverterRustBuffer {
             )
         case 9: return .Timeout
         case 10: return .Internal(
+            message: try FfiConverterString.read(from: &buf)
+            )
+        case 11: return .PathTraversal(
+            path: try FfiConverterString.read(from: &buf), 
+            message: try FfiConverterString.read(from: &buf)
+            )
+        case 12: return .InvalidPath(
             message: try FfiConverterString.read(from: &buf)
             )
 
@@ -740,6 +804,17 @@ public struct FfiConverterTypeSeyfrError: FfiConverterRustBuffer {
         
         case let .Internal(message):
             writeInt(&buf, Int32(10))
+            FfiConverterString.write(message, into: &buf)
+            
+        
+        case let .PathTraversal(path,message):
+            writeInt(&buf, Int32(11))
+            FfiConverterString.write(path, into: &buf)
+            FfiConverterString.write(message, into: &buf)
+            
+        
+        case let .InvalidPath(message):
+            writeInt(&buf, Int32(12))
             FfiConverterString.write(message, into: &buf)
             
         }
@@ -1024,6 +1099,30 @@ public func FfiConverterCallbackInterfaceProgressSink_lower(_ v: ProgressSink) -
     return FfiConverterCallbackInterfaceProgressSink.lower(v)
 }
 
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterOptionCallbackInterfaceProgressSink: FfiConverterRustBuffer {
+    typealias SwiftType = ProgressSink?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterCallbackInterfaceProgressSink.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterCallbackInterfaceProgressSink.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
 private enum InitializationResult {
     case ok
     case contractVersionMismatch
@@ -1039,10 +1138,16 @@ private let initializationResult: InitializationResult = {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_seyfr_core_checksum_method_core_greeting() != 36934) {
+    if (uniffi_seyfr_core_checksum_method_core_node_id() != 40244) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_seyfr_core_checksum_constructor_core_new() != 12369) {
+    if (uniffi_seyfr_core_checksum_method_core_receive() != 62701) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_seyfr_core_checksum_method_core_send() != 17056) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_seyfr_core_checksum_constructor_core_new() != 51849) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_seyfr_core_checksum_method_progresssink_on_file_start() != 54939) {

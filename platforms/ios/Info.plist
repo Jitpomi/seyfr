@@ -38,5 +38,7 @@
         <string>UIInterfaceOrientationLandscapeLeft</string>
         <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
+    <key>NSCameraUsageDescription</key>
+    <string>Scan QR codes to receive file transfer tickets.</string>
 </dict>
 </plist>

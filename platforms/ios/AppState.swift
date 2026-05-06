@@ -1,13 +1,86 @@
 import SwiftUI
 
+enum TransferStatus: Equatable {
+    case idle
+    case sending
+    case receiving
+    case success(String)
+    case error(String)
+}
+
 @MainActor
 class AppState: ObservableObject {
-    @Published var greeting: String = ""
+    @Published var ticket: String = ""
+    @Published var status: TransferStatus = .idle
+    @Published var selectedFileName: String?
+    @Published var destinationURL: URL?
+
     let core: Core
 
     init() {
-        let core = Core()
-        self.core = core
-        self.greeting = core.greeting()
+        let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!
+        let dataDir = appSupport.appendingPathComponent("seyfr")
+        try? FileManager.default.createDirectory(at: dataDir, withIntermediateDirectories: true)
+
+        let coreDataDir: String = dataDir.path
+        do {
+            self.core = try Core(dataDir: coreDataDir)
+        } catch {
+            fatalError("Failed to initialize Seyfr core: \(error)")
+        }
+
+        self.destinationURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Downloads")
+    }
+
+    func send(url: URL) {
+        guard url.startAccessingSecurityScopedResource() else {
+            status = .error("Cannot access file")
+            return
+        }
+        defer { url.stopAccessingSecurityScopedResource() }
+
+        selectedFileName = url.lastPathComponent
+        status = .sending
+
+        Task {
+            do {
+                let result = try core.send(path: url.path, progress: nil)
+                await MainActor.run {
+                    ticket = result
+                    status = .success("Ready to share")
+                }
+            } catch {
+                await MainActor.run {
+                    status = .error(error.localizedDescription)
+                }
+            }
+        }
+    }
+
+    func receive(ticket: String) {
+        guard !ticket.isEmpty else {
+            status = .error("Ticket is empty")
+            return
+        }
+
+        let dest = destinationURL?.path ?? (FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("received").path ?? "/tmp/received")
+
+        status = .receiving
+        Task {
+            do {
+                try core.receive(ticket: ticket, destDir: dest, progress: nil)
+                await MainActor.run {
+                    status = .success("Received successfully")
+                }
+            } catch {
+                await MainActor.run {
+                    status = .error(error.localizedDescription)
+                }
+            }
+        }
+    }
+
+    func setDestination(url: URL) {
+        destinationURL = url
     }
 }
