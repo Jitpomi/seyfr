@@ -37,7 +37,9 @@ struct ContentView: View {
     @EnvironmentObject var appState: AppState
 
     @State private var showingFileImporter = false
+    @State private var showingFolderPicker = false
     @State private var showingShareSheet = false
+    @State private var isFolderMode = false
 
     var body: some View {
         NavigationStack {
@@ -46,7 +48,9 @@ struct ContentView: View {
                 TabView {
                     SendView(
                         showingFileImporter: $showingFileImporter,
-                        showingShareSheet: $showingShareSheet
+                        showingFolderPicker: $showingFolderPicker,
+                        showingShareSheet: $showingShareSheet,
+                        isFolderMode: $isFolderMode
                     )
                     .tabItem {
                         Label("Send", systemImage: "square.and.arrow.up")
@@ -79,6 +83,12 @@ struct ContentView: View {
             .sheet(isPresented: $showingShareSheet) {
                 if !appState.ticket.isEmpty {
                     ShareSheet(items: [appState.ticket])
+                }
+            }
+            .sheet(isPresented: $showingFolderPicker) {
+                FolderPicker { url in
+                    appState.send(url: url)
+                    showingFolderPicker = false
                 }
             }
         }
@@ -120,19 +130,50 @@ struct CircularProgress: View {
 struct SendView: View {
     @EnvironmentObject var appState: AppState
     @Binding var showingFileImporter: Bool
+    @Binding var showingFolderPicker: Bool
     @Binding var showingShareSheet: Bool
+    @Binding var isFolderMode: Bool
 
     var body: some View {
         ScrollView {
             VStack(spacing: 32) {
                 if case .idle = appState.status, appState.selectedFileName == nil {
-                    Button {
-                        showingFileImporter = true
-                    } label: {
-                        ConcentricRings()
+                    VStack(spacing: 0) {
+                        Button {
+                            if isFolderMode {
+                                showingFolderPicker = true
+                            } else {
+                                showingFileImporter = true
+                            }
+                        } label: {
+                            ZStack {
+                                ForEach(0..<8) { i in
+                                    Circle()
+                                        .stroke(Color(.separator).opacity(0.4), lineWidth: 0.5)
+                                        .frame(width: 80 + CGFloat(i) * 22, height: 80 + CGFloat(i) * 22)
+                                }
+                                Image(systemName: isFolderMode ? "folder" : "doc")
+                                    .font(.system(size: 28, weight: .medium))
+                                    .foregroundStyle(.primary)
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 280)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        .padding(.horizontal, 20)
+                        
+                        HStack(spacing: 12) {
+                            Text("File mode")
+                                .font(.system(size: 13, weight: isFolderMode ? .regular : .semibold, design: .rounded))
+                                .foregroundStyle(isFolderMode ? .secondary : .primary)
+                            Toggle("", isOn: $isFolderMode)
+                                .labelsHidden()
+                                .toggleStyle(SwitchToggleStyle(tint: .primary))
+                            Text("Folder mode")
+                                .font(.system(size: 13, weight: isFolderMode ? .semibold : .regular, design: .rounded))
+                                .foregroundStyle(isFolderMode ? .primary : .secondary)
+                        }
+                        .padding(.top, 16)
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    .padding(.horizontal, 20)
                 }
 
                 if let fileName = appState.selectedFileName {
@@ -150,9 +191,38 @@ struct SendView: View {
 
                 if !appState.ticket.isEmpty {
                     VStack(alignment: .leading, spacing: 14) {
-                        Label("Transfer Ticket", systemImage: "ticket.fill")
-                            .font(.system(size: 15, weight: .semibold, design: .rounded))
-                            .foregroundStyle(.primary)
+                        HStack {
+                            Label("Transfer Ticket", systemImage: "ticket.fill")
+                                .font(.system(size: 15, weight: .semibold, design: .rounded))
+                                .foregroundStyle(.primary)
+                            
+                            Spacer()
+                            
+                            Button {
+                                withAnimation(.spring()) {
+                                    appState.clearSend()
+                                }
+                            } label: {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.system(size: 12, weight: .medium))
+                                    Text("Clear")
+                                        .font(.system(size: 12, weight: .medium))
+                                }
+                                .foregroundStyle(.secondary)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                                        .stroke(Color(.separator), lineWidth: 0.5)
+                                )
+                            }
+                        }
+
+                        // QR Code
+                        QRCodeView(ticket: appState.ticket)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 8)
 
                         Text(appState.ticket)
                             .font(.system(.footnote, design: .monospaced))
@@ -918,6 +988,8 @@ struct FolderPicker: UIViewControllerRepresentable {
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: [.folder])
         picker.delegate = context.coordinator
         picker.allowsMultipleSelection = false
+        picker.shouldShowFileExtensions = true
+        picker.directoryURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
         return picker
     }
 
@@ -945,6 +1017,51 @@ struct ShareSheet: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
+
+struct QRCodeView: View {
+    let ticket: String
+    
+    var body: some View {
+        if let qrImage = generateQRCode(from: ticket) {
+            Image(uiImage: qrImage)
+                .interpolation(.none)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+                .padding(16)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        } else {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(Color(.systemGray6))
+                .frame(width: 200, height: 200)
+                .overlay(
+                    Image(systemName: "qrcode")
+                        .font(.system(size: 48))
+                        .foregroundStyle(.secondary)
+                )
+        }
+    }
+    
+    private func generateQRCode(from string: String) -> UIImage? {
+        let data = Data(string.utf8)
+        
+        guard let filter = CIFilter(name: "CIQRCodeGenerator") else { return nil }
+        filter.setValue(data, forKey: "inputMessage")
+        filter.setValue("H", forKey: "inputCorrectionLevel") // High error correction
+        
+        guard let ciImage = filter.outputImage else { return nil }
+        
+        // Scale up the QR code (it's generated at low resolution)
+        let transform = CGAffineTransform(scaleX: 10, y: 10)
+        let scaledImage = ciImage.transformed(by: transform)
+        
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(scaledImage, from: scaledImage.extent) else { return nil }
+        
+        return UIImage(cgImage: cgImage)
+    }
 }
 
 #Preview {

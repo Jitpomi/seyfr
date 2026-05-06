@@ -83,4 +83,10 @@ class AppState: ObservableObject {
     func setDestination(url: URL) {
         destinationURL = url
     }
+    
+    func clearSend() {
+        ticket = ""
+        selectedFileName = nil
+        status = .idle
+    }
 }
