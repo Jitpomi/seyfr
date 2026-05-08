@@ -135,6 +135,7 @@ struct SendView: View {
     @Binding var isFolderMode: Bool
 
     var body: some View {
+        ScrollViewReader { proxy in
         ScrollView {
             VStack(spacing: 32) {
                 if case .idle = appState.sendStatus, appState.selectedFileName == nil {
@@ -225,8 +226,8 @@ struct SendView: View {
                             .padding(.vertical, 8)
 
                         Text(appState.ticket)
-                            .font(.system(.footnote, design: .monospaced))
-                            .padding(14)
+                            .font(.system(size: 11, weight: .regular, design: .monospaced))
+                            .padding(6)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -254,16 +255,26 @@ struct SendView: View {
                     )
                     .padding(.horizontal, 20)
                     .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .id("ticket")
                 }
 
                 StatusPill(status: appState.sendStatus)
                     .padding(.horizontal, 20)
+                    .id("bottom")
             }
             .padding(.vertical, 20)
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: appState.sendStatus)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: appState.ticket)
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: appState.selectedFileName)
+        .onChange(of: appState.ticket) { newTicket in
+            if !newTicket.isEmpty {
+                withAnimation(.spring()) {
+                    proxy.scrollTo("bottom", anchor: .bottom)
+                }
+            }
+        }
+        }
     }
 }
 
@@ -276,6 +287,7 @@ struct ReceiveView: View {
     @State private var showingFolderPicker = false
 
     var body: some View {
+        ScrollViewReader { proxy in
         ScrollView {
             VStack(spacing: 28) {
                 VStack(spacing: 16) {
@@ -356,9 +368,9 @@ struct ReceiveView: View {
                     }
 
                     TextField("Paste ticket here...", text: $ticketInput, axis: .vertical)
-                        .font(.system(.footnote, design: .monospaced))
+                        .font(.system(size: 11, weight: .regular, design: .monospaced))
                         .lineLimit(3...6)
-                        .padding(14)
+                        .padding(6)
                         .background(
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
                                 .stroke(Color(.separator), lineWidth: 0.5)
@@ -378,6 +390,7 @@ struct ReceiveView: View {
                         showingQRScanner = false
                     }
                 }
+                .id("ticket")
 
                 VStack(alignment: .leading, spacing: 14) {
                     Label("Save Location", systemImage: "folder.fill")
@@ -431,10 +444,22 @@ struct ReceiveView: View {
 
                 StatusPill(status: appState.receiveStatus)
                     .padding(.horizontal, 20)
+
+                Spacer()
+                    .frame(height: 1)
+                    .id("bottom")
             }
             .padding(.vertical, 20)
         }
         .animation(.spring(response: 0.4, dampingFraction: 0.8), value: appState.receiveStatus)
+        .onChange(of: ticketInput) { newTicket in
+            if !newTicket.isEmpty {
+                withAnimation(.spring()) {
+                    proxy.scrollTo("bottom", anchor: .bottom)
+                }
+            }
+        }
+        }
     }
 }
 
