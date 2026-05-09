@@ -47,5 +47,7 @@ namespace Seyfr
             CurrentWindow = _window;
             _window.Activate();
         }
+
+        public static Window? CurrentWindow { get; private set; }
     }
 }

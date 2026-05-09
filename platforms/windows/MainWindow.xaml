@@ -100,7 +100,7 @@
                             Visibility="{x:Bind ViewModel.HasSelectedFile, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <Grid Width="40" Height="40" Background="{ThemeResource AccentFillColorDefaultBrush}" CornerRadius="20">
-                                <FontIcon Glyph="&#xE73E;" FontSize="18" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <FontIcon Glyph="&#xE73E;" FontSize="18" Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Grid>
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock Text="{x:Bind ViewModel.SelectedFileName, Mode=OneWay}" FontSize="14" FontWeight="SemiBold" />
@@ -152,7 +152,7 @@
                                 <Button Content="Clear" FontSize="12" Padding="10,6" CornerRadius="8" BorderThickness="0.5" BorderBrush="{ThemeResource TextFillColorSecondaryBrush}" Background="Transparent" HorizontalAlignment="Right"
                                         Command="{x:Bind ViewModel.ClearSendCommand, Mode=OneWay}" />
                             </Grid>
-                            <Border Background="White" CornerRadius="8" Padding="16" HorizontalAlignment="Center">
+                            <Border Background="{ThemeResource CardBackgroundFillColorSecondaryBrush}" CornerRadius="8" Padding="16" HorizontalAlignment="Center">
                                 <TextBlock Text="QR Code Placeholder" FontSize="12" Opacity="0.5" />
                             </Border>
                             <TextBlock Text="{x:Bind ViewModel.Ticket, Mode=OneWay}" FontSize="11" FontFamily="Consolas" TextWrapping="Wrap" Opacity="0.8" />

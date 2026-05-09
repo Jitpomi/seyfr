@@ -335,9 +335,4 @@ namespace Seyfr
 
         public void RaiseCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
-
-    public partial class App : Application
-    {
-        public static Window? CurrentWindow { get; private set; }
-    }
 }
