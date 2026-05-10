@@ -20,6 +20,7 @@
             <local:TabTitleConverter x:Key="TabTitleConverter" />
             <local:TabSubtitleConverter x:Key="TabSubtitleConverter" />
             <local:TabVisibilityConverter x:Key="TabVisibilityConverter" />
+            <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <local:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
             <local:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" TrueValue="SemiBold" FalseValue="Normal" />
             <local:BoolToFontWeightConverter x:Key="InverseBoolToFontWeightConverter" TrueValue="Normal" FalseValue="SemiBold" />
@@ -97,7 +98,7 @@
 
                     <!-- File Card -->
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="12" Padding="16"
-                            Visibility="{x:Bind ViewModel.HasSelectedFile, Mode=OneWay}">
+                            Visibility="{x:Bind ViewModel.HasSelectedFile, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="12">
                             <Grid Width="40" Height="40" Background="{ThemeResource AccentFillColorDefaultBrush}" CornerRadius="20">
                                 <FontIcon Glyph="&#xE73E;" FontSize="18" Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -142,7 +143,7 @@
 
                     <!-- Ticket Card -->
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="12" Padding="20"
-                            Visibility="{x:Bind ViewModel.HasTicket, Mode=OneWay}">
+                            Visibility="{x:Bind ViewModel.HasTicket, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                         <StackPanel Spacing="16">
                             <Grid>
                                 <StackPanel Orientation="Horizontal" Spacing="8">
@@ -171,12 +172,12 @@
                     <!-- Send Button -->
                     <Button Content="Send File" HorizontalAlignment="Stretch" Padding="16,12" CornerRadius="10"
                             Command="{x:Bind ViewModel.SendCommand, Mode=OneWay}"
-                            Visibility="{x:Bind ViewModel.HasSelectedFile, Mode=OneWay}"
+                            Visibility="{x:Bind ViewModel.HasSelectedFile, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                             Style="{StaticResource AccentButtonStyle}" />
 
                     <!-- Status -->
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="12,8"
-                            Visibility="{x:Bind ViewModel.HasStatus, Mode=OneWay}">
+                            Visibility="{x:Bind ViewModel.HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE73E;" FontSize="14" />
                             <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" FontSize="13" />
@@ -216,7 +217,7 @@
                                             Command="{x:Bind ViewModel.PasteTicketCommand, Mode=OneWay}" />
                                     <Button Content="Clear" FontSize="12" Padding="10,6" CornerRadius="8" BorderThickness="0.5" BorderBrush="{ThemeResource TextFillColorSecondaryBrush}" Background="Transparent"
                                             Command="{x:Bind ViewModel.ClearTicketCommand, Mode=OneWay}"
-                                            Visibility="{x:Bind ViewModel.HasTicketInput, Mode=OneWay}" />
+                                            Visibility="{x:Bind ViewModel.HasTicketInput, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
                                 </StackPanel>
                             </Grid>
                             <TextBox Text="{x:Bind ViewModel.TicketInput, Mode=TwoWay}" PlaceholderText="Paste ticket here..." TextWrapping="Wrap" AcceptsReturn="True" MinHeight="80" Padding="10" BorderBrush="{ThemeResource TextFillColorSecondaryBrush}" BorderThickness="0.5" CornerRadius="8" FontFamily="Consolas" FontSize="11" />
@@ -250,7 +251,7 @@
 
                     <!-- Status -->
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="12,8"
-                            Visibility="{x:Bind ViewModel.HasStatus, Mode=OneWay}">
+                            Visibility="{x:Bind ViewModel.HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
                             <FontIcon Glyph="&#xE73E;" FontSize="14" />
                             <TextBlock Text="{x:Bind ViewModel.Status, Mode=OneWay}" FontSize="13" />
