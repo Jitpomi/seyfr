@@ -7,65 +7,68 @@ namespace Seyfr
 {
     public class TabBackgroundConverter : IValueConverter
     {
-        // Active Fluent blue
-        private static readonly SolidColorBrush ActiveBrush =
-            new SolidColorBrush(
-                Microsoft.UI.ColorHelper.FromArgb(255, 76, 132, 255)
-            );
-
-        // Soft inactive blue-gray
-        private static readonly SolidColorBrush InactiveBrush =
-            new SolidColorBrush(
-                Microsoft.UI.ColorHelper.FromArgb(255, 236, 243, 255)
-            );
-
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is TransferTab tab && parameter is string param)
             {
                 Enum.TryParse<TransferTab>(param, out var targetTab);
-
                 if (tab == targetTab)
                 {
-                    return ActiveBrush;
+                    var accent = GetAccentColor();
+                    return new SolidColorBrush(
+                        Microsoft.UI.ColorHelper.FromArgb(26, accent.R, accent.G, accent.B)
+                    );
                 }
             }
-
-            return InactiveBrush;
+            return new SolidColorBrush(Microsoft.UI.Colors.Transparent);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
             => throw new NotImplementedException();
+
+        private static Windows.UI.Color GetAccentColor()
+        {
+            try
+            {
+                return (Windows.UI.Color)Application.Current.Resources["SystemAccentColor"];
+            }
+            catch
+            {
+                return Microsoft.UI.ColorHelper.FromArgb(255, 0, 120, 212);
+            }
+        }
     }
 
     public class TabForegroundConverter : IValueConverter
     {
-        private static readonly SolidColorBrush WhiteBrush =
-            new SolidColorBrush(Microsoft.UI.Colors.White);
-
-        // Softer dark gray for inactive tabs
-        private static readonly SolidColorBrush DarkBrush =
-            new SolidColorBrush(
-                Microsoft.UI.ColorHelper.FromArgb(255, 45, 45, 48)
-            );
-
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value is TransferTab tab && parameter is string param)
             {
                 Enum.TryParse<TransferTab>(param, out var targetTab);
-
                 if (tab == targetTab)
                 {
-                    return WhiteBrush;
+                    var accent = GetAccentColor();
+                    return new SolidColorBrush(accent);
                 }
             }
-
-            return DarkBrush;
+            return new SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(255, 150, 150, 150));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
             => throw new NotImplementedException();
+
+        private static Windows.UI.Color GetAccentColor()
+        {
+            try
+            {
+                return (Windows.UI.Color)Application.Current.Resources["SystemAccentColor"];
+            }
+            catch
+            {
+                return Microsoft.UI.ColorHelper.FromArgb(255, 0, 120, 212);
+            }
+        }
     }
 
     public class TabTitleConverter : IValueConverter
@@ -182,6 +185,67 @@ namespace Seyfr
 
             // File icon
             return "\uE7C3";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+            => throw new NotImplementedException();
+    }
+
+    public class TabFontWeightConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is TransferTab tab && parameter is string param)
+            {
+                Enum.TryParse<TransferTab>(param, out var targetTab);
+                return tab == targetTab
+                    ? Microsoft.UI.Text.FontWeights.SemiBold
+                    : Microsoft.UI.Text.FontWeights.Medium;
+            }
+            return Microsoft.UI.Text.FontWeights.Medium;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+            => throw new NotImplementedException();
+    }
+
+    public class TabStatusTextConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is TransferTab tab)
+            {
+                return tab == TransferTab.Send
+                    ? "Ready to send files"
+                    : "Ready to receive files";
+            }
+            return "Ready to send files";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+            => throw new NotImplementedException();
+    }
+
+    public class BoolToOpacityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is bool b)
+                return b ? 1.0 : 0.6;
+            return 0.6;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+            => throw new NotImplementedException();
+    }
+
+    public class InverseBoolToOpacityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is bool b)
+                return b ? 0.6 : 1.0;
+            return 1.0;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

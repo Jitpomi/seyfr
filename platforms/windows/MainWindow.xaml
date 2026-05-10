@@ -17,7 +17,7 @@
         <Grid.Resources>
             <local:TabBackgroundConverter x:Key="TabBackgroundConverter" />
             <local:TabForegroundConverter x:Key="TabForegroundConverter" />
-            <SolidColorBrush x:Key="HoverBrush" Color="#E8F4FD" />
+            <SolidColorBrush x:Key="HoverBrush" Color="#F5F5F5" />
             
             <Style x:Key="NavButtonStyle" TargetType="Button">
                 <Setter Property="Template">
@@ -57,6 +57,10 @@
             <local:BoolToFontWeightConverter x:Key="BoolToFontWeightConverter" TrueValue="SemiBold" FalseValue="Normal" />
             <local:BoolToFontWeightConverter x:Key="InverseBoolToFontWeightConverter" TrueValue="Normal" FalseValue="SemiBold" />
             <local:FolderModeGlyphConverter x:Key="FolderModeGlyphConverter" />
+            <local:TabFontWeightConverter x:Key="TabFontWeightConverter" />
+            <local:TabStatusTextConverter x:Key="TabStatusTextConverter" />
+            <local:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
+            <local:InverseBoolToOpacityConverter x:Key="InverseBoolToOpacityConverter" />
         </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220" />
@@ -73,74 +77,67 @@
 
             <!-- Logo -->
             <StackPanel Grid.Row="0"
-            Margin="30,42,24,38"
-            Spacing="22"
+            Margin="16,20,16,32"
+            Spacing="12"
             HorizontalAlignment="Left">
 
-                <Border Width="76"
-            Height="76"
-            CornerRadius="38"
+                <Border Width="44"
+            Height="44"
+            CornerRadius="22"
             BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
-            BorderThickness="2"
+            BorderThickness="1.2"
             HorizontalAlignment="Left">
 
                     <TextBlock Text="S"
-                   FontSize="28"
-                   FontWeight="SemiBold"
+                   FontSize="20"
+                   FontWeight="Medium"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center" />
                 </Border>
 
-                <StackPanel Spacing="8"
+                <StackPanel Spacing="4"
                 HorizontalAlignment="Left">
 
                     <TextBlock Text="SEYFR"
-                   FontSize="36"
+                   FontSize="22"
                    FontWeight="Light"
-                   CharacterSpacing="180"
+                   CharacterSpacing="136"
                    TextAlignment="Left"
                    HorizontalAlignment="Left" />
 
                     <TextBlock Text="Send Your Files Right"
-                   FontSize="12"
-                   FontWeight="SemiBold"
-                   CharacterSpacing="120"
-                   Opacity="0.62"
+                   FontSize="11"
+                   FontWeight="Normal"
+                   CharacterSpacing="91"
+                   Opacity="0.6"
                    TextAlignment="Left"
                    HorizontalAlignment="Left" />
                 </StackPanel>
             </StackPanel>
 
             <!-- Navigation -->
-            <StackPanel Grid.Row="1" Margin="16,0">
+            <StackPanel Grid.Row="1" Margin="12,0" Spacing="4">
                 <!-- Send Button -->
                 <Button x:Name="SendNavButton"
         HorizontalAlignment="Stretch"
         HorizontalContentAlignment="Left"
-        Padding="14,12"
-        CornerRadius="14"
+        Padding="12,8"
+        CornerRadius="8"
         BorderThickness="0"
         Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Send, Mode=OneWay}"
         Style="{StaticResource NavButtonStyle}">
 
-                    <StackPanel Orientation="Horizontal" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
 
-                        <!-- Icon Bubble -->
-                        <Border Width="30"
-                Height="30"
-                CornerRadius="15"
-                Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Send}">
-
-                            <FontIcon Glyph="&#xE898;"
-                      FontSize="15"
-                      Foreground="White"
+                        <FontIcon Glyph="&#xE898;"
+                      FontSize="16"
+                      Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Send}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
-                        </Border>
 
                         <TextBlock Text="Send"
-                   FontSize="15"
-                   FontWeight="SemiBold"
+                   FontSize="14"
+                   FontWeight="{Binding SelectedTab, Converter={StaticResource TabFontWeightConverter}, ConverterParameter=Send}"
                    VerticalAlignment="Center"
                    Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Send}" />
                     </StackPanel>
@@ -150,31 +147,23 @@
                 <Button x:Name="ReceiveNavButton"
                      HorizontalAlignment="Stretch"
                      HorizontalContentAlignment="Left"
-                     Padding="14,12"
-                     CornerRadius="14"
+                     Padding="12,8"
+                     CornerRadius="8"
                      BorderThickness="0"
-                     Margin="0,8,0,0"
                      Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Receive, Mode=OneWay}"
                      Style="{StaticResource NavButtonStyle}">
 
-                    <StackPanel Orientation="Horizontal" Spacing="14">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
 
-                        <!-- Icon Bubble -->
-                        <Border Width="30"
-                            Height="30"
-                            CornerRadius="15"
-                            Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Receive}">
-
-                            <FontIcon Glyph="&#xE896;"
-                                FontSize="15"
-                                Foreground="White"
+                        <FontIcon Glyph="&#xE896;"
+                                FontSize="16"
+                                Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Receive}"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center" />
-                        </Border>
 
                         <TextBlock Text="Receive"
-                            FontSize="15"
-                            FontWeight="SemiBold"
+                            FontSize="14"
+                            FontWeight="{Binding SelectedTab, Converter={StaticResource TabFontWeightConverter}, ConverterParameter=Receive}"
                             VerticalAlignment="Center"
                             Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Receive}" />
                     </StackPanel>
@@ -182,12 +171,12 @@
             </StackPanel>
 
             <!-- Status -->
-            <StackPanel Grid.Row="2" Margin="24,16" Spacing="4">
-                <StackPanel Orientation="Horizontal" Spacing="8">
+            <StackPanel Grid.Row="2" Margin="16,16" Spacing="6">
+                <StackPanel Orientation="Horizontal" Spacing="6">
                     <Ellipse Width="8" Height="8" Fill="{ThemeResource SystemFillColorSuccessBrush}" />
                     <TextBlock Text="Online" FontSize="12" FontWeight="SemiBold" />
                 </StackPanel>
-                <TextBlock Text="Ready to send files" FontSize="11" Opacity="0.6" />
+                <TextBlock Text="{Binding SelectedTab, Converter={StaticResource TabStatusTextConverter}, Mode=OneWay}" FontSize="11" Opacity="0.6" />
             </StackPanel>
         </Grid>
 
@@ -208,51 +197,76 @@
                 <StackPanel Grid.Row="1"
             Spacing="24"
             HorizontalAlignment="Center"
-            MaxWidth="600"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Send, Mode=OneWay}">
 
                     <!-- Drop Area -->
                     <StackPanel Spacing="16"
                 HorizontalAlignment="Center">
 
-                        <Grid Width="280"
-              Height="280">
+                        <Grid MinHeight="280"
+              HorizontalAlignment="Stretch">
 
                             <!-- Rings -->
                             <Canvas Width="280"
-                    Height="280">
+                    Height="280"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
 
-                                <Ellipse Canvas.Left="20"
-                         Canvas.Top="20"
-                         Width="240"
-                         Height="240"
+                                <Ellipse Canvas.Left="23"
+                         Canvas.Top="23"
+                         Width="234"
+                         Height="234"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.15" />
+                         Opacity="0.1" />
 
-                                <Ellipse Canvas.Left="40"
-                         Canvas.Top="40"
-                         Width="200"
-                         Height="200"
+                                <Ellipse Canvas.Left="34"
+                         Canvas.Top="34"
+                         Width="212"
+                         Height="212"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.15" />
+                         Opacity="0.1" />
 
-                                <Ellipse Canvas.Left="60"
-                         Canvas.Top="60"
-                         Width="160"
-                         Height="160"
+                                <Ellipse Canvas.Left="45"
+                         Canvas.Top="45"
+                         Width="190"
+                         Height="190"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.15" />
+                         Opacity="0.1" />
 
-                                <Ellipse Canvas.Left="80"
-                         Canvas.Top="80"
-                         Width="120"
-                         Height="120"
+                                <Ellipse Canvas.Left="56"
+                         Canvas.Top="56"
+                         Width="168"
+                         Height="168"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.15" />
+                         Opacity="0.1" />
+
+                                <Ellipse Canvas.Left="67"
+                         Canvas.Top="67"
+                         Width="146"
+                         Height="146"
+                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                         StrokeThickness="0.5"
+                         Opacity="0.1" />
+
+                                <Ellipse Canvas.Left="78"
+                         Canvas.Top="78"
+                         Width="124"
+                         Height="124"
+                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                         StrokeThickness="0.5"
+                         Opacity="0.1" />
+
+                                <Ellipse Canvas.Left="89"
+                         Canvas.Top="89"
+                         Width="102"
+                         Height="102"
+                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                         StrokeThickness="0.5"
+                         Opacity="0.1" />
 
                                 <Ellipse Canvas.Left="100"
                          Canvas.Top="100"
@@ -260,11 +274,11 @@
                          Height="80"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.15" />
+                         Opacity="0.1" />
                             </Canvas>
 
                             <FontIcon Glyph="{Binding IsFolderMode, Converter={StaticResource FolderModeGlyphConverter}}"
-                                    FontSize="40"
+                                    FontSize="28"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center" />
                         </Grid>
@@ -279,7 +293,8 @@
 
                             <HyperlinkButton Content="or click to browse"
                              FontSize="14"
-                             HorizontalAlignment="Center" />
+                             HorizontalAlignment="Center"
+                             Click="BrowseButton_Click" />
                         </StackPanel>
 
                         <!-- Toggle -->
@@ -290,25 +305,20 @@
                             <TextBlock Text="File mode"
                                 FontSize="13"
                                 VerticalAlignment="Center"
-                                FontWeight="{Binding IsFolderMode, Converter={StaticResource InverseBoolToFontWeightConverter}}" />
+                                FontWeight="{Binding IsFolderMode, Converter={StaticResource InverseBoolToFontWeightConverter}}"
+                                Opacity="{Binding IsFolderMode, Converter={StaticResource InverseBoolToOpacityConverter}}" />
 
                             <ToggleSwitch IsOn="{Binding IsFolderMode, Mode=TwoWay}"
-                                OnContent="Folder mode"
-                                OffContent="File mode" />
+                                OnContent=""
+                                OffContent="" />
+
+                            <TextBlock Text="Folder mode"
+                                FontSize="13"
+                                VerticalAlignment="Center"
+                                FontWeight="{Binding IsFolderMode, Converter={StaticResource BoolToFontWeightConverter}}"
+                                Opacity="{Binding IsFolderMode, Converter={StaticResource BoolToOpacityConverter}}" />
                         </StackPanel>
 
-                        <!-- Footer -->
-                        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Spacing="8"
-                    Margin="0,24,0,0"
-                    Opacity="0.5">
-
-                            <FontIcon Glyph="&#xE72E;" FontSize="14" />
-
-                            <TextBlock Text="Your files are end-to-end encrypted"
-                       FontSize="12" />
-                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
 
@@ -316,7 +326,6 @@
                 <StackPanel Grid.Row="1"
             Spacing="24"
             HorizontalAlignment="Center"
-            MaxWidth="760"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Receive, Mode=OneWay}">
 
                     <!-- Ticket Card -->
@@ -331,7 +340,7 @@
 
                             <Grid>
                                 <TextBlock Text="Enter ticket"
-                           FontSize="18"
+                           FontSize="15"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center" />
 
@@ -347,9 +356,9 @@
                      AcceptsReturn="True"
                      MinHeight="72"
                      TextWrapping="Wrap"
-                     Padding="12"
+                     Padding="10"
                      FontFamily="Consolas"
-                     FontSize="13"
+                     FontSize="11"
                      CornerRadius="12" />
                         </StackPanel>
                     </Border>
@@ -368,7 +377,7 @@
                                 <StackPanel Orientation="Horizontal" Spacing="10">
                                     <FontIcon Glyph="&#xE8B7;" FontSize="18" />
                                     <TextBlock Text="Save Location"
-                               FontSize="18"
+                               FontSize="15"
                                FontWeight="SemiBold" />
                                 </StackPanel>
 
@@ -378,22 +387,21 @@
                         BorderThickness="0" />
                             </Grid>
 
-                            <Border Background="{ThemeResource LayerFillColorDefaultBrush}"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="14"
-                    Padding="16">
+                    Padding="14">
 
-                                <StackPanel Orientation="Horizontal" Spacing="14">
+                                <StackPanel Orientation="Horizontal" Spacing="12">
                                     <FontIcon Glyph="&#xE8B7;" FontSize="20" />
 
                                     <StackPanel>
-                                        <TextBlock Text="Documents"
-                                   FontSize="15"
-                                   FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding DestinationName, Mode=OneWay}"
+                                   FontSize="14"
+                                   FontWeight="Medium" />
 
                                         <TextBlock Text="{Binding DestinationPath, Mode=OneWay}"
-                                   FontSize="13"
+                                   FontSize="12"
                                    Opacity="0.6"
                                    TextTrimming="CharacterEllipsis" />
                                     </StackPanel>
@@ -405,10 +413,14 @@
                     <!-- Receive Button -->
                     <Button Content="Receive File"
             HorizontalAlignment="Stretch"
-            Padding="16,12"
-            CornerRadius="14"
+            Padding="0,12"
+            CornerRadius="12"
             Command="{Binding ReceiveCommand, Mode=OneWay}"
-            Style="{StaticResource AccentButtonStyle}" />
+            FontSize="15"
+            FontWeight="SemiBold"
+            BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
+            BorderThickness="1"
+            Background="Transparent" />
 
                     <TextBlock Text="Once you enter a valid ticket, the files will be ready to download."
                FontSize="13"

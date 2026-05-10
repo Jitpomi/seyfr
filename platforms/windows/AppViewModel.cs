@@ -31,6 +31,7 @@ namespace Seyfr
         private string _status = "";
         private bool _isBusy = false;
         private string _destinationPath = "";
+        private string _destinationName = "";
 
         private readonly Core _core;
 
@@ -151,6 +152,7 @@ namespace Seyfr
                 if (_destinationPath != value)
                 {
                     _destinationPath = value;
+                    DestinationName = Path.GetFileName(value);
                     OnPropertyChanged(nameof(DestinationPath));
                     OnPropertyChanged(nameof(HasDestinationPath));
                 }
@@ -159,6 +161,18 @@ namespace Seyfr
 
         public bool HasDestinationPath => !string.IsNullOrEmpty(_destinationPath);
 
+        public string DestinationName
+        {
+            get => _destinationName;
+            private set
+            {
+                if (_destinationName != value)
+                {
+                    _destinationName = value;
+                    OnPropertyChanged(nameof(DestinationName));
+                }
+            }
+        }
 
         public ICommand SendCommand { get; }
         public ICommand SelectSendFileCommand { get; }
