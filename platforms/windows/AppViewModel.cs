@@ -182,6 +182,7 @@ namespace Seyfr
         public ICommand SelectDestinationCommand { get; }
         public ICommand ReceiveCommand { get; }
         public ICommand CopyTicketCommand { get; }
+        public ICommand ShareTicketCommand { get; }
 
         public AppViewModel()
         {
@@ -198,6 +199,7 @@ namespace Seyfr
             SelectDestinationCommand = new RelayCommand(() => _ = SelectDestinationAsync());
             ReceiveCommand = new RelayCommand(async () => await ReceiveAsync(), () => HasTicketInput && HasDestinationPath && !IsBusy);
             CopyTicketCommand = new RelayCommand(CopyTicket);
+            ShareTicketCommand = new RelayCommand(ShareTicket);
 
         }
 
@@ -332,6 +334,15 @@ namespace Seyfr
             package.SetText(Ticket);
             Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(package);
             Status = "Copied to clipboard";
+        }
+
+        private void ShareTicket()
+        {
+            if (string.IsNullOrEmpty(Ticket)) return;
+            var package = new Windows.ApplicationModel.DataTransfer.DataPackage();
+            package.SetText(Ticket);
+            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(package);
+            Status = "Ticket shared to clipboard";
         }
 
         private void OnPropertyChanged(string propertyName)
