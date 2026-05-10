@@ -121,6 +121,9 @@ platforms/windows/**/out/
 platforms/windows/**/*.user
 platforms/windows/**/*.suo
 
+# Backup/old platform directories
+platforms/windows-old/
+
 # Xcode
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
