@@ -103,6 +103,7 @@ proguard/
 **/seyfr_core.kt
 **/seyfr_core.swift
 **/seyfr_core.cs
+!platforms/windows/Generated/seyfr_core.cs
 **/seyfr_coreFFI.h
 **/seyfr_coreFFI.modulemap
 
