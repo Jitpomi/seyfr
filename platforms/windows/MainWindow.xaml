@@ -510,11 +510,19 @@
                               Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                               Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                               Background="Transparent" />
-                            <FontIcon Glyph="&#xE73E;"
+                            <FontIcon Glyph="&#xE783;"
                           FontSize="12"
                           FontWeight="SemiBold"
-                          Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
+                          Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                          Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                           VerticalAlignment="Center" />
+                            <Grid Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
+                                <FontIcon Glyph="&#xE73E;"
+                          FontSize="12"
+                          FontWeight="SemiBold"
+                          Visibility="{Binding IsError, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
+                          VerticalAlignment="Center" />
+                            </Grid>
                             <TextBlock Text="{Binding Status, Mode=OneWay}"
                            FontSize="13"
                            FontWeight="Medium"
@@ -658,11 +666,19 @@
                               Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                               Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                               Background="Transparent" />
-                            <FontIcon Glyph="&#xE73E;"
+                            <FontIcon Glyph="&#xE783;"
                           FontSize="12"
                           FontWeight="SemiBold"
-                          Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
+                          Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                          Foreground="{ThemeResource SystemFillColorCriticalBrush}"
                           VerticalAlignment="Center" />
+                            <Grid Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
+                                <FontIcon Glyph="&#xE73E;"
+                          FontSize="12"
+                          FontWeight="SemiBold"
+                          Visibility="{Binding IsError, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
+                          VerticalAlignment="Center" />
+                            </Grid>
                             <TextBlock Text="{Binding Status, Mode=OneWay}"
                            FontSize="13"
                            FontWeight="Medium"

@@ -31,6 +31,7 @@ namespace Seyfr
         private string _ticketInput = "";
         private string _status = "";
         private bool _isBusy = false;
+        private bool _isError = false;
         private string _destinationPath = "";
         private string _destinationName = "";
 
@@ -163,6 +164,19 @@ namespace Seyfr
             }
         }
 
+        public bool IsError
+        {
+            get => _isError;
+            private set
+            {
+                if (_isError != value)
+                {
+                    _isError = value;
+                    OnPropertyChanged(nameof(IsError));
+                }
+            }
+        }
+
         public string DestinationPath
         {
             get => _destinationPath;
@@ -262,6 +276,7 @@ namespace Seyfr
             if (string.IsNullOrEmpty(_selectedFilePath)) return;
 
             IsBusy = true;
+            IsError = false;
             Status = "Sending...";
 
             try
@@ -275,7 +290,8 @@ namespace Seyfr
             }
             catch (Exception ex)
             {
-                Status = $"Error: {ex.Message}";
+                IsError = true;
+                Status = string.IsNullOrEmpty(ex.Message) ? "Error" : $"Error: {ex.Message}";
             }
             finally
             {
@@ -296,6 +312,7 @@ namespace Seyfr
             SelectedFileName = null;
             Ticket = "";
             Status = "";
+            IsError = false;
             OnPropertyChanged(nameof(TicketQrImage));
         }
 
@@ -330,6 +347,7 @@ namespace Seyfr
             if (string.IsNullOrEmpty(TicketInput) || string.IsNullOrEmpty(DestinationPath)) return;
 
             IsBusy = true;
+            IsError = false;
             Status = "Receiving...";
 
             try
@@ -342,7 +360,8 @@ namespace Seyfr
             }
             catch (Exception ex)
             {
-                Status = $"Error: {ex.Message}";
+                IsError = true;
+                Status = string.IsNullOrEmpty(ex.Message) ? "Error" : $"Error: {ex.Message}";
             }
             finally
             {
