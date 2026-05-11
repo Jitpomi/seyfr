@@ -282,17 +282,31 @@ namespace Seyfr
 
             try
             {
-                await Task.Run(() =>
+                var result = await Task.Run(() =>
                 {
-                    var result = _core.Send(_selectedFilePath!, null);
-                    Ticket = result;
+                    return _core.Send(_selectedFilePath!, null);
                 });
+                Ticket = result;
                 Status = "Ready to share";
+            }
+            catch (SeyfrException ex)
+            {
+                IsError = true;
+                Status = ex switch
+                {
+                    SeyfrException.Network e    => $"Network error: {e.details}",
+                    SeyfrException.Io e         => $"File error: {e.details}",
+                    SeyfrException.FileNotFound e => $"File not found: {e.path}",
+                    SeyfrException.Store e      => $"Store error: {e.details}",
+                    SeyfrException.Internal e   => $"Internal error: {e.details}",
+                    SeyfrException.Cancelled    => "Transfer cancelled",
+                    SeyfrException.Timeout      => "Transfer timed out",
+                    _                           => ex.Message
+                };
             }
             catch (Exception ex)
             {
                 IsError = true;
-                // Build a useful message: walk the inner exception chain
                 var msg = ex.Message;
                 if (string.IsNullOrWhiteSpace(msg) && ex.InnerException != null)
                     msg = ex.InnerException.Message;
@@ -364,6 +378,21 @@ namespace Seyfr
                     _core.Receive(TicketInput, DestinationPath, null);
                 });
                 Status = "Received successfully";
+            }
+            catch (SeyfrException ex)
+            {
+                IsError = true;
+                Status = ex switch
+                {
+                    SeyfrException.Network e      => $"Network error: {e.details}",
+                    SeyfrException.Io e           => $"File error: {e.details}",
+                    SeyfrException.InvalidTicket e => $"Invalid ticket: {e.details}",
+                    SeyfrException.Store e        => $"Store error: {e.details}",
+                    SeyfrException.Internal e     => $"Internal error: {e.details}",
+                    SeyfrException.Cancelled      => "Transfer cancelled",
+                    SeyfrException.Timeout        => "Transfer timed out",
+                    _                             => ex.Message
+                };
             }
             catch (Exception ex)
             {
