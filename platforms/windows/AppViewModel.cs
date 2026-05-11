@@ -261,7 +261,7 @@ namespace Seyfr
                 var folder = await folderPicker.PickSingleFolderAsync();
                 if (folder != null)
                 {
-                    _selectedFilePath = folder.Path;
+                    SelectedFilePath = folder.Path;
                     SelectedFileName = folder.Name;
                     await SendAsync();
                 }
@@ -271,7 +271,7 @@ namespace Seyfr
                 var file = await picker.PickSingleFileAsync();
                 if (file != null)
                 {
-                    _selectedFilePath = file.Path;
+                    SelectedFilePath = file.Path;
                     SelectedFileName = file.Name;
                     await SendAsync();
                 }
