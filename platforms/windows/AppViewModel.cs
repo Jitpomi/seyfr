@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.Design;
@@ -91,11 +92,29 @@ namespace Seyfr
                     _ticket = value;
                     OnPropertyChanged(nameof(Ticket));
                     OnPropertyChanged(nameof(HasTicket));
+                    OnPropertyChanged(nameof(TicketQrImage));
                 }
             }
         }
 
         public bool HasTicket => !string.IsNullOrEmpty(_ticket);
+
+        public WriteableBitmap? TicketQrImage
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_ticket))
+                    return null;
+                try
+                {
+                    return QrCodeHelper.Generate(_ticket, 8);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
 
         public string TicketInput
         {
@@ -223,6 +242,7 @@ namespace Seyfr
                 {
                     _selectedFilePath = folder.Path;
                     SelectedFileName = folder.Name;
+                    await SendAsync();
                 }
             }
             else
@@ -232,6 +252,7 @@ namespace Seyfr
                 {
                     _selectedFilePath = file.Path;
                     SelectedFileName = file.Name;
+                    await SendAsync();
                 }
             }
         }
@@ -250,7 +271,7 @@ namespace Seyfr
                     var result = _core.Send(_selectedFilePath!, null);
                     Ticket = result;
                 });
-                Status = "File sent! Ticket copied.";
+                Status = "Ready to share";
             }
             catch (Exception ex)
             {
@@ -266,6 +287,7 @@ namespace Seyfr
         {
             _selectedFilePath = path;
             SelectedFileName = name;
+            _ = SendAsync();
         }
 
         private void ClearSend()
@@ -274,6 +296,7 @@ namespace Seyfr
             SelectedFileName = null;
             Ticket = "";
             Status = "";
+            OnPropertyChanged(nameof(TicketQrImage));
         }
 
         private async void PasteTicket()
@@ -315,7 +338,7 @@ namespace Seyfr
                 {
                     _core.Receive(TicketInput, DestinationPath, null);
                 });
-                Status = "File received successfully!";
+                Status = "Received successfully";
             }
             catch (Exception ex)
             {

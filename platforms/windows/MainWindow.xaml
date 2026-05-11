@@ -368,8 +368,16 @@
                                   Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                                   Foreground="{ThemeResource TextFillColorPrimaryBrush}"
                                   Background="Transparent" />
+                                <Ellipse Width="40"
+                         Height="40"
+                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
+                         StrokeThickness="2"
+                         Opacity="0.25"
+                         Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
                                 <FontIcon Glyph="&#xE73E;"
-                          FontSize="14"
+                          FontSize="12"
                           FontWeight="SemiBold"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center"
@@ -433,7 +441,7 @@
                                 </StackPanel>
                             </Grid>
 
-                            <!-- QR Placeholder -->
+                            <!-- QR Code -->
                             <Border Width="200"
                     Height="200"
                     HorizontalAlignment="Center"
@@ -441,11 +449,11 @@
                     BorderThickness="1"
                     CornerRadius="16"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                                <FontIcon Glyph="&#xED14;"
-                          FontSize="48"
-                          Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                          HorizontalAlignment="Center"
-                          VerticalAlignment="Center" />
+                                <Image Source="{Binding TicketQrImage, Mode=OneWay}"
+                       Width="200"
+                       Height="200"
+                       Stretch="Uniform"
+                       Margin="16" />
                             </Border>
 
                             <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -538,16 +546,33 @@
                            FontWeight="SemiBold"
                            VerticalAlignment="Center" />
 
-                                <local:HandCursorButton Content="Paste"
-                        HorizontalAlignment="Right"
-                        Padding="14,8"
-                        CornerRadius="10"
-                        Background="Transparent"
-                        BorderThickness="0.5"
-                        Command="{Binding PasteTicketCommand, Mode=OneWay}" />
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                                    <local:HandCursorButton Padding="10,6"
+                            CornerRadius="8"
+                            Background="Transparent"
+                            BorderThickness="0.5"
+                            Command="{Binding PasteTicketCommand, Mode=OneWay}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE77F;" FontSize="12" />
+                                            <TextBlock Text="Paste" FontSize="12" FontWeight="Medium" />
+                                        </StackPanel>
+                                    </local:HandCursorButton>
+                                    <local:HandCursorButton Padding="10,6"
+                            CornerRadius="8"
+                            Background="Transparent"
+                            BorderThickness="0.5"
+                            Command="{Binding ClearTicketCommand, Mode=OneWay}"
+                            Visibility="{Binding HasTicketInput, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE894;" FontSize="12" />
+                                            <TextBlock Text="Clear" FontSize="12" FontWeight="Medium" />
+                                        </StackPanel>
+                                    </local:HandCursorButton>
+                                </StackPanel>
                             </Grid>
 
-                            <TextBox PlaceholderText="Paste ticket here..."
+                            <TextBox Text="{Binding TicketInput, Mode=TwoWay}"
+                     PlaceholderText="Paste ticket here..."
                      AcceptsReturn="True"
                      MinHeight="72"
                      TextWrapping="Wrap"
@@ -570,7 +595,7 @@
 
                             <Grid>
                                 <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <FontIcon Glyph="&#xE8B7;" FontSize="18" />
+                                    <FontIcon Glyph="&#xE8D4;" FontSize="18" />
                                     <TextBlock Text="Save Location"
                                FontSize="15"
                                FontWeight="SemiBold" />
@@ -606,16 +631,18 @@
                     </Border>
 
                     <!-- Receive Button -->
-                    <local:HandCursorButton Content="Receive File"
-            HorizontalAlignment="Stretch"
+                    <local:HandCursorButton HorizontalAlignment="Stretch"
             Padding="0,12"
             CornerRadius="12"
             Command="{Binding ReceiveCommand, Mode=OneWay}"
-            FontSize="15"
-            FontWeight="SemiBold"
             BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
             BorderThickness="1"
-            Background="Transparent" />
+            Background="Transparent">
+                        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                            <FontIcon Glyph="&#xE896;" FontSize="18" />
+                            <TextBlock Text="Receive File" FontSize="15" FontWeight="SemiBold" />
+                        </StackPanel>
+                    </local:HandCursorButton>
 
                     <!-- Status Pill -->
                     <Border Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
