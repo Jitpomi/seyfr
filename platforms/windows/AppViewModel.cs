@@ -133,8 +133,13 @@ namespace Seyfr
             {
                 var bytes = await Task.Run(() => QrCodeHelper.GeneratePngBytes(ticket));
                 var bitmap = new BitmapImage();
-                using var ms = new InMemoryRandomAccessStream();
-                await ms.WriteAsync(bytes.AsBuffer());
+                var ms = new InMemoryRandomAccessStream();
+                using (var writer = new DataWriter(ms.GetOutputStreamAt(0)))
+                {
+                    writer.WriteBytes(bytes);
+                    await writer.StoreAsync();
+                    await writer.FlushAsync();
+                }
                 ms.Seek(0);
                 await bitmap.SetSourceAsync(ms);
                 _ticketQrImage = bitmap;
