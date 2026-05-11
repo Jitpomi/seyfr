@@ -56,6 +56,14 @@ namespace Seyfr
             e.Handled = true;
         }
 
+        private void TicketInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                ViewModel.TicketInput = textBox.Text;
+            }
+        }
+
         private async void DropArea_Drop(object sender, DragEventArgs e)
         {
             DragOverlay.Opacity = 0;
