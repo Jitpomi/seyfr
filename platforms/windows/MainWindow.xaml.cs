@@ -46,6 +46,7 @@ namespace Seyfr
             e.AcceptedOperation = DataPackageOperation.Copy;
             e.DragUIOverride.IsCaptionVisible = true;
             e.DragUIOverride.Caption = "Drop to send";
+            e.Handled = true;
         }
 
         private async void DropArea_Drop(object sender, DragEventArgs e)
@@ -57,14 +58,8 @@ namespace Seyfr
                 if (items.Count > 0)
                 {
                     var item = items[0];
-                    if (item is StorageFile file)
-                    {
-                        ViewModel.SetSendFile(file.Path, file.Name);
-                    }
-                    else if (item is StorageFolder folder)
-                    {
-                        ViewModel.SetSendFile(folder.Path, folder.Name);
-                    }
+                    bool isFolder = item is StorageFolder;
+                    ViewModel.SetSendFile(item.Path, item.Name, isFolder);
                 }
             }
         }

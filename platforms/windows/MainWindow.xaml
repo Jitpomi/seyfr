@@ -223,12 +223,13 @@
                 Visibility="{Binding HasSelectedFile, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
 
                         <Grid MinHeight="280"
-              HorizontalAlignment="Stretch"
-              AllowDrop="True"
-              DragOver="DropArea_DragOver"
-              DragLeave="DropArea_DragLeave"
-              DragEnter="DropArea_DragEnter"
-              Drop="DropArea_Drop">
+                              HorizontalAlignment="Stretch"
+                              Background="Transparent"
+                              AllowDrop="True"
+                              DragOver="DropArea_DragOver"
+                              DragLeave="DropArea_DragLeave"
+                              DragEnter="DropArea_DragEnter"
+                              Drop="DropArea_Drop">
 
                             <!-- Rings -->
                             <Canvas Width="280"

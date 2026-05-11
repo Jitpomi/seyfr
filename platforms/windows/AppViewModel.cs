@@ -370,9 +370,10 @@ namespace Seyfr
             }
         }
 
-        public void SetSendFile(string path, string name)
+        public void SetSendFile(string path, string name, bool isFolder)
         {
-            _selectedFilePath = path;
+            IsFolderMode = isFolder;
+            SelectedFilePath = path;
             SelectedFileName = name;
             _ = SendAsync();
         }
