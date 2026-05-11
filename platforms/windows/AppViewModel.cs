@@ -8,6 +8,9 @@ using System.Windows.Input;
 using uniffi.seyfr_core;
 using WinRT.Interop;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.UI.Xaml.Media;
 
 namespace Seyfr
 {
@@ -105,28 +108,45 @@ namespace Seyfr
                 if (_ticket != value)
                 {
                     _ticket = value;
-                    try
-                    {
-                        // Use Medium ECC level for a good balance of durability and size
-                        _ticketQrImage = string.IsNullOrEmpty(_ticket) ? null : QrCodeHelper.Generate(_ticket, 8);
-                    }
-                    catch (Exception ex)
-                    {
-                        _ticketQrImage = null;
-                        IsError = true;
-                        Status = $"QR Error: {ex.Message}";
-                    }
                     OnPropertyChanged(nameof(Ticket));
                     OnPropertyChanged(nameof(HasTicket));
-                    OnPropertyChanged(nameof(TicketQrImage));
+                    _ = UpdateQrCodeAsync(value);
                 }
             }
         }
 
         public bool HasTicket => !string.IsNullOrEmpty(_ticket);
 
-        public WriteableBitmap? TicketQrImage => _ticketQrImage;
-        private WriteableBitmap? _ticketQrImage;
+        public ImageSource? TicketQrImage => _ticketQrImage;
+        private ImageSource? _ticketQrImage;
+
+        private async Task UpdateQrCodeAsync(string ticket)
+        {
+            if (string.IsNullOrEmpty(ticket))
+            {
+                _ticketQrImage = null;
+                OnPropertyChanged(nameof(TicketQrImage));
+                return;
+            }
+
+            try
+            {
+                var bytes = await Task.Run(() => QrCodeHelper.GeneratePngBytes(ticket));
+                var bitmap = new BitmapImage();
+                using var ms = new InMemoryRandomAccessStream();
+                await ms.WriteAsync(bytes.AsBuffer());
+                ms.Seek(0);
+                await bitmap.SetSourceAsync(ms);
+                _ticketQrImage = bitmap;
+            }
+            catch (Exception ex)
+            {
+                _ticketQrImage = null;
+                IsError = true;
+                Status = $"QR Error: {ex.Message}";
+            }
+            OnPropertyChanged(nameof(TicketQrImage));
+        }
 
         public string TicketInput
         {
@@ -310,7 +330,10 @@ namespace Seyfr
                     return _core.Send(_selectedFilePath!, null);
                 });
                 Ticket = result;
-                Status = "Ready to share";
+                if (!IsError)
+                {
+                    Status = "Ready to share";
+                }
             }
             catch (SeyfrException ex)
             {
