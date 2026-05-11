@@ -222,7 +222,7 @@
                 HorizontalAlignment="Stretch"
                 Visibility="{Binding HasSelectedFile, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
 
-                        <Grid x:Name="DropAreaGrid"
+                        <local:HandCursorGrid x:Name="DropAreaGrid"
                               MinHeight="280"
                               HorizontalAlignment="Stretch"
                               Background="Transparent"
@@ -315,7 +315,7 @@
                                     BorderBrush="{StaticResource AccentBorderBrush}"
                                     Opacity="0"
                                     IsHitTestVisible="False" />
-                        </Grid>
+                        </local:HandCursorGrid>
 
                         <StackPanel Spacing="4"
                     HorizontalAlignment="Center">
