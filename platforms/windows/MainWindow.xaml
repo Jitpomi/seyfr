@@ -477,17 +477,17 @@
 
                             <!-- QR Code -->
                             <Border Width="200"
-                    Height="200"
-                    HorizontalAlignment="Center"
-                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="16"
-                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+                                    Height="200"
+                                    Padding="16"
+                                    HorizontalAlignment="Center"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="16"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                                 <Image Source="{Binding TicketQrImage, Mode=OneWay}"
-                       Width="200"
-                       Height="200"
-                       Stretch="Uniform"
-                       Margin="16" />
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" />
                             </Border>
 
                             <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
