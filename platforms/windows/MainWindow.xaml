@@ -451,28 +451,7 @@
                            VerticalAlignment="Center" />
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                                    <local:HandCursorButton Padding="10,6"
-                            CornerRadius="8"
-                            Background="Transparent"
-                            BorderThickness="0.5"
-                            Command="{Binding CopyTicketCommand, Mode=OneWay}">
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <FontIcon Glyph="&#xE77F;" FontSize="12" />
-                                            <TextBlock Text="Copy" FontSize="12" FontWeight="Medium" />
-                                        </StackPanel>
-                                    </local:HandCursorButton>
-                                    <local:HandCursorButton Padding="10,6"
-                            CornerRadius="8"
-                            Background="Transparent"
-                            BorderThickness="0.5"
-                            Command="{Binding ClearSendCommand, Mode=OneWay}">
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <FontIcon Glyph="&#xE894;" FontSize="12" />
-                                            <TextBlock Text="Clear" FontSize="12" FontWeight="Medium" />
-                                        </StackPanel>
-                                    </local:HandCursorButton>
-                                </StackPanel>
+                                <!-- Buttons removed for cleaner layout -->
                             </Grid>
 
                             <!-- QR Code -->
@@ -599,29 +578,7 @@
                            FontWeight="SemiBold"
                            VerticalAlignment="Center" />
 
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
-                                    <local:HandCursorButton Padding="10,6"
-                            CornerRadius="8"
-                            Background="Transparent"
-                            BorderThickness="0.5"
-                            Command="{Binding PasteTicketCommand, Mode=OneWay}">
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <FontIcon Glyph="&#xE77F;" FontSize="12" />
-                                            <TextBlock Text="Paste" FontSize="12" FontWeight="Medium" />
-                                        </StackPanel>
-                                    </local:HandCursorButton>
-                                    <local:HandCursorButton Padding="10,6"
-                            CornerRadius="8"
-                            Background="Transparent"
-                            BorderThickness="0.5"
-                            Command="{Binding ClearTicketCommand, Mode=OneWay}"
-                            Visibility="{Binding HasTicketInput, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                                        <StackPanel Orientation="Horizontal" Spacing="4">
-                                            <FontIcon Glyph="&#xE894;" FontSize="12" />
-                                            <TextBlock Text="Clear" FontSize="12" FontWeight="Medium" />
-                                        </StackPanel>
-                                    </local:HandCursorButton>
-                                </StackPanel>
+                                <!-- Buttons removed for cleaner layout -->
                             </Grid>
 
                             <TextBox Text="{Binding TicketInput, Mode=TwoWay}"
