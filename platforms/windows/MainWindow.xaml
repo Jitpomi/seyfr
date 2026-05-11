@@ -480,32 +480,41 @@
                        IsTextSelectionEnabled="True" />
                             </Border>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
-                                <local:HandCursorButton HorizontalAlignment="Stretch"
-                        Padding="0,12"
-                        CornerRadius="12"
-                        Command="{Binding CopyTicketCommand, Mode=OneWay}"
-                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                        BorderThickness="1"
-                        Background="Transparent">
+                            <Grid Margin="0,8,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="12" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <local:HandCursorButton Grid.Column="0"
+                                        HorizontalAlignment="Stretch"
+                                        Padding="0,12"
+                                        CornerRadius="12"
+                                        Command="{Binding CopyTicketCommand, Mode=OneWay}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        Background="Transparent">
                                     <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
                                         <FontIcon Glyph="&#xE8C8;" FontSize="15" />
                                         <TextBlock Text="Copy" FontSize="15" FontWeight="Medium" />
                                     </StackPanel>
                                 </local:HandCursorButton>
-                                <local:HandCursorButton HorizontalAlignment="Stretch"
-                        Padding="0,12"
-                        CornerRadius="12"
-                        BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
-                        BorderThickness="1"
-                        Background="Transparent"
-                        Command="{Binding ShareTicketCommand, Mode=OneWay}">
+
+                                <local:HandCursorButton Grid.Column="2"
+                                        HorizontalAlignment="Stretch"
+                                        Padding="0,12"
+                                        CornerRadius="12"
+                                        BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
+                                        BorderThickness="1"
+                                        Background="Transparent"
+                                        Command="{Binding ShareTicketCommand, Mode=OneWay}">
                                     <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
                                         <FontIcon Glyph="&#xE72D;" FontSize="15" />
                                         <TextBlock Text="Share" FontSize="15" FontWeight="SemiBold" />
                                     </StackPanel>
                                 </local:HandCursorButton>
-                            </StackPanel>
+                            </Grid>
                         </StackPanel>
                     </Border>
 
@@ -626,10 +635,14 @@
                                 </StackPanel>
 
                                 <local:HandCursorButton Content="Change"
-                        HorizontalAlignment="Right"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        Command="{Binding SelectDestinationCommand, Mode=OneWay}" />
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Padding="14,8"
+                                        CornerRadius="8"
+                                        Background="Transparent"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        Command="{Binding SelectDestinationCommand, Mode=OneWay}" />
                             </Grid>
 
                             <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
