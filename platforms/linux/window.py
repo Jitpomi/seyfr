@@ -180,6 +180,12 @@ class SeyfrWindow(Adw.ApplicationWindow):
         title_box.append(subtitle)
         container.append(title_box)
         
+        # Content Area Stack for Switching (Pick vs Transfer)
+        self.send_stack = Gtk.Stack()
+        self.send_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        
+        self.drop_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=32)
+        
         # Drop Zone with Concentric Rings
         self.drop_zone = Gtk.Button()
         self.drop_zone.add_css_class("drop-zone")
@@ -232,53 +238,83 @@ class SeyfrWindow(Adw.ApplicationWindow):
         container.append(labels_box)
         
         # Mode Toggle
-        mode_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
-        mode_box.set_halign(Gtk.Align.CENTER)
+        self.mode_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        self.mode_box.set_halign(Gtk.Align.CENTER)
         
         file_label = Gtk.Label(label="File mode")
         file_label.add_css_class("dim-label")
-        mode_box.append(file_label)
+        self.mode_box.append(file_label)
         
         self.mode_switch = Gtk.Switch()
         self.mode_switch.connect("notify::active", self.on_mode_toggled)
-        mode_box.append(self.mode_switch)
+        self.mode_box.append(self.mode_switch)
         
         folder_label = Gtk.Label(label="Folder mode")
         folder_label.add_css_class("dim-label")
-        mode_box.append(folder_label)
-        container.append(mode_box)
+        self.mode_box.append(folder_label)
+        self.drop_container.append(self.mode_box)
         
-        # Send Button
-        self.send_button = Gtk.Button(label="Generate Ticket")
-        self.send_button.add_css_class("pill")
-        self.send_button.add_css_class("suggested-action")
-        self.send_button.set_sensitive(False)
-        self.send_button.connect("clicked", self.on_send_clicked)
-        container.append(self.send_button)
+        self.send_stack.add_named(self.drop_container, "pick")
         
-        # Ticket Display
-        self.ticket_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
-        self.ticket_box.add_css_class("ticket-box")
-        self.ticket_box.set_visible(False)
-        self.ticket_box.set_margin_top(24)
+        # --- TICKET SCREEN (Transfer State) ---
+        self.transfer_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=24)
         
-        ticket_label = Gtk.Label(label="YOUR SECURE TICKET")
-        ticket_label.add_css_class("dim-label")
-        self.ticket_box.append(ticket_label)
+        # File Status Card
+        self.status_card = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=16)
+        self.status_card.add_css_class("section-card")
         
-        self.ticket_entry = Gtk.Entry()
-        self.ticket_entry.add_css_class("ticket-entry")
-        self.ticket_entry.set_editable(False)
-        self.ticket_box.append(self.ticket_entry)
+        status_icon = Gtk.Image.new_from_icon_name("emblem-ok-symbolic")
+        status_icon.set_pixel_size(24)
+        self.status_card.append(status_icon)
+        
+        status_info = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+        self.status_filename = Gtk.Label(label="filename.jpg")
+        self.status_filename.set_halign(Gtk.Align.START)
+        self.status_filename.add_css_class("status-label")
+        status_info.append(self.status_filename)
+        
+        status_text = Gtk.Label(label="Ready to share")
+        status_text.add_css_class("dim-label")
+        status_text.set_halign(Gtk.Align.START)
+        status_info.append(status_text)
+        self.status_card.append(status_info)
+        
+        self.transfer_container.append(self.status_card)
+        
+        # Ticket Card
+        self.ticket_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
+        self.ticket_card.add_css_class("section-card")
+        
+        ticket_header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=0)
+        ticket_title = Gtk.Label(label="Transfer Ticket")
+        ticket_title.add_css_class("status-label")
+        ticket_header.append(ticket_title)
+        
+        clear_btn = Gtk.Button(label="Clear")
+        clear_btn.add_css_class("flat")
+        clear_btn.set_halign(Gtk.Align.END)
+        clear_btn.set_hexpand(True)
+        clear_btn.connect("clicked", self.on_clear_clicked)
+        ticket_header.append(clear_btn)
+        self.ticket_card.append(ticket_header)
         
         qr_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
         qr_container.set_halign(Gtk.Align.CENTER)
         self.qr_image = Gtk.Image()
         self.qr_image.add_css_class("qr-image")
         qr_container.append(self.qr_image)
-        self.ticket_box.append(qr_container)
+        self.ticket_card.append(qr_container)
         
-        container.append(self.ticket_box)
+        self.ticket_entry = Gtk.Entry()
+        self.ticket_entry.add_css_class("ticket-entry")
+        self.ticket_entry.set_editable(False)
+        self.ticket_card.append(self.ticket_entry)
+        
+        self.transfer_container.append(self.ticket_card)
+        
+        self.send_stack.add_named(self.transfer_container, "transfer")
+        
+        container.append(self.send_stack)
         
         scrolled.set_child(container)
         page.append(scrolled)
@@ -402,9 +438,23 @@ class SeyfrWindow(Adw.ApplicationWindow):
     def on_file_chooser_response(self, dialog, response):
         if response == Gtk.ResponseType.OK:
             self.selected_file_path = dialog.get_file().get_path()
-            self.file_label.set_label(os.path.basename(self.selected_file_path))
-            self.send_button.set_sensitive(True)
+            filename = os.path.basename(self.selected_file_path)
+            
+            # Transition to Transfer Screen
+            self.status_filename.set_label(filename)
+            self.send_stack.set_visible_child_name("transfer")
+            
+            # Auto-trigger Generate Ticket
+            thread = threading.Thread(target=self.do_send)
+            thread.start()
+            
         dialog.destroy()
+
+    def on_clear_clicked(self, button):
+        self.selected_file_path = None
+        self.current_ticket = None
+        self.ticket_entry.set_text("")
+        self.send_stack.set_visible_child_name("pick")
 
     def on_send_clicked(self, button):
         if self.selected_file_path:
@@ -423,7 +473,6 @@ class SeyfrWindow(Adw.ApplicationWindow):
     def show_ticket(self, ticket):
         self.current_ticket = ticket
         self.ticket_entry.set_text(ticket)
-        self.ticket_box.set_visible(True)
         self.generate_qr(ticket)
 
     def generate_qr(self, data):
