@@ -22,7 +22,7 @@ class SeyfrWindow(Adw.ApplicationWindow):
         self.current_ticket = None
         
         self.set_title("Seyfr")
-        self.set_default_size(1280, 850)
+        self.set_default_size(1400, 950)
         
         # Load CSS
         self.load_css()
