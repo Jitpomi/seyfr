@@ -510,7 +510,8 @@ class SeyfrWindow(Adw.ApplicationWindow):
     def on_copy_ticket_clicked(self, button):
         if self.current_ticket:
             clipboard = self.get_display().get_clipboard()
-            clipboard.set_text(self.current_ticket)
+            clipboard.set_content(Gdk.ContentProvider.new_for_value(self.current_ticket))
+            print(f"Copied ticket: {self.current_ticket}")
 
     def generate_qr(self, data):
         qr = qrcode.QRCode(version=1, box_size=15, border=4)
