@@ -62,15 +62,16 @@ class SeyfrWindow(Adw.ApplicationWindow):
 
     def create_sidebar(self):
         self.sidebar_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
-        self.sidebar_box.set_size_request(240, -1)
+        self.sidebar_box.set_size_request(260, -1)
         self.sidebar_box.add_css_class("sidebar")
         
         # Logo Section
-        logo_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
-        logo_container.set_margin_top(32)
+        logo_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=4)
+        logo_container.set_margin_top(48)
         logo_container.set_margin_bottom(32)
-        logo_container.set_margin_start(20)
-        logo_container.set_margin_end(20)
+        logo_container.set_margin_start(24)
+        logo_container.set_margin_end(24)
+        logo_container.set_halign(Gtk.Align.START)
 
         logo_label = Gtk.Label(label="S")
         logo_label.add_css_class("logo-icon")
@@ -79,6 +80,11 @@ class SeyfrWindow(Adw.ApplicationWindow):
         brand_name = Gtk.Label(label="Seyfr")
         brand_name.add_css_class("brand-name")
         logo_container.append(brand_name)
+        
+        subtitle = Gtk.Label(label="SECURE FILE RELAY")
+        subtitle.add_css_class("dim-label")
+        subtitle.set_margin_top(4)
+        logo_container.append(subtitle)
         
         self.sidebar_box.append(logo_container)
 
@@ -172,18 +178,26 @@ class SeyfrWindow(Adw.ApplicationWindow):
         container.append(self.send_button)
         
         # Ticket Display
-        self.ticket_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)
+        self.ticket_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
+        self.ticket_box.add_css_class("ticket-box")
         self.ticket_box.set_visible(False)
+        self.ticket_box.set_margin_top(24)
         
-        ticket_label = Gtk.Label(label="Share this ticket:")
+        ticket_label = Gtk.Label(label="YOUR SECURE TICKET")
+        ticket_label.add_css_class("dim-label")
         self.ticket_box.append(ticket_label)
         
         self.ticket_entry = Gtk.Entry()
+        self.ticket_entry.add_css_class("ticket-entry")
         self.ticket_entry.set_editable(False)
         self.ticket_box.append(self.ticket_entry)
         
+        qr_container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        qr_container.set_halign(Gtk.Align.CENTER)
         self.qr_image = Gtk.Image()
-        self.ticket_box.append(self.qr_image)
+        self.qr_image.add_css_class("qr-image")
+        qr_container.append(self.qr_image)
+        self.ticket_box.append(qr_container)
         
         container.append(self.ticket_box)
         

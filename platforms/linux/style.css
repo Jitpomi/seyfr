@@ -1,101 +1,141 @@
-/* SEYFR Linux Design System */
+/* SEYFR Linux Design System - Premium Overhaul */
+
+/* Main Colors & Variables */
+@define-color accent_bg_color #3584e4;
+@define-color accent_fg_color #ffffff;
+@define-color success_bg_color #2ec27e;
+@define-color warning_bg_color #f5c211;
+@define-color error_bg_color #e01b24;
 
 .sidebar {
     background-color: @window_bg_color;
-    border-right: 1px solid @border_color;
+    border-right: 1px solid alpha(@border_color, 0.5);
+    padding: 0;
 }
 
-.sidebar-logo-circle {
-    border: 1.2px solid @fg_color;
-    border-radius: 50%;
-    min-width: 44px;
-    min-height: 44px;
-    margin-bottom: 12px;
-}
-
-.sidebar-logo-text {
-    font-size: 22pt;
-    font-weight: 100; /* Extra Light */
-    letter-spacing: 0.2em;
-    margin-bottom: 2px;
-}
-
-.sidebar-logo-subtitle {
-    font-size: 8pt;
-    font-family: monospace;
-    opacity: 0.6;
-    letter-spacing: 0.1em;
-}
-
-.nav-button {
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-weight: 500;
-}
-
-.nav-button:checked {
-    background-color: alpha(@accent_color, 0.1);
-    color: @accent_color;
-    font-weight: 600;
-}
-
-.status-dot {
-    min-width: 8px;
-    min-height: 8px;
-    border-radius: 50%;
-    background-color: @success_color;
-}
-
-.detail-header-title {
-    font-size: 24pt;
-    font-weight: 600;
+/* Logo Section Styling */
+.logo-icon {
+    font-size: 32pt;
+    font-weight: 800;
+    color: @accent_bg_color;
     margin-bottom: 4px;
 }
 
-.detail-header-subtitle {
-    font-size: 10pt;
-    opacity: 0.6;
+.brand-name {
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: @fg_color;
 }
 
-/* Concentric Rings */
-.drop-zone {
-    border-radius: 20px;
-    transition: all 200ms ease-in-out;
+/* Navigation List Styling */
+.navigation-sidebar {
+    background: transparent;
+    margin: 12px;
 }
 
-.drop-zone.targeted {
-    border: 2px solid @accent_color;
+.navigation-sidebar row {
+    border-radius: 10px;
+    margin-bottom: 4px;
+    transition: all 200ms ease;
+    padding: 2px;
 }
 
-.concentric-ring {
-    border: 0.5px solid alpha(@fg_color, 0.1);
-    border-radius: 50%;
-}
-
-.card {
-    background-color: @card_bg_color;
-    border: 1px solid @card_border_color;
-    border-radius: 18px;
-    padding: 24px;
-}
-
-.status-pill {
-    background-color: @card_bg_color;
-    border: 1px solid @card_border_color;
-    border-radius: 12px;
-    padding: 10px 16px;
-}
-
-.ticket-text {
-    font-family: monospace;
-    font-size: 10pt;
+.navigation-sidebar row:hover {
     background-color: alpha(@fg_color, 0.05);
-    padding: 12px;
-    border-radius: 8px;
 }
 
-.action-button {
-    padding: 12px;
-    border-radius: 12px;
+.navigation-sidebar row:selected {
+    background-color: alpha(@accent_bg_color, 0.1);
+    color: @accent_bg_color;
+    font-weight: bold;
+}
+
+.navigation-sidebar row label {
+    font-size: 10.5pt;
+    font-weight: 500;
+}
+
+.navigation-sidebar row image {
+    margin-right: 4px;
+}
+
+/* Page Content */
+.page-title {
+    font-size: 26pt;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: @fg_color;
+}
+
+/* Drop Zone Overhaul */
+.drop-zone {
+    background-color: alpha(@fg_color, 0.03);
+    border: 2px dashed alpha(@fg_color, 0.15);
+    border-radius: 24px;
+    padding: 48px;
+    transition: all 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: none;
+}
+
+.drop-zone:hover {
+    background-color: alpha(@accent_bg_color, 0.05);
+    border-color: alpha(@accent_bg_color, 0.3);
+    transform: translateY(-2px);
+}
+
+.drop-zone label {
+    font-size: 13pt;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* Action Buttons */
+.pill {
+    border-radius: 99px;
+    padding: 10px 24px;
     font-weight: 600;
+    font-size: 11pt;
+    transition: all 200ms ease;
+}
+
+.suggested-action.pill {
+    background-color: @accent_bg_color;
+    color: white;
+    box-shadow: 0 4px 12px alpha(@accent_bg_color, 0.3);
+}
+
+.suggested-action.pill:hover {
+    background-color: shade(@accent_bg_color, 1.1);
+    box-shadow: 0 6px 16px alpha(@accent_bg_color, 0.4);
+}
+
+.suggested-action.pill:active {
+    transform: scale(0.98);
+}
+
+/* Ticket Display */
+.ticket-box {
+    background-color: alpha(@fg_color, 0.05);
+    border-radius: 20px;
+    padding: 24px;
+    border: 1px solid alpha(@border_color, 0.3);
+}
+
+.ticket-entry {
+    font-family: 'Monospace', monospace;
+    font-size: 14pt;
+    font-weight: 700;
+    color: @accent_bg_color;
+    background: transparent;
+    border: none;
+    text-align: center;
+}
+
+/* QR Code Styling */
+.qr-image {
+    background-color: white;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
