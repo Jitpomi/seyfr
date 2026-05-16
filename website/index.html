@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- SEO Meta Tags -->
-  <title>Seyfr — Fast, Local-First File Transfers.</title>
-  <meta name="description" content="Seyfr is a blazingly fast, cross-platform file transfer tool built in Rust. Move files directly between devices securely over your local network.">
+  <title>Seyfr - Send Your Files Right</title>
+  <meta name="description" content="Experience true peer-to-peer file sharing with end-to-end encryption, no file size limits, and complete privacy. Free, secure, and fast file transfers.">
+  <meta name="keywords" content="file sharing, peer-to-peer, P2P, secure file transfer, end-to-end encryption, privacy, free file sharing, Seyfr">
+  <meta name="author" content="Jitpomi">
+  <meta name="theme-color" content="#f9f9fa">
   
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Seyfr — Fast, Local-First File Transfers.">
-  <meta property="og:description" content="Move files directly between devices securely over your local network.">
+  <meta property="og:title" content="Seyfr - Send Your Files Right">
+  <meta property="og:description" content="Experience true peer-to-peer file sharing with end-to-end encryption, no file size limits, and complete privacy. Free, secure, and fast file transfers.">
   <meta property="og:image" content="https://seyfr.jitpomi.com/assets/seyfrimg.webp">
   <meta property="og:url" content="https://seyfr.jitpomi.com/">
 
@@ -126,8 +129,13 @@
     .subtitle {
       font-size: clamp(18px, 4vw, 22px);
       color: var(--text-muted);
-      max-width: 640px;
+      max-width: 740px;
       margin-bottom: 48px;
+    }
+
+    .subtitle strong {
+      color: var(--accent);
+      font-weight: 600;
     }
 
     /* Buttons */
@@ -161,18 +169,6 @@
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     }
 
-    .btn-secondary {
-      background: var(--card-bg);
-      color: var(--text-main);
-      border: 1px solid var(--card-border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-
-    .btn-secondary:hover {
-      background: #f1f1f1;
-      transform: translateY(-2px);
-    }
-
     /* Showcase Image */
     .showcase-wrapper {
       margin-top: 60px;
@@ -200,9 +196,76 @@
       box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
     }
 
+    /* Installation Help Section */
+    .security-notice {
+      background: var(--card-bg);
+      border: 1px solid #ffd700;
+      border-radius: 16px;
+      padding: 32px;
+      margin: 60px auto;
+      max-width: 900px;
+      text-align: left;
+      box-shadow: 0 4px 24px rgba(255, 215, 0, 0.1);
+    }
+
+    .security-notice h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 24px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .security-notice p {
+      margin-bottom: 16px;
+      color: var(--text-muted);
+    }
+
+    .security-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .os-card {
+      background: #fafafa;
+      border: 1px solid var(--card-border);
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .os-card h4 {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .os-card ol {
+      margin-left: 20px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    .os-card li {
+      margin-bottom: 8px;
+    }
+
+    .sponsor-link {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .sponsor-link:hover {
+      text-decoration: underline;
+    }
+
     /* Downloads Section */
     .downloads {
-      margin: 60px 0 100px;
+      margin: 0 0 100px;
       text-align: center;
     }
 
@@ -214,7 +277,7 @@
 
     .download-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
       max-width: 900px;
       margin: 0 auto;
@@ -240,12 +303,17 @@
       box-shadow: 0 12px 24px rgba(0,0,0,0.06);
     }
 
+    .download-card .icon {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+
     .download-card .platform {
       font-size: 14px;
-      color: var(--text-muted);
+      color: var(--accent);
       text-transform: uppercase;
       letter-spacing: 1px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .download-card .action {
@@ -254,6 +322,11 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    .download-card .desc {
+      font-size: 14px;
+      color: var(--text-muted);
     }
 
     /* Footer */
@@ -269,6 +342,10 @@
     footer a {
       color: var(--text-main);
       text-decoration: none;
+    }
+
+    .powered-by {
+      margin-bottom: 16px;
     }
 
     /* Animations */
@@ -287,7 +364,8 @@
       100% { opacity: 1; transform: rotateX(0deg) translateY(0) scale(1); }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+      .security-grid { grid-template-columns: 1fr; }
       .hero { padding: 60px 0 40px; }
       .cta-group { flex-direction: column; width: 100%; max-width: 300px; }
       .showcase-wrapper { margin-top: 40px; }
@@ -310,8 +388,8 @@
     <main>
       <section class="hero">
         <div class="pill">v2.0 Beta — Rust Powered</div>
-        <h1>Move files faster than ever before.</h1>
-        <p class="subtitle">A blazingly fast, local-first file transfer application built for modern workflows. No clouds, no limits, purely native.</p>
+        <h1>Send Your Files Right.</h1>
+        <p class="subtitle">Experience true peer-to-peer file sharing with <strong>end-to-end encryption</strong>, <strong>no file size limits</strong>, and <strong>complete privacy</strong>. Free, secure, and fast file transfers.</p>
         
         <div class="cta-group">
           <a href="#downloads" class="btn btn-primary">Download Seyfr</a>
@@ -327,28 +405,82 @@
         </div>
       </section>
 
+      <section class="security-notice">
+        <h3>🛡️ See a security warning?</h3>
+        <p>This is normal for software without expensive code signing certificates. The warnings are about "unknown publisher," not malware detection. We recommend scanning with antivirus before installation.</p>
+        
+        <div class="security-grid">
+          <div class="os-card">
+            <h4>🪟 Windows</h4>
+            <p style="font-size: 14px; margin-bottom: 8px;">For reliable installation:</p>
+            <ol>
+              <li>Right-click downloaded file → Properties</li>
+              <li>Check "Unblock" → OK</li>
+              <li>Then run installer normally</li>
+            </ol>
+          </div>
+          
+          <div class="os-card">
+            <h4>🍎 macOS</h4>
+            <p style="font-size: 14px; margin-bottom: 8px;">Complete installation steps:</p>
+            <ol>
+              <li>Download Seyfr.dmg and double-click to mount</li>
+              <li>Drag Seyfr.app to Applications folder</li>
+              <li>Open Terminal and run:<br><code>xattr -dr com.apple.quarantine /Applications/Seyfr.app</code></li>
+              <li>Open Seyfr - no warnings will appear</li>
+            </ol>
+          </div>
+        </div>
+
+        <p style="margin-top: 24px; font-size: 14px; text-align: center;">
+          💡 Want to help eliminate these warnings? <a href="https://github.com/sponsors/Jitpomi?o=sd&sc=t" class="sponsor-link" target="_blank">Sponsor Seyfr</a> to help us afford code signing certificates ($400+/year).
+        </p>
+      </section>
+
       <section id="downloads" class="downloads">
-        <h2>Native Apps for Every Platform</h2>
+        <h2>Installation Packages</h2>
         <div class="download-grid">
           
-          <a href="https://github.com/Jitpomi/seyfr/releases/latest" target="_blank" class="download-card" aria-label="Download for macOS">
-            <span class="platform">Apple Silicon & Intel</span>
-            <span class="action">macOS <span aria-hidden="true">→</span></span>
+          <a href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_aarch64.dmg" class="download-card" aria-label="Download for macOS Apple Silicon">
+            <div class="icon">🍎</div>
+            <span class="platform">macOS Apple Silicon</span>
+            <span class="action">Download .dmg <span aria-hidden="true">→</span></span>
+            <span class="desc">For M-series processors</span>
           </a>
 
-          <a href="https://github.com/Jitpomi/seyfr/releases/latest" target="_blank" class="download-card" aria-label="Download for Windows">
-            <span class="platform">Windows 10/11</span>
-            <span class="action">Windows (.exe) <span aria-hidden="true">→</span></span>
+          <a href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_x64.dmg" class="download-card" aria-label="Download for macOS Intel">
+            <div class="icon">💻</div>
+            <span class="platform">macOS Intel</span>
+            <span class="action">Download .dmg <span aria-hidden="true">→</span></span>
+            <span class="desc">For Intel processors</span>
           </a>
 
-          <a href="https://github.com/Jitpomi/seyfr/releases/latest" target="_blank" class="download-card" aria-label="Download for Linux">
-            <span class="platform">Debian & Ubuntu</span>
-            <span class="action">Linux (.AppImage) <span aria-hidden="true">→</span></span>
+          <a href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x64.exe" class="download-card" aria-label="Download for Windows 64-bit">
+            <div class="icon">🪟</div>
+            <span class="platform">Windows 64-bit</span>
+            <span class="action">Download .exe <span aria-hidden="true">→</span></span>
+            <span class="desc">For modern PCs</span>
           </a>
 
-          <a href="#" class="download-card" style="opacity: 0.6; pointer-events: none;" aria-label="Coming soon to iOS">
-            <span class="platform">iOS & iPadOS</span>
-            <span class="action">App Store (Soon) <span aria-hidden="true">→</span></span>
+          <a href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x86.exe" class="download-card" aria-label="Download for Windows 32-bit">
+            <div class="icon">🪟</div>
+            <span class="platform">Windows 32-bit</span>
+            <span class="action">Download .exe <span aria-hidden="true">→</span></span>
+            <span class="desc">For older PCs</span>
+          </a>
+
+          <a href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/MicrosoftEdgeWebview2Setup.exe" class="download-card" aria-label="Download WebView2">
+            <div class="icon">⚡</div>
+            <span class="platform">WebView2 Runtime</span>
+            <span class="action">Download <span aria-hidden="true">→</span></span>
+            <span class="desc">Required for Windows</span>
+          </a>
+
+          <a href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_amd64.AppImage" class="download-card" aria-label="Download for Linux">
+            <div class="icon">🐧</div>
+            <span class="platform">Linux</span>
+            <span class="action">Download .AppImage <span aria-hidden="true">→</span></span>
+            <span class="desc">Various distributions</span>
           </a>
 
         </div>
@@ -358,6 +490,9 @@
 
   <footer>
     <div class="container">
+      <div class="powered-by">
+        Powered by <a href="https://www.iroh.computer" target="_blank">Iroh</a> and <a href="https://dioxuslabs.com" target="_blank">Dioxus</a>
+      </div>
       &copy; 2026 <a href="https://jitpomi.com" target="_blank">JITPOMI LLC</a>. Open source and local first.
     </div>
   </footer>
