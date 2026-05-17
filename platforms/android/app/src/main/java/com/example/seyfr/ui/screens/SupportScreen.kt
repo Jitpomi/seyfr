@@ -242,8 +242,8 @@ fun SupportScreen(modifier: Modifier = Modifier) {
 
                                 BankDetailRow(
                                     label = "Account Number",
-                                    value = "202361793975",
-                                    onCopy = { copyToClipboard("Account Number", "202361793975") }
+                                    value = "202617088912",
+                                    onCopy = { copyToClipboard("Account Number", "202617088912") }
                                 )
 
                                 BankDetailRow(
@@ -293,8 +293,8 @@ fun SupportScreen(modifier: Modifier = Modifier) {
 
                                 BankDetailRow(
                                     label = "IBAN / Account Number",
-                                    value = "202361793975",
-                                    onCopy = { copyToClipboard("Account Number", "202361793975") }
+                                    value = "202617088912",
+                                    onCopy = { copyToClipboard("Account Number", "202617088912") }
                                 )
 
                                 BankDetailRow(
@@ -351,12 +351,12 @@ fun SupportScreen(modifier: Modifier = Modifier) {
                                         }
 
                                         Text(
-                                            text = "/FFC/202361793975/JITPOMI LLC/Tacoma, USA",
+                                            text = "/FFC/202617088912/JITPOMI LLC/Tacoma, USA",
                                             fontSize = 13.sp,
                                             fontFamily = FontFamily.Monospace,
                                             fontWeight = FontWeight.Bold,
                                             modifier = Modifier
-                                                .clickable { copyToClipboard("Payment Memo", "/FFC/202361793975/JITPOMI LLC/Tacoma, USA") }
+                                                .clickable { copyToClipboard("Payment Memo", "/FFC/202617088912/JITPOMI LLC/Tacoma, USA") }
                                                 .padding(vertical = 4.dp)
                                         )
 
