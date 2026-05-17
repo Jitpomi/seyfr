@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <rect width="1024" height="500" fill="#1d1d1f"/>
+  <g transform="translate(180, 150)">
+    <circle cx="100" cy="100" r="85" fill="none" stroke="#ffffff" stroke-width="12"/>
+    <text x="100" y="136" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="110" font-weight="700" fill="#ffffff" text-anchor="middle">S</text>
+  </g>
+  <g transform="translate(410, 220)">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="64" font-weight="700" fill="#ffffff" letter-spacing="-2">SEYFR</text>
+    <text x="0" y="50" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="32" font-weight="400" fill="#a1a1a6" letter-spacing="0">Send Your Files Right</text>
+  </g>
+</svg>
