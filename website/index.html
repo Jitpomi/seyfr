@@ -45,6 +45,9 @@
   }
   </script>
 
+  <meta name="theme-color" content="#f5f5f7" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
   <!-- Favicon & Icons -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><circle cx='12' cy='12' r='11' fill='white' stroke='%231d1d1f' stroke-width='2'/><text x='12' y='16.5' font-family='-apple-system, sans-serif' font-size='14' font-weight='600' fill='%231d1d1f' text-anchor='middle'>S</text></svg>" />
 
@@ -248,6 +251,35 @@
       line-height: 1.5;
     }
 
+    .features {
+      margin: 80px auto 40px;
+      max-width: 1040px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 32px 24px;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: #5e5e63;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
     footer {
       margin-top: 120px;
       padding-top: 22px;
@@ -279,6 +311,10 @@
 
       .sub {
         font-size: 20px;
+      }
+      
+      .features {
+        grid-template-columns: 1fr;
       }
     }
 
@@ -366,6 +402,21 @@
           <picture>
             <img src="assets/seyfrimg.webp" alt="Seyfr seamlessly working across devices" loading="lazy" width="1800" height="1130" />
           </picture>
+        </div>
+      </section>
+
+      <section class="features">
+        <div class="feature-card">
+          <h3>Direct Peer-to-Peer Transfers</h3>
+          <p>Move files securely between devices using next-gen P2P networking. Works directly over your local network or securely across the internet with automatic NAT traversal.</p>
+        </div>
+        <div class="feature-card">
+          <h3>The Ultimate Xender Alternative</h3>
+          <p>Seamlessly send files and entire folders between Windows, macOS, Linux, Android, and iOS devices without friction or arbitrary file size limits.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Secure by Design</h3>
+          <p>Your files are transferred directly device-to-device using end-to-end encryption. Built with advanced path traversal protection to keep your data safe.</p>
         </div>
       </section>
 
