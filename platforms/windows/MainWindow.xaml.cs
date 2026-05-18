@@ -27,6 +27,7 @@ namespace Seyfr
             // Wire up navigation button clicks
             SendNavButton.Click += (s, e) => ViewModel.SelectedTab = TransferTab.Send;
             ReceiveNavButton.Click += (s, e) => ViewModel.SelectedTab = TransferTab.Receive;
+            SupportNavButton.Click += (s, e) => ViewModel.SelectedTab = TransferTab.Support;
         }
 
         private void BrowseButton_Click(object sender, RoutedEventArgs e)

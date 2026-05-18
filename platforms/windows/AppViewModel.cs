@@ -22,7 +22,8 @@ namespace Seyfr
     public enum TransferTab
     {
         Send,
-        Receive
+        Receive,
+        Support
     }
     public class AppViewModel : INotifyPropertyChanged
     {
@@ -266,6 +267,18 @@ namespace Seyfr
         public ICommand CopyTicketCommand { get; }
         public ICommand ShareTicketCommand { get; }
 
+        public ICommand CopyVenmoHandleCommand { get; }
+        public ICommand OpenVenmoWebCommand { get; }
+        public ICommand CopyBeneficiaryCommand { get; }
+        public ICommand CopyAccountCommand { get; }
+        public ICommand CopyRoutingCommand { get; }
+        public ICommand CopySwiftCommand { get; }
+        public ICommand CopyIbanCommand { get; }
+        public ICommand CopyMemoCommand { get; }
+
+        public ImageSource? VenmoQrImage => _venmoQrImage;
+        private ImageSource? _venmoQrImage;
+
         public AppViewModel()
         {
             var dataDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "seyfr");
@@ -283,6 +296,16 @@ namespace Seyfr
             CopyTicketCommand = new RelayCommand(CopyTicket);
             ShareTicketCommand = new RelayCommand(ShareTicket);
 
+            CopyVenmoHandleCommand = new RelayCommand(() => CopyText("@jitpomi"));
+            OpenVenmoWebCommand = new RelayCommand(OpenVenmoWeb);
+            CopyBeneficiaryCommand = new RelayCommand(() => CopyText("JITPOMI LLC"));
+            CopyAccountCommand = new RelayCommand(() => CopyText("202617088912"));
+            CopyRoutingCommand = new RelayCommand(() => CopyText("091311229"));
+            CopySwiftCommand = new RelayCommand(() => CopyText("CHFGUS44021"));
+            CopyIbanCommand = new RelayCommand(() => CopyText("202617088912"));
+            CopyMemoCommand = new RelayCommand(() => CopyText("/FFC/202617088912/JITPOMI LLC/Tacoma, USA"));
+
+            _ = InitializeVenmoQrAsync();
         }
 
 
@@ -478,6 +501,52 @@ namespace Seyfr
             package.SetText(Ticket);
             Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(package);
             Status = "Ticket shared to clipboard";
+        }
+
+        private void CopyText(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return;
+            var package = new Windows.ApplicationModel.DataTransfer.DataPackage();
+            package.SetText(text);
+            Windows.ApplicationModel.DataTransfer.Clipboard.SetContent(package);
+            Status = $"Copied: {text}";
+        }
+
+        private async void OpenVenmoWeb()
+        {
+            try
+            {
+                await Windows.System.Launcher.LaunchUriAsync(new Uri("https://venmo.com/u/jitpomi"));
+            }
+            catch (Exception ex)
+            {
+                Status = $"Could not open link: {ex.Message}";
+            }
+        }
+
+        private async Task InitializeVenmoQrAsync()
+        {
+            try
+            {
+                var bytes = await Task.Run(() => QrCodeHelper.GeneratePngBytes("https://venmo.com/u/jitpomi"));
+                var bitmap = new BitmapImage();
+                var ms = new InMemoryRandomAccessStream();
+                using (var writer = new DataWriter(ms.GetOutputStreamAt(0)))
+                {
+                    writer.WriteBytes(bytes);
+                    await writer.StoreAsync();
+                    await writer.FlushAsync();
+                }
+                ms.Seek(0);
+                await bitmap.SetSourceAsync(ms);
+                _venmoQrImage = bitmap;
+                OnPropertyChanged(nameof(VenmoQrImage));
+            }
+            catch (Exception ex)
+            {
+                IsError = true;
+                Status = $"Venmo QR Error: {ex.Message}";
+            }
         }
 
         private void OnPropertyChanged(string propertyName)

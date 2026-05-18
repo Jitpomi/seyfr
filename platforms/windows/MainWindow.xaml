@@ -185,6 +185,39 @@
                             Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Receive}" />
                     </StackPanel>
                 </local:HandCursorButton>
+
+                <!-- Support Button -->
+                <local:HandCursorButton x:Name="SupportNavButton"
+                     HorizontalAlignment="Stretch"
+                     HorizontalContentAlignment="Left"
+                     Padding="12,8"
+                     CornerRadius="8"
+                     BorderThickness="0"
+                     Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Support, Mode=OneWay}"
+                     Style="{StaticResource NavButtonStyle}">
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+
+                        <Border Width="28"
+                                Height="28"
+                                CornerRadius="14"
+                                Background="{Binding SelectedTab, Converter={StaticResource IconBubbleBackgroundConverter}, ConverterParameter=Support}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                            <FontIcon Glyph="&#xE00B;"
+                                      FontSize="12"
+                                      Foreground="White"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" />
+                        </Border>
+
+                        <TextBlock Text="Support"
+                            FontSize="14"
+                            FontWeight="{Binding SelectedTab, Converter={StaticResource TabFontWeightConverter}, ConverterParameter=Support}"
+                            VerticalAlignment="Center"
+                            Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Support}" />
+                    </StackPanel>
+                </local:HandCursorButton>
             </StackPanel>
 
             <!-- Status -->
@@ -737,6 +770,351 @@
                HorizontalAlignment="Center"
                TextAlignment="Center"
                TextWrapping="Wrap" />
+                </StackPanel>
+
+                <!-- Support View -->
+                <StackPanel Grid.Row="1"
+            Spacing="24"
+            HorizontalAlignment="Stretch"
+            MaxWidth="720"
+            Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Support, Mode=OneWay}">
+
+                    <Pivot>
+                        <Pivot.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontSize="15" FontWeight="SemiBold" Margin="0,0,0,4" />
+                            </DataTemplate>
+                        </Pivot.HeaderTemplate>
+
+                        <!-- Venmo Tab -->
+                        <PivotItem Header="Venmo QR">
+                            <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="18"
+                                    Padding="24"
+                                    Margin="0,16,0,0">
+                                <StackPanel Spacing="20">
+                                    <TextBlock Text="Scan to Support via Venmo"
+                                               FontSize="15"
+                                               FontWeight="SemiBold"
+                                               HorizontalAlignment="Center" />
+
+                                    <!-- QR Code -->
+                                    <Border Width="220"
+                                            Height="220"
+                                            Padding="16"
+                                            HorizontalAlignment="Center"
+                                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="16"
+                                            Background="White">
+                                        <Image Source="{Binding VenmoQrImage, Mode=OneWay}"
+                                               Stretch="Uniform"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <!-- Handle box with Copy button -->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="8">
+                                        <TextBlock Text="@jitpomi"
+                                                   FontSize="20"
+                                                   FontWeight="Bold"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   VerticalAlignment="Center" />
+                                        <local:HandCursorButton Padding="8"
+                                                                CornerRadius="8"
+                                                                Background="Transparent"
+                                                                BorderThickness="0"
+                                                                Command="{Binding CopyVenmoHandleCommand, Mode=OneWay}">
+                                            <FontIcon Glyph="&#xE8C8;" FontSize="14" />
+                                        </local:HandCursorButton>
+                                    </StackPanel>
+
+                                    <!-- Open Web Button -->
+                                    <local:HandCursorButton HorizontalAlignment="Stretch"
+                                                            Padding="0,12"
+                                                            CornerRadius="12"
+                                                            Command="{Binding OpenVenmoWebCommand, Mode=OneWay}"
+                                                            BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
+                                                            BorderThickness="1"
+                                                            Background="Transparent">
+                                        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                                            <FontIcon Glyph="&#xE8A7;" FontSize="18" />
+                                            <TextBlock Text="Open Venmo Web" FontSize="15" FontWeight="SemiBold" />
+                                        </StackPanel>
+                                    </local:HandCursorButton>
+                                </StackPanel>
+                            </Border>
+                        </PivotItem>
+
+                        <!-- Bank Transfer Tab -->
+                        <PivotItem Header="Bank Transfer">
+                            <StackPanel Spacing="16" Margin="0,16,0,0">
+                                <Pivot>
+                                    <Pivot.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}" FontSize="13" FontWeight="Medium" />
+                                        </DataTemplate>
+                                    </Pivot.HeaderTemplate>
+
+                                    <!-- Domestic -->
+                                    <PivotItem Header="Domestic (USD)">
+                                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="18"
+                                                Padding="20"
+                                                Margin="0,10,0,0">
+                                            <StackPanel Spacing="12">
+                                                <!-- Row Beneficiary -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Beneficiary Name" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="JITPOMI LLC" FontSize="14" FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyBeneficiaryCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Account -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Account Number" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="202617088912" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyAccountCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Routing -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Routing Number (ABA / ACH)" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="091311229" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyRoutingCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Bank Name -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Bank Name" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="Choice Financial Group (Mercury Partner)" FontSize="14" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Bank Address -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Bank Address" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="4501 23rd Avenue S, Fargo, ND 58104 US" FontSize="13" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Beneficiary Address -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Beneficiary Address" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="5003 59th Avenue Court West, Tacoma, WA 98467 US" FontSize="13" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </PivotItem>
+
+                                    <!-- Intl USD -->
+                                    <PivotItem Header="Intl (USD)">
+                                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="18"
+                                                Padding="20"
+                                                Margin="0,10,0,0">
+                                            <StackPanel Spacing="12">
+                                                <!-- Row SWIFT -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="SWIFT / BIC Code" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="CHFGUS44021" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopySwiftCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row ABA Routing -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="ABA Routing Number" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="091311229" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyRoutingCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row IBAN -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="IBAN / Account Number" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="202617088912" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyIbanCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Beneficiary -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Beneficiary Name" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="JITPOMI LLC" FontSize="14" FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyBeneficiaryCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Bank Name -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Bank Name" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="Choice Financial Group" FontSize="14" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Bank Address -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Bank &amp; Beneficiary Address" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="Tacoma, WA / Fargo, ND USA" FontSize="13" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </PivotItem>
+
+                                    <!-- Intl FX -->
+                                    <PivotItem Header="Intl (FX)">
+                                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                                BorderThickness="1"
+                                                CornerRadius="18"
+                                                Padding="20"
+                                                Margin="0,10,0,0">
+                                            <StackPanel Spacing="12">
+                                                <!-- Row SWIFT -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="SWIFT / BIC Code" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="CHFGUS44021" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopySwiftCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row IBAN -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="IBAN / Account Number" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="202617088912" FontSize="14" FontFamily="Consolas" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyIbanCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Beneficiary -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Beneficiary Name" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="JITPOMI LLC" FontSize="14" FontWeight="SemiBold" />
+                                                    </StackPanel>
+                                                    <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyBeneficiaryCommand, Mode=OneWay}">
+                                                        <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                                    </local:HandCursorButton>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Bank Name -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Bank Name" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="Choice Financial Group" FontSize="14" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <MenuFlyoutSeparator />
+
+                                                <!-- Row Bank Address -->
+                                                <Grid>
+                                                    <StackPanel Spacing="2">
+                                                        <TextBlock Text="Bank &amp; Beneficiary Address" FontSize="11" Opacity="0.6" FontWeight="SemiBold" />
+                                                        <TextBlock Text="Tacoma, WA / Fargo, ND USA" FontSize="13" />
+                                                    </StackPanel>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </PivotItem>
+                                </Pivot>
+
+                                <!-- Memo Card -->
+                                <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        CornerRadius="18"
+                                        Padding="20">
+                                    <StackPanel Spacing="8">
+                                        <StackPanel Orientation="Horizontal" Spacing="8">
+                                            <FontIcon Glyph="&#xE946;" FontSize="16" Foreground="{ThemeResource SystemAccentColor}" />
+                                            <TextBlock Text="Required Reference / Memo:" FontSize="13" FontWeight="Bold" Foreground="{ThemeResource SystemAccentColor}" />
+                                        </StackPanel>
+
+                                        <Grid Margin="0,4,0,0">
+                                            <TextBlock Text="/FFC/202617088912/JITPOMI LLC/Tacoma, USA" FontSize="14" FontFamily="Consolas" FontWeight="SemiBold" VerticalAlignment="Center" IsTextSelectionEnabled="True" />
+                                            <local:HandCursorButton HorizontalAlignment="Right" VerticalAlignment="Center" Background="Transparent" BorderThickness="0" Command="{Binding CopyMemoCommand, Mode=OneWay}">
+                                                <FontIcon Glyph="&#xE8C8;" FontSize="13" />
+                                            </local:HandCursorButton>
+                                        </Grid>
+
+                                        <TextBlock Text="You must include this exact string in the wire Memo / Reference field." FontSize="11" Opacity="0.6" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </PivotItem>
+                    </Pivot>
+
+                    <!-- Status Pill -->
+                    <Border Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Padding="16,10"
+                            HorizontalAlignment="Stretch">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{Binding Status, Mode=OneWay}"
+                                       FontSize="13"
+                                       FontWeight="Medium"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

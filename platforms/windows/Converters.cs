@@ -109,9 +109,13 @@ namespace Seyfr
         {
             if (value is TransferTab tab)
             {
-                return tab == TransferTab.Send
-                    ? "Send"
-                    : "Receive";
+                return tab switch
+                {
+                    TransferTab.Send => "Send",
+                    TransferTab.Receive => "Receive",
+                    TransferTab.Support => "Support",
+                    _ => ""
+                };
             }
 
             return "";
@@ -127,9 +131,13 @@ namespace Seyfr
         {
             if (value is TransferTab tab)
             {
-                return tab == TransferTab.Send
-                    ? "Send your files to any device"
-                    : "Receive files from any device";
+                return tab switch
+                {
+                    TransferTab.Send => "Send your files to any device",
+                    TransferTab.Receive => "Receive files from any device",
+                    TransferTab.Support => "Seyfr is created by JITPOMI LLC. Your support helps keep Seyfr AD-free, fast, and secure.",
+                    _ => ""
+                };
             }
 
             return "";
@@ -247,9 +255,13 @@ namespace Seyfr
         {
             if (value is TransferTab tab)
             {
-                return tab == TransferTab.Send
-                    ? "Ready to send files"
-                    : "Ready to receive files";
+                return tab switch
+                {
+                    TransferTab.Send => "Ready to send files",
+                    TransferTab.Receive => "Ready to receive files",
+                    TransferTab.Support => "Support JITPOMI LLC",
+                    _ => "Ready to send files"
+                };
             }
             return "Ready to send files";
         }
