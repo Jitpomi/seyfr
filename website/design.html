@@ -408,6 +408,12 @@
       font-weight: 500;
     }
 
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
     .visual-panel svg, .card-visual-header svg {
       max-width: 100%;
       height: auto;
@@ -458,6 +464,19 @@
       .blueprint-card {
         padding: 24px;
         border-radius: 24px;
+      }
+      footer {
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        text-align: center;
+      }
+      .footer-links {
+        flex-direction: column;
+        gap: 14px;
+        align-items: center;
+        text-align: center;
+        width: 100%;
       }
     }
   </style>
@@ -706,7 +725,7 @@
       <div>
         Built by JITPOMI
       </div>
-      <div style="display: flex; gap: 24px; align-items: center;">
+      <div class="footer-links">
         <a href="index.html">Main Website</a>
         <a href="/privacy">Privacy Policy</a>
         <a href="https://jitpomi.com">jitpomi.com</a>

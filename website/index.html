@@ -309,6 +309,12 @@
       font-size: 14px;
     }
 
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
     @media (max-width: 920px) {
       .hero {
         grid-template-columns: 1fr;
@@ -374,8 +380,18 @@
       }
 
       footer {
-        display: block;
-        line-height: 1.9;
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+        text-align: center;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 14px;
+        align-items: center;
+        text-align: center;
+        width: 100%;
       }
     }
 
@@ -859,7 +875,7 @@
         Built by JITPOMI
       </div>
 
-      <div style="display: flex; gap: 24px; align-items: center;">
+      <div class="footer-links">
         <button id="footer-support-btn" class="footer-share">Support SEYFR</button>
         <button id="footer-share-btn" class="footer-share">Share Website</button>
         <a href="design.html" style="color: #1d1d1f; font-weight: 500;">Architecture</a>
