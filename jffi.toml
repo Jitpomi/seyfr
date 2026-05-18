@@ -36,7 +36,7 @@ name = "Seyfr"
 identifier = "com.jitpomi.seyfr"
 version = "1.0"
 display_version = "1.0"
-build_number = 1
+build_number = 2
 
 [bundle.android]
 formats = ["aab", "apk"]
