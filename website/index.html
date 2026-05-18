@@ -336,6 +336,352 @@
         line-height: 1.9;
       }
     }
+
+    /* Premium Share Button & Toast */
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(29, 29, 31, 0.06);
+      color: #1d1d1f;
+      border: 1px solid rgba(29, 29, 31, 0.1);
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      height: 34px;
+    }
+    .share-btn:hover {
+      background: #1d1d1f;
+      color: white;
+      border-color: #1d1d1f;
+    }
+    .share-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+    .footer-share {
+      background: none;
+      border: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+    .footer-share:hover {
+      color: #1d1d1f;
+    }
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1d1d1f;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.24);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Premium Share Dropdown Menu */
+    .share-menu {
+      position: absolute;
+      width: 220px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.16);
+      padding: 8px;
+      z-index: 1000;
+      opacity: 0;
+      transform: scale(0.95) translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: top right;
+    }
+    .share-menu.show {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+      pointer-events: auto;
+    }
+    .share-menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      background: none;
+      border: none;
+      color: #1d1d1f;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .share-menu-item:hover {
+      background: #1d1d1f;
+      color: white;
+    }
+    .share-menu-item svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+    .share-menu-divider {
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      margin: 6px 0;
+    }
+
+    /* Premium High-End Support Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.35); /* Elegant, highly refined dark mask */
+      backdrop-filter: blur(4px); /* Soft, professional glass effect (no muddy smudging) */
+      -webkit-backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .modal-card {
+      width: 90%;
+      max-width: 520px;
+      background: #ffffff; /* Solid premium white card for flawless readability and sharp contrast */
+      border: 1px solid rgba(0, 0, 0, 0.08); /* Clean, high-end border style */
+      border-radius: 24px;
+      box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.05),
+        0 4px 6px -1px rgba(0, 0, 0, 0.05),
+        0 24px 48px -12px rgba(0, 0, 0, 0.12); /* Balanced, sophisticated shadow layers */
+      padding: 32px;
+      transform: scale(0.96) translateY(8px); /* Tactile entry transition */
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); /* Custom springy scale for a premium, snappy native feel */
+      display: flex;
+      flex-direction: column;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-overlay.show .modal-card {
+      transform: scale(1) translateY(0);
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .modal-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0;
+    }
+    .modal-close {
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      color: #1d1d1f;
+      font-size: 20px;
+      font-weight: 400;
+      transition: background 0.2s ease;
+      padding: 0;
+    }
+    .modal-close:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Segmented Control / Tabs */
+    .tab-bar {
+      display: flex;
+      background: rgba(0, 0, 0, 0.05);
+      padding: 4px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .tab-btn {
+      flex: 1;
+      border: none;
+      background: none;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      color: #6e6e73;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: white;
+      color: #1d1d1f;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    /* Sub Tabs (for Bank categories) */
+    .sub-tab-bar {
+      display: flex;
+      background: rgba(0, 0, 0, 0.03);
+      padding: 3px;
+      border-radius: 10px;
+      margin-bottom: 18px;
+    }
+    .sub-tab-btn {
+      flex: 1;
+      border: none;
+      background: none;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #86868b;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .sub-tab-btn.active {
+      background: white;
+      color: #1d1d1f;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .sub-tab-pane {
+      display: none;
+    }
+
+    /* Bank Detail Row */
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      text-align: left;
+    }
+    .detail-label {
+      font-size: 11px;
+      color: #86868b;
+      font-weight: 500;
+    }
+    .detail-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1d1d1f;
+    }
+    .detail-value code {
+      font-family: Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .copy-icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #0066cc;
+      padding: 6px;
+      border-radius: 6px;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .copy-icon-btn:hover {
+      background: rgba(0, 102, 204, 0.08);
+    }
+    .copy-icon-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* Info Alert Box */
+    .alert-box {
+      background: rgba(0, 102, 204, 0.06);
+      border: 1px solid rgba(0, 102, 204, 0.15);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+    .alert-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #0066cc;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .alert-value {
+      font-family: Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: #1d1d1f;
+      background: rgba(0, 0, 0, 0.04);
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .alert-text {
+      font-size: 11px;
+      color: #86868b;
+      line-height: 1.4;
+    }
   </style>
 </head>
 
@@ -351,8 +697,12 @@
         SEYFR
       </a>
 
-      <div style="display: flex; align-items: center; gap: 24px;">
-        <a id="nav-support-btn" class="button" href="https://github.com/sponsors/Jitpomi?o=sd&sc=t" target="_blank" style="height: 34px; padding: 0 16px; font-size: 13px; background: #e8e8ed; color: #1d1d1f;">Support SEYFR</a>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button id="nav-support-btn" class="button" style="height: 34px; padding: 0 16px; font-size: 13px; background: #e8e8ed; color: #1d1d1f; border: none; cursor: pointer; font-weight: 600; border-radius: 999px;">Support SEYFR</button>
+        <button id="nav-share-btn" class="share-btn" aria-label="Share website">
+          <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92z"/></svg>
+          <span>Share</span>
+        </button>
       </div>
     </nav>
 
@@ -458,7 +808,9 @@
         Built by JITPOMI
       </div>
 
-      <div style="display: flex; gap: 24px;">
+      <div style="display: flex; gap: 24px; align-items: center;">
+        <button id="footer-support-btn" class="footer-share">Support SEYFR</button>
+        <button id="footer-share-btn" class="footer-share">Share Website</button>
         <a href="/privacy" style="color: #1d1d1f; font-weight: 500;">Privacy Policy</a>
         <a href="https://jitpomi.com">
           jitpomi.com
@@ -469,8 +821,276 @@
 
   </div>
 
+  <!-- Share Toast -->
+  <div id="share-toast" class="toast">Link copied to clipboard!</div>
+
+  <!-- Share Menu Overlay -->
+  <div id="share-menu" class="share-menu" role="menu" aria-hidden="true">
+    <button class="share-menu-item" data-share="x" role="menuitem">
+      <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      Share on X
+    </button>
+    <button class="share-menu-item" data-share="linkedin" role="menuitem">
+      <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.34 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+      Share on LinkedIn
+    </button>
+    <button class="share-menu-item" data-share="facebook" role="menuitem">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Share on Facebook
+    </button>
+    <div class="share-menu-divider"></div>
+    <button class="share-menu-item" data-share="copy" role="menuitem">
+      <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+      Copy Link
+    </button>
+  </div>
+
+  <!-- Support Modal Overlay -->
+  <div id="support-modal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Support JITPOMI</h3>
+        <button id="modal-close-btn" class="modal-close" aria-label="Close modal">&times;</button>
+      </div>
+      
+      <p style="font-size: 14px; color: #5e5e63; line-height: 1.5; margin: 0 0 20px;">
+        Seyfr is created by JITPOMI LLC. Your support helps keep Seyfr AD-free, fast, and secure.
+      </p>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" data-tab="venmo-pane">Venmo QR</button>
+        <button class="tab-btn" data-tab="bank-pane">Bank Transfer</button>
+      </div>
+
+      <!-- Venmo Tab Pane -->
+      <div id="venmo-pane" class="tab-pane active" style="text-align: center;">
+        <p style="font-size: 15px; font-weight: 600; margin: 0 0 16px;">Scan to Support via Venmo</p>
+        
+        <div style="background: white; padding: 16px; border-radius: 20px; display: inline-block; box-shadow: 0 8px 24px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.05); margin-bottom: 16px;">
+          <img src="assets/venmo_qr.png" alt="Venmo QR Code @jitpomi" style="width: 220px; height: 220px; display: block;" />
+        </div>
+        
+        <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 24px;">
+          <span style="font-size: 22px; font-weight: 700; color: #0066cc;">@jitpomi</span>
+          <button class="copy-icon-btn" onclick="copySupportText('@jitpomi', 'Venmo handle')" title="Copy Venmo Handle">
+            <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          </button>
+        </div>
+
+        <a class="button" href="https://venmo.com/u/jitpomi" target="_blank" style="width: 100%; border-radius: 99px; height: 48px; font-size: 15px;">
+          Open Venmo Website
+        </a>
+      </div>
+
+      <!-- Bank Transfer Tab Pane -->
+      <div id="bank-pane" class="tab-pane">
+        <div class="sub-tab-bar">
+          <button class="sub-tab-btn active" data-subtab="domestic-bank">Domestic (USD)</button>
+          <button class="sub-tab-btn" data-subtab="intl-usd-bank">Intl (USD)</button>
+          <button class="sub-tab-btn" data-subtab="intl-fx-bank">Intl (Non-USD / FX)</button>
+        </div>
+
+        <!-- 1. Domestic -->
+        <div id="domestic-bank" class="sub-tab-pane" style="display: block;">
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Beneficiary Name</span>
+              <span class="detail-value">JITPOMI LLC</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('JITPOMI LLC', 'Beneficiary Name')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Account Number</span>
+              <span class="detail-value"><code>202617088912</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('202617088912', 'Account Number')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Routing Number (ABA / ACH)</span>
+              <span class="detail-value"><code>091311229</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('091311229', 'Routing Number')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Bank Name</span>
+              <span class="detail-value">Choice Financial Group (Mercury Partner)</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('Choice Financial Group (Mercury Partner)', 'Bank Name')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Bank Address</span>
+              <span class="detail-value" style="font-size: 13px;">4501 23rd Avenue S, Fargo, ND 58104 US</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('4501 23rd Avenue S, Fargo, ND 58104 US', 'Bank Address')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Beneficiary Address</span>
+              <span class="detail-value" style="font-size: 13px;">5003 59th Avenue Court West, Tacoma, WA 98467 US</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('5003 59th Avenue Court West, Tacoma, WA 98467 US', 'Beneficiary Address')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Intl USD -->
+        <div id="intl-usd-bank" class="sub-tab-pane" style="display: none;">
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">SWIFT / BIC Code</span>
+              <span class="detail-value"><code>CHFGUS44021</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('CHFGUS44021', 'SWIFT Code')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">ABA Routing Number</span>
+              <span class="detail-value"><code>091311229</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('091311229', 'Routing Number')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">IBAN / Account Number</span>
+              <span class="detail-value"><code>202617088912</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('202617088912', 'Account Number')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Beneficiary Name</span>
+              <span class="detail-value">JITPOMI LLC</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('JITPOMI LLC', 'Beneficiary Name')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Bank Name</span>
+              <span class="detail-value">Choice Financial Group</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('Choice Financial Group', 'Bank Name')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Bank & Beneficiary Address</span>
+              <span class="detail-value" style="font-size: 13px;">Tacoma, WA / Fargo, ND USA</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('Tacoma, WA / Fargo, ND USA', 'Address')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Intl FX -->
+        <div id="intl-fx-bank" class="sub-tab-pane" style="display: none;">
+          <div class="alert-box">
+            <div class="alert-header">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+              <span>Required Payment Reference / Memo:</span>
+            </div>
+            <div class="alert-value">
+              <span>/FFC/202617088912/JITPOMI LLC/Tacoma, USA</span>
+              <button class="copy-icon-btn" onclick="copySupportText('/FFC/202617088912/JITPOMI LLC/Tacoma, USA', 'Reference Memo')" style="color: #0066cc; padding: 2px;">
+                <svg viewBox="0 0 24 24" width="14" height="14"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+              </button>
+            </div>
+            <span class="alert-text">You must include this exact string in the wire Memo / Reference field.</span>
+          </div>
+
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Intermediary SWIFT / BIC Code</span>
+              <span class="detail-value"><code>CHASUS33XXX</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('CHASUS33XXX', 'Intermediary SWIFT')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Intermediary ABA Routing</span>
+              <span class="detail-value"><code>021000021</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('021000021', 'Intermediary Routing')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Intermediary Bank Name</span>
+              <span class="detail-value">JP Morgan Chase Bank, N.A. – New York</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('JP Morgan Chase Bank, N.A. – New York', 'Bank Name')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">IBAN / Account Number</span>
+              <span class="detail-value"><code>707567692</code></span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('707567692', 'Account Number')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+          <div class="detail-row">
+            <div class="detail-info">
+              <span class="detail-label">Beneficiary Name</span>
+              <span class="detail-value">Choice Financial Group</span>
+            </div>
+            <button class="copy-icon-btn" onclick="copySupportText('Choice Financial Group', 'Beneficiary Name')">
+              <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Copy Support Text function (globally accessible)
+    let toastTimer;
+    function copySupportText(text, label) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('share-toast');
+        toast.textContent = `${label} copied to clipboard!`;
+        if (toastTimer) clearTimeout(toastTimer);
+        toast.classList.add('show');
+        toastTimer = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2500);
+      }).catch(() => {
+        alert('Copied: ' + text);
+      });
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      // Platform detection logic
       const btn = document.getElementById('primary-download-btn');
       const ua = navigator.userAgent.toLowerCase();
       const platform = navigator.platform.toLowerCase();
@@ -482,23 +1102,165 @@
       const isLinux = (ua.includes('linux') || platform.includes('linux')) && !isAndroid;
       
       if (isWin) {
-        btn.textContent = 'Download for Windows';
-        btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x64.exe';
+        if (btn) {
+          btn.textContent = 'Download for Windows';
+          btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x64.exe';
+        }
       } else if (isMac) {
-        btn.textContent = 'Download for macOS';
-        btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_aarch64.dmg';
+        if (btn) {
+          btn.textContent = 'Download for macOS';
+          btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_aarch64.dmg';
+        }
       } else if (isLinux) {
-        btn.textContent = 'Download for Linux';
-        btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_amd64.AppImage';
+        if (btn) {
+          btn.textContent = 'Download for Linux';
+          btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_amd64.AppImage';
+        }
       } else if (isAndroid) {
-        btn.textContent = 'Download for Android';
-        btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/app-release.apk';
+        if (btn) {
+          btn.textContent = 'Download for Android';
+          btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/latest/download/app-release.apk';
+        }
       } else if (isIos) {
-        btn.textContent = 'Coming Soon to iOS';
-        btn.href = '#';
-        btn.style.opacity = '0.5';
-        btn.style.cursor = 'not-allowed';
+        if (btn) {
+          btn.textContent = 'Coming Soon to iOS';
+          btn.href = '#';
+          btn.style.opacity = '0.5';
+          btn.style.cursor = 'not-allowed';
+        }
       }
+
+      // --- Share Dropdown Logic ---
+      const navShareBtn = document.getElementById('nav-share-btn');
+      const footerShareBtn = document.getElementById('footer-share-btn');
+      const shareMenu = document.getElementById('share-menu');
+
+      const toggleShareMenu = (event) => {
+        event.stopPropagation();
+        const trigger = event.currentTarget;
+        const rect = trigger.getBoundingClientRect();
+
+        if (shareMenu.classList.contains('show')) {
+          closeShareMenu();
+        } else {
+          shareMenu.style.top = `${window.scrollY + rect.bottom + 8}px`;
+          shareMenu.style.left = `${rect.right - 220}px`;
+          shareMenu.classList.add('show');
+          shareMenu.setAttribute('aria-hidden', 'false');
+        }
+      };
+
+      const closeShareMenu = () => {
+        shareMenu.classList.remove('show');
+        shareMenu.setAttribute('aria-hidden', 'true');
+      };
+
+      document.addEventListener('click', (event) => {
+        if (!shareMenu.contains(event.target)) {
+          closeShareMenu();
+        }
+      });
+
+      shareMenu.addEventListener('click', (event) => {
+        const item = event.target.closest('.share-menu-item');
+        if (!item) return;
+
+        const action = item.dataset.share;
+        const base = window.location.origin + window.location.pathname;
+        const title = encodeURIComponent(document.title);
+
+        if (action === 'x') {
+          const xUrl = encodeURIComponent(base + '?v=1');
+          window.open(`https://x.com/intent/tweet?url=${xUrl}&text=${title}`, '_blank', 'width=550,height=450');
+        } else if (action === 'linkedin') {
+          const lnUrl = encodeURIComponent(window.location.href);
+          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${lnUrl}`, '_blank', 'width=550,height=550');
+        } else if (action === 'facebook') {
+          const fbUrl = encodeURIComponent(window.location.href);
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${fbUrl}`, '_blank', 'width=550,height=650');
+        } else if (action === 'copy') {
+          navigator.clipboard.writeText(window.location.href).then(() => {
+            const toast = document.getElementById('share-toast');
+            toast.textContent = 'Link copied to clipboard!';
+            if (toastTimer) clearTimeout(toastTimer);
+            toast.classList.add('show');
+            toastTimer = setTimeout(() => {
+              toast.classList.remove('show');
+            }, 2500);
+          }).catch(() => {
+            alert('Link: ' + window.location.href);
+          });
+        }
+        closeShareMenu();
+      });
+
+      if (navShareBtn) navShareBtn.addEventListener('click', toggleShareMenu);
+      if (footerShareBtn) footerShareBtn.addEventListener('click', toggleShareMenu);
+
+      // --- Support Modal Logic ---
+      const navSupportBtn = document.getElementById('nav-support-btn');
+      const footerSupportBtn = document.getElementById('footer-support-btn');
+      const supportModal = document.getElementById('support-modal');
+      const modalCloseBtn = document.getElementById('modal-close-btn');
+
+      const openSupportModal = (event) => {
+        if (event) event.preventDefault();
+        supportModal.classList.add('show');
+        supportModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden'; // prevent background scrolling
+      };
+
+      const closeSupportModal = () => {
+        supportModal.classList.remove('show');
+        supportModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      if (navSupportBtn) navSupportBtn.addEventListener('click', openSupportModal);
+      if (footerSupportBtn) footerSupportBtn.addEventListener('click', openSupportModal);
+      if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeSupportModal);
+
+      supportModal.addEventListener('click', (event) => {
+        if (event.target === supportModal) {
+          closeSupportModal();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && supportModal.classList.contains('show')) {
+          closeSupportModal();
+        }
+      });
+
+      // Tab bar navigation (Venmo vs Bank Transfer)
+      const tabButtons = supportModal.querySelectorAll('.tab-btn');
+      const tabPanes = supportModal.querySelectorAll('.tab-pane');
+
+      tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          tabButtons.forEach(b => b.classList.remove('active'));
+          tabPanes.forEach(p => p.classList.remove('active'));
+
+          btn.classList.add('active');
+          const targetPane = document.getElementById(btn.dataset.tab);
+          if (targetPane) targetPane.classList.add('active');
+        });
+      });
+
+      // Bank Transfer sub-tab navigation (Domestic / USD / FX)
+      const subTabButtons = supportModal.querySelectorAll('.sub-tab-btn');
+      const subTabPanes = supportModal.querySelectorAll('.sub-tab-pane');
+
+      subTabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          subTabButtons.forEach(b => b.classList.remove('active'));
+          subTabPanes.forEach(p => p.style.display = 'none');
+
+          btn.classList.add('active');
+          const targetSubPane = document.getElementById(btn.dataset.subtab);
+          if (targetSubPane) targetSubPane.style.display = 'block';
+        });
+      });
     });
   </script>
 </body>
