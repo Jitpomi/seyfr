@@ -107,12 +107,12 @@ if [ "$OS_TYPE" == "Linux" ]; then
     echo "📦 Packaging AppImage using appimagetool..."
     if [ ! -f "${BUILD_DIR}/appimagetool" ]; then
         echo "   Downloading appimagetool..."
-        wget -q -O "${BUILD_DIR}/appimagetool" "https://github.com/AppImage/AppImageKit/releases/download/13/appimagetool-x86_64.AppImage"
+        wget -q -O "${BUILD_DIR}/appimagetool" "https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage"
         chmod +x "${BUILD_DIR}/appimagetool"
     fi
     
-    # Run appimagetool
-    ARCH=x86_64 "${BUILD_DIR}/appimagetool" "${APPDIR}" "${BUILD_DIR}/Seyfr_amd64.AppImage"
+    # Run appimagetool (use --appimage-extract-and-run to run cleanly in FUSE-less CI runners)
+    ARCH=x86_64 "${BUILD_DIR}/appimagetool" --appimage-extract-and-run "${APPDIR}" "${BUILD_DIR}/Seyfr_amd64.AppImage"
     
     # 7. Crytographic GPG Signing
     if gpg --list-secret-keys "ssali@jitpomi.com" &>/dev/null; then
