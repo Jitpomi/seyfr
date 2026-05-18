@@ -2,6 +2,7 @@ import gi
 import os
 import threading
 import qrcode
+import webbrowser
 from io import BytesIO
 from PIL import Image
 
@@ -99,9 +100,11 @@ class SeyfrWindow(Adw.ApplicationWindow):
 
         self.send_row = self.create_nav_row("Send", "mail-send-symbolic")
         self.receive_row = self.create_nav_row("Receive", "mail-receive-symbolic")
+        self.support_row = self.create_nav_row("Support", "emblem-favorite-symbolic")
         
         self.nav_list.append(self.send_row)
         self.nav_list.append(self.receive_row)
+        self.nav_list.append(self.support_row)
         content_box.append(self.nav_list)
         
         self.sidebar_box.append(content_box)
@@ -150,6 +153,10 @@ class SeyfrWindow(Adw.ApplicationWindow):
         # Receive Page
         self.receive_page = self.create_receive_page()
         self.content_stack.add_named(self.receive_page, "receive")
+        
+        # Support Page
+        self.support_page = self.create_support_page()
+        self.content_stack.add_named(self.support_page, "support")
 
     def create_send_page(self):
         page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
@@ -467,8 +474,10 @@ class SeyfrWindow(Adw.ApplicationWindow):
         # Sync navigation selection
         if self.selected_tab == "send":
             self.nav_list.select_row(self.send_row)
-        else:
+        elif self.selected_tab == "receive":
             self.nav_list.select_row(self.receive_row)
+        else:
+            self.nav_list.select_row(self.support_row)
 
     def on_select_file_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
@@ -640,3 +649,232 @@ class SeyfrWindow(Adw.ApplicationWindow):
             print("Switching to Folder mode")
         else:
             print("Switching to File mode")
+
+    def copy_text(self, text):
+        clipboard = self.get_display().get_clipboard()
+        clipboard.set_content(Gdk.ContentProvider.new_for_value(text))
+        print(f"Copied: {text}")
+
+    def open_browser_url(self, url):
+        webbrowser.open(url)
+
+    def create_support_page(self):
+        page = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        
+        header = Gtk.HeaderBar()
+        header.add_css_class("flat")
+        page.append(header)
+        
+        scrolled = Gtk.ScrolledWindow()
+        scrolled.set_vexpand(True)
+        
+        container = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=32)
+        container.set_margin_start(40)
+        container.set_margin_end(40)
+        container.set_margin_top(40)
+        container.set_margin_bottom(40)
+        container.set_halign(Gtk.Align.CENTER)
+        container.set_size_request(600, -1)
+        
+        title_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        title = Gtk.Label(label="Support")
+        title.add_css_class("page-title")
+        title_box.append(title)
+        
+        subtitle = Gtk.Label(label="Seyfr is created by JITPOMI LLC. Your support helps keep Seyfr AD-free, fast, and secure.")
+        subtitle.add_css_class("dim-label")
+        subtitle.set_wrap(True)
+        title_box.append(subtitle)
+        container.append(title_box)
+        
+        # Sub-tabs switcher (Venmo vs Bank Transfer)
+        main_stack = Gtk.Stack()
+        main_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        
+        main_switcher = Gtk.StackSwitcher()
+        main_switcher.set_stack(main_stack)
+        main_switcher.set_halign(Gtk.Align.CENTER)
+        container.append(main_switcher)
+        container.append(main_stack)
+        
+        # --- VENMO CARD ---
+        venmo_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=24)
+        venmo_card.add_css_class("section-card")
+        
+        venmo_title = Gtk.Label(label="Scan to Support via Venmo")
+        venmo_title.add_css_class("status-label")
+        venmo_card.append(venmo_title)
+        
+        # QR Code Display
+        qr_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        qr_box.set_halign(Gtk.Align.CENTER)
+        venmo_qr_image = Gtk.Image()
+        
+        # Generate Venmo QR code using our bundled qrcode module!
+        qr = qrcode.QRCode(version=1, box_size=15, border=4)
+        qr.add_data("https://venmo.com/u/jitpomi")
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buf = BytesIO()
+        img.save(buf, kind="PNG")
+        image_data = buf.getvalue()
+        
+        loader = GdkPixbuf.PixbufLoader.new_with_type("png")
+        loader.write(image_data)
+        loader.close()
+        pixbuf = loader.get_pixbuf()
+        venmo_qr_image.set_from_pixbuf(pixbuf)
+        venmo_qr_image.set_pixel_size(240)
+        venmo_qr_image.set_size_request(240, 240)
+        qr_box.append(venmo_qr_image)
+        venmo_card.append(qr_box)
+        
+        # Handle Box
+        handle_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        handle_box.set_halign(Gtk.Align.CENTER)
+        handle_lbl = Gtk.Label(label="@jitpomi")
+        handle_lbl.add_css_class("page-title")
+        handle_lbl.set_margin_bottom(0) # reset
+        # make it smaller than the huge page title
+        handle_lbl.set_markup("<span size='x-large' weight='bold' color='#3584e4'>@jitpomi</span>")
+        handle_box.append(handle_lbl)
+        
+        copy_handle_btn = Gtk.Button()
+        copy_handle_btn.set_icon_name("edit-copy-symbolic")
+        copy_handle_btn.add_css_class("flat")
+        copy_handle_btn.connect("clicked", lambda btn: self.copy_text("@jitpomi"))
+        handle_box.append(copy_handle_btn)
+        venmo_card.append(handle_box)
+        
+        # Open Venmo App Button
+        open_venmo_btn = Gtk.Button(label="Open Venmo Web")
+        open_venmo_btn.set_icon_name("web-browser-symbolic")
+        open_venmo_btn.add_css_class("pill")
+        open_venmo_btn.add_css_class("suggested-action")
+        open_venmo_btn.connect("clicked", lambda btn: self.open_browser_url("https://venmo.com/u/jitpomi"))
+        venmo_card.append(open_venmo_btn)
+        
+        main_stack.add_titled(venmo_card, "venmo", "Venmo QR")
+        
+        # --- BANK TRANSFER CARD ---
+        bank_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=20)
+        bank_card.add_css_class("section-card")
+        
+        bank_stack = Gtk.Stack()
+        bank_stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        
+        bank_switcher = Gtk.StackSwitcher()
+        bank_switcher.set_stack(bank_stack)
+        bank_switcher.set_halign(Gtk.Align.CENTER)
+        bank_card.append(bank_switcher)
+        bank_card.append(bank_stack)
+        
+        # Helper to construct rows
+        def add_bank_row(container, label, val):
+            container.append(create_bank_row(label, val))
+            
+        def create_bank_row(label_text, value_text):
+            row_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+            row_box.set_margin_top(6)
+            row_box.set_margin_bottom(6)
+            
+            text_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=2)
+            text_box.set_hexpand(True)
+            
+            lbl = Gtk.Label(label=label_text)
+            lbl.set_halign(Gtk.Align.START)
+            lbl.add_css_class("dim-label")
+            lbl.set_markup(f"<span size='small' weight='bold'>{label_text}</span>")
+            
+            val = Gtk.Label(label=value_text)
+            val.set_halign(Gtk.Align.START)
+            val.add_css_class("status-label")
+            if any(c.isdigit() for c in value_text):
+                val.set_markup(f"<tt>{value_text}</tt>")
+            else:
+                val.set_markup(f"<span>{value_text}</span>")
+            
+            text_box.append(lbl)
+            text_box.append(val)
+            row_box.append(text_box)
+            
+            copy_btn = Gtk.Button()
+            copy_btn.set_icon_name("edit-copy-symbolic")
+            copy_btn.add_css_class("flat")
+            copy_btn.connect("clicked", lambda btn: self.copy_text(value_text))
+            row_box.append(copy_btn)
+            
+            return row_box
+            
+        # 1. Domestic ACH/Wire
+        domestic_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        add_bank_row(domestic_box, "Beneficiary Name", "JITPOMI LLC")
+        add_bank_row(domestic_box, "Account Number", "202617088912")
+        add_bank_row(domestic_box, "Routing Number (ABA / ACH)", "091311229")
+        add_bank_row(domestic_box, "Bank Name", "Choice Financial Group (Mercury Partner)")
+        add_bank_row(domestic_box, "Bank Address", "4501 23rd Avenue S, Fargo, ND 58104 US")
+        add_bank_row(domestic_box, "Beneficiary Address", "5003 59th Avenue Court West, Tacoma, WA 98467 US")
+        bank_stack.add_titled(domestic_box, "domestic", "Domestic (USD)")
+        
+        # 2. International Wire (USD)
+        intl_usd_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        add_bank_row(intl_usd_box, "SWIFT / BIC Code", "CHFGUS44021")
+        add_bank_row(intl_usd_box, "ABA Routing Number", "091311229")
+        add_bank_row(intl_usd_box, "IBAN / Account Number", "202617088912")
+        add_bank_row(intl_usd_box, "Beneficiary Name", "JITPOMI LLC")
+        add_bank_row(intl_usd_box, "Bank Name", "Choice Financial Group")
+        add_bank_row(intl_usd_box, "Bank & Beneficiary Address", "Tacoma, WA / Fargo, ND USA")
+        bank_stack.add_titled(intl_usd_box, "intl_usd", "Intl (USD)")
+        
+        # 3. International Wire (FX / Foreign Currency)
+        intl_fx_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=12)
+        
+        # Required Payment Reference Memo
+        memo_card = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        memo_card.add_css_class("section-card")
+        memo_card.set_margin_bottom(12)
+        
+        memo_header = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=8)
+        memo_icon = Gtk.Image.new_from_icon_name("dialog-information-symbolic")
+        memo_header.append(memo_icon)
+        
+        memo_title = Gtk.Label(label="Required Reference / Memo:")
+        memo_title.add_css_class("status-label")
+        memo_title.set_markup("<span weight='bold' color='#3584e4'>Required Reference / Memo:</span>")
+        memo_header.append(memo_title)
+        memo_card.append(memo_header)
+        
+        memo_val_box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=12)
+        memo_val = Gtk.Label(label="/FFC/202617088912/JITPOMI LLC/Tacoma, USA")
+        memo_val.set_hexpand(True)
+        memo_val.set_halign(Gtk.Align.START)
+        memo_val.set_markup("<tt size='large'>/FFC/202617088912/JITPOMI LLC/Tacoma, USA</tt>")
+        memo_val_box.append(memo_val)
+        
+        memo_copy_btn = Gtk.Button()
+        memo_copy_btn.set_icon_name("edit-copy-symbolic")
+        memo_copy_btn.add_css_class("flat")
+        memo_copy_btn.connect("clicked", lambda btn: self.copy_text("/FFC/202617088912/JITPOMI LLC/Tacoma, USA"))
+        memo_val_box.append(memo_copy_btn)
+        memo_card.append(memo_val_box)
+        
+        memo_desc = Gtk.Label(label="You must include this exact string in the wire Memo / Reference field.")
+        memo_desc.add_css_class("dim-label")
+        memo_desc.set_markup("<span size='small'>You must include this exact string in the wire Memo / Reference field.</span>")
+        memo_desc.set_halign(Gtk.Align.START)
+        memo_card.append(memo_desc)
+        
+        intl_fx_box.append(memo_card)
+        
+        add_bank_row(intl_fx_box, "Intermediary SWIFT / BIC Code", "CHASUS33XXX")
+        add_bank_row(intl_fx_box, "Intermediary ABA Routing", "021000021")
+        add_bank_row(intl_fx_box, "Intermediary Bank Name", "JP Morgan Chase Bank, N.A. – New York")
+        add_bank_row(intl_fx_box, "IBAN / Account Number", "707567692")
+        add_bank_row(intl_fx_box, "Beneficiary Name", "Choice Financial Group")
+        bank_stack.add_titled(intl_fx_box, "intl_fx", "Intl (Non-USD / FX)")
+        
+        main_stack.add_titled(bank_card, "bank", "Bank Transfer")
+        
+        scrolled.set_child(container)
+        page.append(scrolled)
+        return page
