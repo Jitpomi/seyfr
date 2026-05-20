@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Seyfr — Send Your Files Right</title>
+  <title>Seyfr — Send Your Files Right | Secure Peer-to-Peer File Transfer</title>
 
-  <meta name="description" content="Seyfr helps you move files between devices simply. Built by JITPOMI." />
+  <meta name="description" content="Seyfr helps you transfer files between devices simply. Strictly peer-to-peer (P2P), fully encrypted, ad-free, and sandboxed with no cloud servers." />
   <link rel="canonical" href="https://seyfr.jitpomi.com/" />
   
   <!-- Preload Critical Images -->
@@ -15,15 +15,15 @@
   
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Seyfr — Send Your Files Right" />
-  <meta property="og:description" content="Move files between devices without extra friction." />
+  <meta property="og:title" content="Seyfr — Send Your Files Right | Secure P2P File Transfer" />
+  <meta property="og:description" content="Seyfr helps you transfer files between devices simply. Strictly peer-to-peer (P2P), fully encrypted, ad-free, and sandboxed with no cloud servers." />
   <meta property="og:image" content="https://seyfr.jitpomi.com/assets/seyfr-ogs/og-image.webp" />
   <meta property="og:url" content="https://seyfr.jitpomi.com/" />
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Seyfr — Send Your Files Right" />
-  <meta name="twitter:description" content="Move files between devices without extra friction." />
+  <meta name="twitter:title" content="Seyfr — Send Your Files Right | Secure P2P File Transfer" />
+  <meta name="twitter:description" content="Seyfr helps you transfer files between devices simply. Strictly peer-to-peer (P2P), fully encrypted, ad-free, and sandboxed with no cloud servers." />
   <meta name="twitter:image" content="https://seyfr.jitpomi.com/assets/seyfr-ogs/twitter-image.webp" />
 
   <!-- Schema Markup -->
@@ -46,6 +46,87 @@
       "name": "JITPOMI",
       "url": "https://jitpomi.com"
     }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Do my files pass through or get saved on a cloud server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SEYFR is strictly peer-to-peer (P2P). Your files travel directly from one device's storage to the other. There is no cloud server or intermediary database where your files can be leaked, scanned, or intercepted."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do my devices need to be on the same Wi-Fi network?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SEYFR uses secure UDP hole-punching technology. This enables direct, encrypted P2P connections even across different networks (e.g., your home PC to a friend's phone on cellular data in another city), without requiring same-network connectivity or manual setup."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the transfer encrypted and secure?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Absolutely. SEYFR establishes a secure, end-to-end encrypted connection between the two devices using standard cryptographic protocols. Nobody in the middle (not even your internet service provider or network admin) can read, modify, or intercept your files."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can SEYFR access other folders or files on my computer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SEYFR features a strict, mathematically locked Folder Sandbox (\"Jail\"). The application is physically walled inside its own designated directory and is technically incapable of scanning, reading, or modifying any other files or folders on your machine."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to create an account or sign up?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. SEYFR is built on privacy-first principles. There are no account creations, no email signups, and no passwords to remember. Simply open SEYFR and start sharing files instantly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there any file size or transfer speed limits?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "None at all. Since SEYFR is a direct P2P streaming protocol, there are no artificial file size caps (you can send a 100MB PDF or a 100GB video archive). The transfer speed is only limited by your own network bandwidth and hardware capabilities."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does SEYFR compress my photos or videos?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Never. SEYFR sends all files and folders bit-for-bit in their original, uncompressed, high-fidelity state. Your photos, videos, and archives arrive exactly as they left, with zero quality degradation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is SEYFR ad-free, and what is its business model?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SEYFR is ad-free freeware. There are no premium speed limits, no paywalls, and no annoying popups. We plan to keep the core file sharing utility completely free forever, while introducing advanced optional enterprise features down the road."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why shouldn't I just send files to myself on Messenger or WhatsApp?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Messaging apps route all your files through their central servers. Not only does this heavily compress media and impose strict file size limits, but it also leaves copies of your sensitive data (IDs, passwords, private photos) vulnerable to account hacks, data breaches, and corporate metadata scanning. SEYFR keeps your files strictly between your own devices."
+        }
+      }
+    ]
   }
   </script>
 
@@ -872,6 +953,13 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
     }
+    .faq-question {
+      margin: 0;
+      padding: 0;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+    }
     .faq-question-btn {
       width: 100%;
       background: none;
@@ -1082,10 +1170,12 @@
         <div class="faq-container">
           <!-- Accordion Item 1 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-1" id="faq-btn-1">
-              <span>Do my files pass through or get saved on a cloud server?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-1" id="faq-btn-1">
+                <span>Do my files pass through or get saved on a cloud server?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-1" role="region" aria-labelledby="faq-btn-1">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1103,10 +1193,12 @@
           
           <!-- Accordion Item 2 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-2" id="faq-btn-2">
-              <span>Do my devices need to be on the same Wi-Fi network?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-2" id="faq-btn-2">
+                <span>Do my devices need to be on the same Wi-Fi network?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-2" role="region" aria-labelledby="faq-btn-2">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1121,13 +1213,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 3 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-3" id="faq-btn-3">
-              <span>Is the transfer encrypted and secure?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-3" id="faq-btn-3">
+                <span>Is the transfer encrypted and secure?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-3" role="region" aria-labelledby="faq-btn-3">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1142,13 +1236,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 4 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-4" id="faq-btn-4">
-              <span>Can SEYFR access other folders or files on my computer?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-4" id="faq-btn-4">
+                <span>Can SEYFR access other folders or files on my computer?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-4" role="region" aria-labelledby="faq-btn-4">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1163,13 +1259,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 5 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-5" id="faq-btn-5">
-              <span>Do I need to create an account or sign up?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-5" id="faq-btn-5">
+                <span>Do I need to create an account or sign up?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-5" role="region" aria-labelledby="faq-btn-5">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1184,13 +1282,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 6 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-6" id="faq-btn-6">
-              <span>Are there any file size or transfer speed limits?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-6" id="faq-btn-6">
+                <span>Are there any file size or transfer speed limits?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-6" role="region" aria-labelledby="faq-btn-6">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1205,13 +1305,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 7 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-7" id="faq-btn-7">
-              <span>Does SEYFR compress my photos or videos?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-7" id="faq-btn-7">
+                <span>Does SEYFR compress my photos or videos?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-7" role="region" aria-labelledby="faq-btn-7">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1226,13 +1328,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 8 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-8" id="faq-btn-8">
-              <span>Is SEYFR ad-free, and what is its business model?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-8" id="faq-btn-8">
+                <span>Is SEYFR ad-free, and what is its business model?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-8" role="region" aria-labelledby="faq-btn-8">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1247,13 +1351,15 @@
               </div>
             </div>
           </div>
-
+ 
           <!-- Accordion Item 9 -->
           <div class="faq-item">
-            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-9" id="faq-btn-9">
-              <span>Why shouldn't I just send files to myself on Messenger or WhatsApp?</span>
-              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
+            <h3 class="faq-question">
+              <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-9" id="faq-btn-9">
+                <span>Why shouldn't I just send files to myself on Messenger or WhatsApp?</span>
+                <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </button>
+            </h3>
             <div class="faq-answer-wrapper" id="faq-answer-9" role="region" aria-labelledby="faq-btn-9">
               <div class="faq-answer">
                 <div class="faq-concern">
@@ -1268,7 +1374,7 @@
               </div>
             </div>
           </div>
-
+ 
         </div>
       </section>
 
