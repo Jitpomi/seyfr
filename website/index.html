@@ -840,6 +840,150 @@
       color: #86868b;
       line-height: 1.4;
     }
+
+    /* FAQ Section Accordion styling */
+    .faq-section {
+      padding: 80px 28px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-title {
+      text-align: center;
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 48px;
+      color: #1d1d1f;
+    }
+    .faq-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .faq-item {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .faq-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+    }
+    .faq-question-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 24px 28px;
+      text-align: left;
+      font-size: 18px;
+      font-weight: 600;
+      color: #1d1d1f;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      transition: background-color 0.2s ease;
+    }
+    .faq-question-btn:focus-visible {
+      outline: 2px solid #0066cc;
+      outline-offset: -2px;
+    }
+    .faq-question-btn .chevron {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: #86868b;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-item.active .faq-question-btn {
+      background-color: #fafafc;
+    }
+    .faq-item.active .chevron {
+      transform: rotate(180deg);
+      stroke: #0066cc;
+    }
+    .faq-answer-wrapper {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .faq-answer {
+      padding: 0 28px 24px 28px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #515154;
+      border-top: 1px solid rgba(0, 0, 0, 0.02);
+    }
+    .faq-concern {
+      margin-bottom: 16px;
+      padding: 14px 18px;
+      background: #f5f5f7;
+      border-left: 4px solid #0066cc;
+      border-radius: 4px 8px 8px 4px;
+      font-size: 14px;
+      color: #1d1d1f;
+      line-height: 1.5;
+    }
+    .faq-concern strong {
+      display: block;
+      margin-bottom: 6px;
+      color: #0066cc;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 700;
+    }
+    .faq-concern .faq-forum-link {
+      margin-top: 8px;
+    }
+    .faq-forum-link {
+      color: #0066cc;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      transition: color 0.15s ease;
+    }
+    .faq-forum-link:hover {
+      text-decoration: underline;
+      color: #004499;
+    }
+    .faq-forum-link svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    @media (max-width: 768px) {
+      .faq-section {
+        padding: 48px 16px;
+      }
+      .faq-title {
+        font-size: 28px;
+        margin-bottom: 32px;
+      }
+      .faq-question-btn {
+        padding: 18px 20px;
+        font-size: 16px;
+      }
+      .faq-answer {
+        padding: 0 20px 20px 20px;
+        font-size: 14px;
+      }
+      .faq-concern {
+        padding: 12px 14px;
+        font-size: 13px;
+      }
+    }
   </style>
 </head>
 
@@ -930,6 +1074,180 @@
         <div class="feature-card">
           <h2>Built-In Folder Jail</h2>
           <p>Your files are fully encrypted and sent directly. SEYFR uses a strict mathematical "folder jail" (sandbox lock) that physically walls the app inside its own single directory—making it mathematically impossible for any hack to touch or spy on your other folders.</p>
+        </div>
+      </section>
+
+      <section class="faq-section" id="faq" aria-labelledby="faq-title">
+        <h2 id="faq-title" class="faq-title">Frequently Asked Questions</h2>
+        <div class="faq-container">
+          <!-- Accordion Item 1 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-1" id="faq-btn-1">
+              <span>Do my files pass through or get saved on a cloud server?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-1" role="region" aria-labelledby="faq-btn-1">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "How do I know a file transfer app isn't storing or scanning my files in transit? Even services claiming zero-knowledge often hold the encryption keys or track user metadata."
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/xndj67/how_private_is_google_drive/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                SEYFR is strictly peer-to-peer (P2P). Your files travel directly from one device's storage to the other. There is no cloud server or intermediary database where your files can be leaked, scanned, or intercepted.
+              </div>
+            </div>
+          </div>
+          
+          <!-- Accordion Item 2 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-2" id="faq-btn-2">
+              <span>Do my devices need to be on the same Wi-Fi network?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-2" role="region" aria-labelledby="faq-btn-2">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "Local sharing tools like LocalSend or Snapdrop are great, but strictly limit sharing to devices on the same router. It's frustrating if I need to share a file across the city."
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/selfhosted/comments/1d917j8/the_most_under_rated_project_localsend/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/selfhosted
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                No. SEYFR uses secure **UDP hole-punching** technology. This enables direct, encrypted P2P connections **even across different networks** (e.g., your home PC to a friend's phone on cellular data in another city), without requiring same-network connectivity or manual setup.
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 3 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-3" id="faq-btn-3">
+              <span>Is the transfer encrypted and secure?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-3" role="region" aria-labelledby="faq-btn-3">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "How secure is direct P2P data transmission? Can my ISP, network administrators, or attackers sniffing public Wi-Fi intercept the file contents?"
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/11ykrsc/is_localsend_secure_and_safe_to_use/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                Absolutely. SEYFR establishes a secure, end-to-end encrypted connection between the two devices using standard cryptographic protocols. Nobody in the middle (not even your internet service provider or network admin) can read, modify, or intercept your files.
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 4 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-4" id="faq-btn-4">
+              <span>Can SEYFR access other folders or files on my computer?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-4" role="region" aria-labelledby="faq-btn-4">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "How can I trust an installed native utility not to act as spyware? I don't want a file-sharing app scanning my entire drive or accessing personal folders in the background."
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/10c2yq2/recommended_open_source_file_transfer_tools/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                No. SEYFR features a strict, mathematically locked **Folder Sandbox ("Jail")**. The application is physically walled inside its own designated directory and is technically incapable of scanning, reading, or modifying any other files or folders on your machine.
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 5 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-5" id="faq-btn-5">
+              <span>Do I need to create an account or sign up?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-5" role="region" aria-labelledby="faq-btn-5">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "I hate having to create accounts and hand over my email address or phone number just to share a simple file. It inevitably leads to marketing profiles and spam."
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/1g1vicd/finding_some_end_to_end_file_sharing_service/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                No. SEYFR is built on privacy-first principles. There are no account creations, no email signups, and no passwords to remember. Simply open SEYFR and start sharing files instantly.
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 6 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-6" id="faq-btn-6">
+              <span>Are there any file size or transfer speed limits?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-6" role="region" aria-labelledby="faq-btn-6">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "Why do free file transfer services enforce tight constraints like a 2GB cap and throttle speeds to force users into buying expensive premium plans?"
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/165h42m/is_wetransfer_safe/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                None at all. Since SEYFR is a direct P2P streaming protocol, there are no artificial file size caps (you can send a 100MB PDF or a 100GB video archive). The transfer speed is only limited by your own network bandwidth and hardware capabilities.
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 7 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-7" id="faq-btn-7">
+              <span>Does SEYFR compress my photos or videos?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-7" role="region" aria-labelledby="faq-btn-7">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "When sharing photos/videos via communication apps, they always compress the files heavily, destroying the raw quality. How can I transfer high-res assets in native state?"
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/12tc88c/how_do_i_share_1_picture_of_1_carob_in_its/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                Never. SEYFR sends all files and folders bit-for-bit in their original, uncompressed, high-fidelity state. Your photos, videos, and archives arrive exactly as they left, with zero quality degradation.
+              </div>
+            </div>
+          </div>
+
+          <!-- Accordion Item 8 -->
+          <div class="faq-item">
+            <button class="faq-question-btn" aria-expanded="false" aria-controls="faq-answer-8" id="faq-btn-8">
+              <span>Is SEYFR ad-free, and what is its business model?</span>
+              <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer-wrapper" id="faq-answer-8" role="region" aria-labelledby="faq-btn-8">
+              <div class="faq-answer">
+                <div class="faq-concern">
+                  <strong>The Concern on Forums:</strong>
+                  "Many free tools either spam you with intrusive ads, harvest and sell user telemetry, or get bought by large corporate entities that compromise the privacy features."
+                  <a class="faq-forum-link" href="https://www.reddit.com/r/privacy/comments/181h74v/snapdrop_net_acquired_by_limewire_is_it_still_safe/" target="_blank" rel="noopener noreferrer">
+                    See discussions on r/privacy
+                    <svg viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41 9.83-9.83V9h2V3h-6z"/></svg>
+                  </a>
+                </div>
+                SEYFR is **ad-free freeware**. There are no premium speed limits, no paywalls, and no annoying popups. We plan to keep the core file sharing utility completely free forever, while introducing advanced optional enterprise features down the road.
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
@@ -1424,6 +1742,36 @@
           btn.classList.add('active');
           const targetSubPane = document.getElementById(btn.dataset.subtab);
           if (targetSubPane) targetSubPane.style.display = 'block';
+        });
+      });
+
+      // FAQ Accordion Toggle Logic
+      const faqItems = document.querySelectorAll('.faq-item');
+      faqItems.forEach(item => {
+        const button = item.querySelector('.faq-question-btn');
+        const wrapper = item.querySelector('.faq-answer-wrapper');
+        
+        button.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+          
+          // Collapse all other active items for clean single-accordion behavior
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item && otherItem.classList.contains('active')) {
+              otherItem.classList.remove('active');
+              otherItem.querySelector('.faq-question-btn').setAttribute('aria-expanded', 'false');
+              otherItem.querySelector('.faq-answer-wrapper').style.maxHeight = '0';
+            }
+          });
+          
+          if (isActive) {
+            item.classList.remove('active');
+            button.setAttribute('aria-expanded', 'false');
+            wrapper.style.maxHeight = '0';
+          } else {
+            item.classList.add('active');
+            button.setAttribute('aria-expanded', 'true');
+            wrapper.style.maxHeight = wrapper.scrollHeight + 'px';
+          }
         });
       });
     });
