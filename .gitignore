@@ -293,3 +293,6 @@ perf.data.old
 # Package manager locks (keep Cargo.lock for libraries)
 # Uncomment if this is an application:
 # Cargo.lock
+
+# Local scratch directory
+/scratch/
