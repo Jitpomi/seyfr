@@ -351,8 +351,16 @@
     }
 
     .download-option.disabled {
-      color: #76767b;
+      color: #5e5e63; /* Increased contrast from #76767b to pass WCAG AA (>= 4.5:1) */
       cursor: not-allowed;
+    }
+
+    .button.disabled {
+      background: #e8e8ed;
+      color: #5e5e63; /* WCAG AA compliant contrast ratio (> 5:1) on light background */
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 1 !important;
     }
 
     .download-group {
@@ -1265,8 +1273,8 @@
         if (btn) {
           btn.textContent = 'Coming Soon to macOS';
           btn.href = '#';
-          btn.style.opacity = '0.5';
-          btn.style.cursor = 'not-allowed';
+          btn.classList.add('disabled');
+          btn.setAttribute('aria-disabled', 'true');
         }
       } else if (isLinux) {
         if (btn) {
@@ -1282,8 +1290,8 @@
         if (btn) {
           btn.textContent = 'Coming Soon to iOS';
           btn.href = '#';
-          btn.style.opacity = '0.5';
-          btn.style.cursor = 'not-allowed';
+          btn.classList.add('disabled');
+          btn.setAttribute('aria-disabled', 'true');
         }
       }
 
