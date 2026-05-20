@@ -123,7 +123,7 @@ jffi add web
 
 ## 📄 License
 
-Seyfr is free software. The application binaries are freely available for download and use, but the source code is not publicly available. See the [LICENSE](./LICENSE) file for details.
+Seyfr is proprietary freeware. The application binaries are freely available for download and use, but the source code is proprietary and not publicly available. See the [LICENSE](./LICENSE) file for details.
 
 ## 🤝 Contributing
 
