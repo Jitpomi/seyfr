@@ -31,9 +31,9 @@ android {
     signingConfigs {
         create("release") {
             storeFile = file("release.keystore")
-            storePassword = "jitpomiseyfr"
+            storePassword = System.getenv("JFFI_ANDROID_STORE_PASSWORD") ?: "jitpomiseyfr"
             keyAlias = "release"
-            keyPassword = "jitpomiseyfr"
+            keyPassword = System.getenv("JFFI_ANDROID_KEY_PASSWORD") ?: "jitpomiseyfr"
         }
     }
 
