@@ -55,6 +55,28 @@
   </script>
 
   <!-- Styling -->
+
+  <!-- Google tag (gtag.js) - Deferred for performance -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    function loadAnalytics() {
+      var script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-874MPRDW7D';
+      document.head.appendChild(script);
+      gtag('config', 'G-874MPRDW7D');
+    }
+
+    if (window.requestIdleCallback) {
+      requestIdleCallback(loadAnalytics);
+    } else {
+      setTimeout(loadAnalytics, 1000);
+    }
+  </script>
+
   <style>
     * {
       box-sizing: border-box;
