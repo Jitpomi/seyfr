@@ -47,8 +47,8 @@ jobs:
       - name: Install jffi
         run: cargo install jffi --git https://github.com/Jitpomi/jffi
 
-      - name: Install uniffi-bindgen
-        run: cargo install uniffi-bindgen --version 0.31.1
+      - name: Install uniffi_bindgen
+        run: cargo install uniffi_bindgen --version 0.31.1
 
       - name: Decode Keystore
         env:
