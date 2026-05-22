@@ -44,8 +44,8 @@ jobs:
       - name: Install cargo-ndk
         run: cargo install cargo-ndk
 
-      - name: Install jffi CLI
-        run: cargo install jffi-cli
+      - name: Install jffi
+        run: cargo install jffi --git https://github.com/Jitpomi/jffi
 
       - name: Build Android bundle (APK + AAB)
         env:

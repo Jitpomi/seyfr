@@ -23,7 +23,26 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
+      - name: Set up Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
 
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            core -> target
+
+      - name: Install jffi
+        shell: pwsh
+        run: |
+          cargo install jffi --git https://github.com/Jitpomi/jffi
+
+      - name: Build Rust Core and Bindings
+        shell: pwsh
+        run: |
+          jffi build --platform windows
       - name: Build Standalone Unpackaged EXE
         shell: pwsh
         run: |
