@@ -23,36 +23,6 @@ jobs:
       - name: Set up MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Set up Rust Toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: x86_64-pc-windows-msvc
-
-      - name: Rust Cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: |
-            core -> target
-
-      - name: Install uniffi-bindgen-cs
-        shell: pwsh
-        run: |
-          cargo install uniffi-bindgen-cs --git https://github.com/jmbryan4/uniffi-bindgen-cs --branch upgrade/uniffi-rs-0.31.0-clean --locked
-
-      - name: Build Rust Core DLL
-        shell: pwsh
-        run: |
-          cargo build --release --target x86_64-pc-windows-msvc --manifest-path core/Cargo.toml
-
-      - name: Generate C# UniFFI Bindings
-        shell: pwsh
-        run: |
-          uniffi-bindgen-cs --library target/x86_64-pc-windows-msvc/release/seyfr_core.dll --config core/uniffi.toml --out-dir platforms/windows/Generated
-
-      - name: Copy Rust DLL to Windows project
-        shell: pwsh
-        run: |
-          Copy-Item -Path target/x86_64-pc-windows-msvc/release/seyfr_core.dll -Destination platforms/windows/seyfr_core.dll -Force
 
       - name: Build Standalone Unpackaged EXE
         shell: pwsh
