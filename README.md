@@ -87,6 +87,35 @@ jffi run --platform ios
 jffi dev --platform ios
 ```
 
+### Android
+
+```bash
+# Build the project for development
+jffi build --platform android
+
+# Run on emulator (auto-starts)
+jffi run --platform android
+
+# Development mode with watch rebuilds
+jffi dev --platform android
+```
+
+#### Production Bundling & Signing
+To package a store-ready signed Android App Bundle (AAB) or APK, simply run:
+```bash
+jffi bundle --platform android
+```
+> [!NOTE]
+> **Secure Interactive Prompts** *(recommended)*: If `JFFI_ANDROID_STORE_PASSWORD` and `JFFI_ANDROID_KEY_PASSWORD` are not set in your environment, `jffi bundle` will securely prompt you for the keystore and key passwords with masked input — so passwords are never exposed in your shell history.
+>
+> **CI/CD pipelines**: Export the variables before running to use non-interactive mode:
+> ```bash
+> export JFFI_ANDROID_STORE_PASSWORD=your_keystore_password
+> export JFFI_ANDROID_KEY_PASSWORD=your_key_password
+> jffi bundle --platform android
+> ```
+> ⚠️ Never hard-code passwords in scripts or commit them to version control. Use your CI platform's secret management instead.
+
 ### For Rust Developers
 
 See [`core/README.md`](./core/README.md) for detailed API documentation, testing instructions, and development guidelines.

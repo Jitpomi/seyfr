@@ -10,14 +10,14 @@
   <Identity
     Name="JITPOMILLC.SEYFR"
     Publisher="CN=82FF2416-2009-4D00-A3ED-37C7375333F7"
-    Version="0.1.27.0" />
+    Version="1.5.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="f1774106-e971-8415-bf64-7689a199d7ff" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>SEYFR</DisplayName>
     <PublisherDisplayName>JITPOMI LLC</PublisherDisplayName>
-    <Logo>Assets\StoreLogo.png</Logo>
+    <Logo>Assets\SeyfrStoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
@@ -37,10 +37,10 @@
         DisplayName="SEYFR"
         Description="Send and receive files securely, peer-to-peer, with no cloud middleman."
         BackgroundColor="transparent"
-        Square150x150Logo="Assets\Square150x150Logo.png"
-        Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        Square150x150Logo="Assets\SeyfrSquare150.png"
+        Square44x44Logo="Assets\SeyfrSquare44.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\SeyfrWide310.png" />
+        <uap:SplashScreen Image="Assets\SeyfrSplash.png" />
       </uap:VisualElements>
     </Application>
   </Applications>

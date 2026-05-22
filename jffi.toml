@@ -34,9 +34,9 @@ target = "es2020"
 [bundle]
 name = "Seyfr"
 identifier = "com.jitpomi.seyfr"
-version = "1.1"
-display_version = "1.1"
-build_number = 3
+version = "1.5"
+display_version = "1.5"
+build_number = 5
 
 [bundle.android]
 formats = ["aab", "apk"]

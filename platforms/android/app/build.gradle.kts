@@ -16,8 +16,8 @@ android {
         applicationId = "com.jitpomi.seyfr"
         minSdk = 26
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 5
+        versionName = "1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -91,7 +91,7 @@ dependencies {
     implementation("com.google.zxing:core:3.5.3")
 
     // CameraX for QR scanning
-    val cameraxVersion = "1.3.4"
+    val cameraxVersion = "1.4.0"
     implementation("androidx.camera:camera-core:$cameraxVersion")
     implementation("androidx.camera:camera-camera2:$cameraxVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
