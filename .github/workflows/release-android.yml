@@ -55,7 +55,8 @@ jobs:
             echo "$KEYSTORE_BASE64" | base64 --decode > platforms/android/app/release.keystore
             echo "Keystore decoded successfully."
           else
-            echo "Error: JFFI_ANDROID_KEYSTORE_BASE64 secret is not set! The build will fail."
+            echo "Error: JFFI_ANDROID_KEYSTORE_BASE64 secret is not set in GitHub Settings > Secrets!"
+            exit 1
           fi
 
       - name: Build Android bundle (APK + AAB)
