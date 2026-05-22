@@ -39,6 +39,11 @@ jobs:
         run: |
           cargo install jffi --git https://github.com/Jitpomi/jffi
 
+      - name: Install uniffi-bindgen-cs
+        shell: pwsh
+        run: |
+          cargo install uniffi-bindgen-cs --git https://github.com/jmbryan4/uniffi-bindgen-cs --branch upgrade/uniffi-rs-0.31.0-clean --locked
+
       - name: Build Rust Core and Bindings
         shell: pwsh
         run: |

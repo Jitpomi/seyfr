@@ -47,6 +47,9 @@ jobs:
       - name: Install jffi
         run: cargo install jffi --git https://github.com/Jitpomi/jffi
 
+      - name: Install uniffi-bindgen
+        run: cargo install uniffi-bindgen --version 0.31.1
+
       - name: Decode Keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.JFFI_ANDROID_KEYSTORE_BASE64 }}
