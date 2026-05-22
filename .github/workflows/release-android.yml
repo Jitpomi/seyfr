@@ -47,6 +47,17 @@ jobs:
       - name: Install jffi
         run: cargo install jffi --git https://github.com/Jitpomi/jffi
 
+      - name: Decode Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.JFFI_ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 --decode > platforms/android/app/release.keystore
+            echo "Keystore decoded successfully."
+          else
+            echo "Error: JFFI_ANDROID_KEYSTORE_BASE64 secret is not set! The build will fail."
+          fi
+
       - name: Build Android bundle (APK + AAB)
         env:
           JFFI_ANDROID_STORE_PASSWORD: ${{ secrets.JFFI_ANDROID_STORE_PASSWORD }}
