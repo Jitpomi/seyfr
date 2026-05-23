@@ -13,10 +13,10 @@ use seyfr_core::Core;
 let core = Core::new("/path/to/data".to_string())?;
 
 // Send a file or folder (auto-detects)
-let ticket = core.send("/path/to/file.txt".to_string(), None)?;
+let ticket = core.send("/path/to/file.txt".to_string())?;
 
 // Receive using the ticket
-core.receive(ticket, "/path/to/destination".to_string(), None)?;
+core.receive(ticket, "/path/to/destination".to_string())?;
 
 // Get node ID for debugging
 let node_id = core.node_id();

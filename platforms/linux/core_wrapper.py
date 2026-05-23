@@ -1,5 +1,5 @@
 import os
-from seyfr_core import Core, SeyfrError, ProgressSink
+from seyfr_core import Core, SeyfrError
 
 class CoreWrapper:
     """Wrapper for Rust Core bindings with proper API mapping"""
