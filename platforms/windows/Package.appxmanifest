@@ -10,7 +10,7 @@
   <Identity
     Name="JITPOMILLC.SEYFR"
     Publisher="CN=82FF2416-2009-4D00-A3ED-37C7375333F7"
-    Version="1.5.6.0" />
+    Version="1.5.7.0" />
 
   <mp:PhoneIdentity PhoneProductId="f1774106-e971-8415-bf64-7689a199d7ff" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 

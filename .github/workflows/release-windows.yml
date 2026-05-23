@@ -66,8 +66,8 @@ jobs:
       - name: Locate and Rename MSIX package for release
         shell: pwsh
         run: |
-          # Find the generated MSIX package in the AppPackages directory
-          $msixFile = Get-ChildItem -Path platforms/windows/AppPackages -Filter *.msix -Recurse -File | Select-Object -First 1
+          # Find the generated MSIX package in platforms/windows recursively
+          $msixFile = Get-ChildItem -Path platforms/windows -Filter *.msix -Recurse -File | Select-Object -First 1
           if ($msixFile) {
               Write-Host "Found MSIX package at: $($msixFile.FullName)"
               Copy-Item -Path $msixFile.FullName -Destination target/publish/seyfr-x64.msix -Force
