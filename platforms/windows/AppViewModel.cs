@@ -355,7 +355,7 @@ namespace Seyfr
             {
                 var result = await Task.Run(() =>
                 {
-                    return _core.Send(_selectedFilePath!, null);
+                    return _core.Send(_selectedFilePath!);
                 });
                 Ticket = result;
                 if (!IsError)
@@ -450,7 +450,7 @@ namespace Seyfr
                 var ticket = TicketInput?.Trim() ?? "";
                 await Task.Run(() =>
                 {
-                    _core.Receive(ticket, DestinationPath, null);
+                    _core.Receive(ticket, DestinationPath);
                 });
                 Status = "Received successfully";
             }
