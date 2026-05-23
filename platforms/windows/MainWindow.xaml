@@ -84,19 +84,10 @@
             Spacing="12"
             HorizontalAlignment="Left">
 
-                <Border Width="44"
-            Height="44"
-            CornerRadius="22"
-            BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
-            BorderThickness="1.2"
-            HorizontalAlignment="Left">
-
-                    <TextBlock Text="S"
-                   FontSize="20"
-                   FontWeight="Medium"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
-                </Border>
+                <Image Width="44"
+                       Height="44"
+                       Source="ms-appx:///Assets/Square44x44Logo.png"
+                       HorizontalAlignment="Left" />
 
                 <StackPanel Spacing="4"
                 HorizontalAlignment="Left">

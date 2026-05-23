@@ -38,6 +38,10 @@ version = "1.5"
 display_version = "1.5"
 build_number = 5
 
+[bundle.icons]
+source = "playstore-assets/app_icon.png"
+generate = true
+
 [bundle.android]
 formats = ["aab", "apk"]
 abis = ["arm64-v8a", "armeabi-v7a", "x86_64"]

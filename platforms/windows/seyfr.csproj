@@ -15,16 +15,21 @@
     <Version>1.5.0</Version>
     <AssemblyVersion>1.5.0.0</AssemblyVersion>
     <FileVersion>1.5.0.0</FileVersion>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Assets\SeyfrSplash.png" />
-    <Content Include="Assets\SeyfrLockScreen.png" />
-    <Content Include="Assets\SeyfrSquare150.png" />
-    <Content Include="Assets\SeyfrSquare44.png" />
-    <Content Include="Assets\SeyfrSquare44Unplated.png" />
-    <Content Include="Assets\SeyfrStoreLogo.png" />
-    <Content Include="Assets\SeyfrWide310.png" />
+    <Content Include="Assets\app.ico" />
+    <Content Include="Assets\Square44x44Logo.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\StoreLogo.scale-200.png" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
