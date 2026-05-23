@@ -63,3 +63,4 @@ keystore_path = "platforms/android/app/release.keystore"
 key_alias = "release"
 store_password_env = "JFFI_ANDROID_STORE_PASSWORD"
 key_password_env = "JFFI_ANDROID_KEY_PASSWORD"
+
