@@ -8,7 +8,7 @@ At its core, Seyfr leverages [**iroh**](https://iroh.computer) and [**iroh-blobs
 
 **iroh-blobs** is the content layer that handles:
 - Content-addressed storage using BLAKE3 cryptographic hashes
-- Efficient blob streaming with progress tracking
+- Efficient blob streaming
 - Collection management for multi-file transfers (HashSeq format)
 - Local storage with filesystem or in-memory backends
 
@@ -40,7 +40,6 @@ This architecture follows a clear separation of concerns:
 - 🔒 **Secure by Design**: Path traversal protection, file size limits, and validated destinations
 - 🚀 **Peer-to-Peer**: Direct transfers using iroh's efficient P2P protocol
 - 📦 **Smart Transfer**: Auto-detects files vs folders, handles collections seamlessly
-- 📊 **Progress Tracking**: Real-time byte-level progress reporting
 - 🎯 **Simple API**: Single `send()` and `receive()` methods handle everything
 - 🌍 **Cross-Platform**: iOS ready, with architecture for Android and Web
 
@@ -62,10 +61,8 @@ seyfr/
 │   ├── src/
 │   │   ├── lib.rs          # UniFFI exports & Core API
 │   │   ├── transfers.rs    # P2P transfer engine (iroh-blobs)
-│   │   ├── progress.rs     # Progress callback trait
 │   │   ├── errors.rs       # Error types
-│   │   ├── walker.rs       # File collection utilities
-│   │   └── test_utils.rs   # Shared test helpers
+│   │   └── walker.rs       # File collection utilities
 │   └── Cargo.toml
 ├── platforms/
 │   └── ios/                # Swift UI
