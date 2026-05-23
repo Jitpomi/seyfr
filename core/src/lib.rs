@@ -1,7 +1,7 @@
-mod errors;
-mod progress;
-mod transfers;
-mod walker;
+pub mod errors;
+pub mod progress;
+pub mod transfers;
+pub mod walker;
 
 #[cfg(target_os = "android")]
 mod android;
