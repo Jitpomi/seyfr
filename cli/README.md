@@ -118,5 +118,4 @@ seyfr receive "<ticket>" -d /tmp/dest --data-dir /tmp/receiver-node
 
 - **Separate data directories:** Always use different `--data-dir` paths for sender and receiver when testing on the same machine, otherwise the iroh store will conflict.
 - **Ctrl+C to stop:** The `--listen` flag blocks until interrupted. This is intentional — the sender node must stay online for the receiver to connect and download.
-- **Progress reporting:** The CLI implements the `ProgressSink` trait from `seyfr-core` to print real-time progress to stdout.
 - **Not for production:** This tool is for development and integration testing only. It does not handle backgrounding, daemonization, or platform-native UI integration.

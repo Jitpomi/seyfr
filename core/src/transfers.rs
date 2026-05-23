@@ -8,36 +8,11 @@ use iroh::{Endpoint, protocol::Router};
 use iroh_blobs::{BlobsProtocol, BlobFormat, ticket::BlobTicket};
 use iroh_blobs::hashseq::HashSeq;
 use crate::errors::SeyfrError;
-use crate::progress::ProgressSink;
 use futures_util::stream::{self, StreamExt};
 use path_jail::Jail;
 
-/// Extract progress bytes from DownloadProgressItem::Progress(u64)
-fn parse_progress_bytes(event_str: &str) -> Option<u64> {
-    // Format: "Progress(12345)"
-    if !event_str.starts_with("Progress(") {
-        return None;
-    }
-    
-    let bytes_str = event_str
-        .strip_prefix("Progress(")?
-        .strip_suffix(")")?
-        .trim();
-    
-    bytes_str.parse::<u64>().ok()
-}
 
-/// Get the total size of a blob from the store
-async fn get_blob_size(
-    blobs: &iroh_blobs::api::blobs::Blobs,
-    hash: iroh_blobs::Hash,
-) -> Option<u64> {
-    match blobs.status(hash).await {
-        Ok(iroh_blobs::api::blobs::BlobStatus::Complete { size }) => Some(size),
-        Ok(iroh_blobs::api::blobs::BlobStatus::Partial { size }) => size,
-        _ => None,
-    }
-}
+
 
 /// Validate and create a secure jail for the destination directory
 /// 
@@ -150,14 +125,9 @@ impl TransferEngine {
     pub async fn send_file(
         &self,
         path: &str,
-        progress: Option<&dyn ProgressSink>,
     ) -> Result<String, SeyfrError> {
         let (src, file_name) = resolve_file_path(path)?;
         let file_meta = std::fs::metadata(&src)?;
-
-        if let Some(p) = progress {
-            p.on_file_start(file_name.clone(), 1, 1);
-        }
 
         // Compute metadata before add_path consumes src
         let mime_type = mime_guess::from_path(&src).first_or_octet_stream().to_string();
@@ -215,11 +185,6 @@ impl TransferEngine {
             BlobFormat::HashSeq,
         );
 
-        if let Some(p) = progress {
-            p.on_file_complete(file_name, 1, 1);
-            p.on_complete("File shared successfully".to_string());
-        }
-
         Ok(ticket.to_string())
     }
 
@@ -227,7 +192,6 @@ impl TransferEngine {
     pub async fn send(
         &self,
         path: &str,
-        progress: Option<&dyn ProgressSink>,
     ) -> Result<String, SeyfrError> {
         let src = PathBuf::from(path);
         let metadata = std::fs::metadata(&src).map_err(|e| {
@@ -241,9 +205,9 @@ impl TransferEngine {
         })?;
 
         if metadata.is_dir() {
-            self.send_folder(path, progress).await
+            self.send_folder(path).await
         } else {
-            self.send_file(path, progress).await
+            self.send_file(path).await
         }
     }
 }
@@ -276,7 +240,6 @@ impl TransferEngine {
     pub async fn send_folder(
         &self,
         path: &str,
-        progress: Option<&dyn ProgressSink>,
     ) -> Result<String, SeyfrError> {
         let src = resolve_folder_path(path)?;
 
@@ -284,20 +247,6 @@ impl TransferEngine {
         if files.is_empty() {
             return Err(SeyfrError::EmptyFolder { path: path.to_string() });
         }
-
-        let total = files.len() as u64;
-
-        // Fire all file-start notifications upfront since imports will run in parallel.
-        if let Some(p) = progress {
-            for (idx, file_path) in files.iter().enumerate() {
-                let rel = file_path
-                    .strip_prefix(&src)
-                    .expect("collect_files only returns paths under the root");
-                let rel_str = rel.to_string_lossy().to_string();
-                p.on_file_start(rel_str, (idx + 1) as u64, total);
-            }
-        }
-
         // Collect file hashes and metadata
         let mut items = Vec::new();
         let mut file_hashes = Vec::new();
@@ -334,10 +283,8 @@ impl TransferEngine {
             .collect()
             .await;
 
-        let mut completed = 0u64;
         for res in results {
             let (rel_str, hash, size, created_at, modified_at, mime_type) = res?;
-            completed += 1;
             items.push(SeyfrItem {
                 name: rel_str.clone(),
                 size,
@@ -346,10 +293,6 @@ impl TransferEngine {
                 mime_type,
             });
             file_hashes.push(hash);
-
-            if let Some(p) = progress {
-                p.on_file_complete(rel_str, completed, total);
-            }
         }
 
         // Build metadata JSON blob
@@ -380,10 +323,6 @@ impl TransferEngine {
             BlobFormat::HashSeq,
         );
 
-        if let Some(p) = progress {
-            p.on_complete(format!("Folder shared: {} items", total));
-        }
-
         Ok(ticket.to_string())
     }
 
@@ -398,7 +337,6 @@ impl TransferEngine {
         &self,
         ticket_str: &str,
         dest_dir: &str,
-        progress: Option<&dyn ProgressSink>,
     ) -> Result<(), SeyfrError> {
         let ticket: BlobTicket = ticket_str.parse().map_err(|e| SeyfrError::InvalidTicket {
             details: format!("{}", e),
@@ -416,8 +354,6 @@ impl TransferEngine {
         match ticket.format() {
             BlobFormat::HashSeq => {
                 // Download HashSeq root (contains metadata hash + file hashes)
-                let mut collection_size = get_blob_size(store.blobs(), ticket.hash()).await.unwrap_or(0);
-                
                 let download_progress = downloader.download(ticket.hash(), Some(ticket.addr().id));
                 let mut stream = download_progress.stream().await.map_err(|e| SeyfrError::Network {
                     details: format!("failed to start download: {}", e),
@@ -426,16 +362,7 @@ impl TransferEngine {
                 while let Some(event) = stream.next().await {
                     let event_str = format!("{:?}", event);
                     
-                    if event_str.starts_with("Progress(") {
-                        if collection_size == 0 {
-                            collection_size = get_blob_size(store.blobs(), ticket.hash()).await.unwrap_or(0);
-                        }
-                        if let Some(p) = progress {
-                            if let Some(current) = parse_progress_bytes(&event_str) {
-                                p.on_file_progress("metadata".to_string(), current, collection_size);
-                            }
-                        }
-                    } else if event_str.contains("AllDone") || event_str.contains("Done") {
+                    if event_str.contains("AllDone") || event_str.contains("Done") {
                         break;
                     } else if event_str.contains("Error") || event_str.contains("Abort") {
                         return Err(SeyfrError::Network {
@@ -460,8 +387,6 @@ impl TransferEngine {
                 })?;
 
                 // Download metadata blob
-                let mut meta_size = get_blob_size(store.blobs(), meta_hash).await.unwrap_or(0);
-                
                 let download_progress = downloader.download(meta_hash, Some(ticket.addr().id));
                 let mut stream = download_progress.stream().await.map_err(|e| SeyfrError::Network {
                     details: format!("failed to start metadata download: {}", e),
@@ -470,16 +395,7 @@ impl TransferEngine {
                 while let Some(event) = stream.next().await {
                     let event_str = format!("{:?}", event);
                     
-                    if event_str.starts_with("Progress(") {
-                        if meta_size == 0 {
-                            meta_size = get_blob_size(store.blobs(), meta_hash).await.unwrap_or(0);
-                        }
-                        if let Some(p) = progress {
-                            if let Some(current) = parse_progress_bytes(&event_str) {
-                                p.on_file_progress("metadata".to_string(), current, meta_size);
-                            }
-                        }
-                    } else if event_str.contains("AllDone") || event_str.contains("Done") {
+                    if event_str.contains("AllDone") || event_str.contains("Done") {
                         break;
                     } else if event_str.contains("Error") || event_str.contains("Abort") {
                         return Err(SeyfrError::Network {
@@ -498,10 +414,8 @@ impl TransferEngine {
                 })?;
                 let items = seyfr_meta.items;
 
-                let total = items.len() as u64;
-
                 // Download and export each file
-                for (idx, item) in items.iter().enumerate() {
+                for item in items.iter() {
                     let hash = hashes.next().ok_or_else(|| SeyfrError::Store {
                         details: format!("missing hash for file: {}", item.name),
                     })?;
@@ -516,17 +430,6 @@ impl TransferEngine {
                         tokio::fs::create_dir_all(parent).await.map_err(SeyfrError::from)?;
                     }
 
-                    if let Some(p) = progress {
-                        p.on_file_start(item.name.clone(), (idx + 1) as u64, total);
-                    }
-
-                    // Download the blob with progress — use known size from metadata
-                    let file_size = if item.size > 0 {
-                        item.size
-                    } else {
-                        get_blob_size(store.blobs(), hash).await.unwrap_or(0)
-                    };
-                    
                     let download_progress = downloader.download(hash, Some(ticket.addr().id));
                     let mut stream = download_progress.stream().await.map_err(|e| SeyfrError::Network {
                         details: format!("failed to start download for '{}': {}", item.name, e),
@@ -535,13 +438,7 @@ impl TransferEngine {
                     while let Some(event) = stream.next().await {
                         let event_str = format!("{:?}", event);
                         
-                        if event_str.starts_with("Progress(") {
-                            if let Some(p) = progress {
-                                if let Some(current) = parse_progress_bytes(&event_str) {
-                                    p.on_file_progress(item.name.clone(), current, file_size);
-                                }
-                            }
-                        } else if event_str.contains("AllDone") || event_str.contains("Done") {
+                        if event_str.contains("AllDone") || event_str.contains("Done") {
                             break;
                         } else if event_str.contains("Error") || event_str.contains("Abort") {
                             return Err(SeyfrError::Network {
@@ -562,19 +459,6 @@ impl TransferEngine {
                     if item.modified_at > 0 {
                         apply_timestamps(&file_dest, item);
                     }
-
-                    if let Some(p) = progress {
-                        p.on_file_complete(item.name.clone(), (idx + 1) as u64, total);
-                    }
-                }
-
-                if let Some(p) = progress {
-                    let details = if total == 1 {
-                        "File received successfully".to_string()
-                    } else {
-                        format!("Folder received: {} items", total)
-                    };
-                    p.on_complete(details);
                 }
             }
             BlobFormat::Raw => {
@@ -705,8 +589,6 @@ mod tests {
             })
         }
 
-        use crate::test_utils::TestProgress;
-
         /// Test send_file creates valid ticket and stores blob in memory
         #[tokio::test]
         async fn test_send_file_creates_ticket() -> Result<(), Box<dyn std::error::Error>> {
@@ -718,14 +600,8 @@ mod tests {
             let test_data = b"Hello, World!";
             fs::write(&test_file, test_data)?;
             
-            // Send file with progress tracking
-            let progress = TestProgress::default();
-            let ticket = engine.send_file(test_file.to_str().unwrap(), Some(&progress)).await?;
-            
-            // Verify progress callbacks
-            assert_eq!(progress.file_starts.lock().unwrap().len(), 1);
-            assert_eq!(progress.file_completes.lock().unwrap().len(), 1);
-            assert_eq!(progress.completes.lock().unwrap().len(), 1);
+            // Send file
+            let ticket = engine.send_file(test_file.to_str().unwrap()).await?;
             
             // Verify ticket is valid
             let parsed: iroh_blobs::ticket::BlobTicket = ticket.parse()?;
@@ -747,19 +623,13 @@ mod tests {
             let test_data = b"Hello, World! This is a test file.";
             fs::write(&test_file, test_data)?;
             
-            let ticket = engine.send_file(test_file.to_str().unwrap(), None).await?;
+            let ticket = engine.send_file(test_file.to_str().unwrap()).await?;
             
             // Receive to different directory (data already in store)
             let recv_dir = testdir.path().join("recv");
             fs::create_dir_all(&recv_dir)?;
             
-            let recv_progress = TestProgress::default();
-            engine.receive(&ticket, recv_dir.to_str().unwrap(), Some(&recv_progress)).await?;
-            
-            // Verify receive progress
-            assert_eq!(recv_progress.file_starts.lock().unwrap().len(), 1);
-            assert_eq!(recv_progress.file_completes.lock().unwrap().len(), 1);
-            assert_eq!(recv_progress.completes.lock().unwrap().len(), 1);
+            engine.receive(&ticket, recv_dir.to_str().unwrap()).await?;
             
             // Verify received file content (original name preserved from metadata)
             let received_file = recv_dir.join("test.txt");
@@ -788,14 +658,8 @@ mod tests {
             fs::create_dir_all(&subdir)?;
             fs::write(subdir.join("file3.txt"), b"Content of file 3")?;
             
-            // Send folder with progress tracking
-            let send_progress = TestProgress::default();
-            let ticket = engine.send_folder(send_dir.to_str().unwrap(), Some(&send_progress)).await?;
-            
-            // Verify send progress (3 files)
-            assert_eq!(send_progress.file_starts.lock().unwrap().len(), 3);
-            assert_eq!(send_progress.file_completes.lock().unwrap().len(), 3);
-            assert_eq!(send_progress.completes.lock().unwrap().len(), 1);
+            // Send folder
+            let ticket = engine.send_folder(send_dir.to_str().unwrap()).await?;
             
             // Verify ticket format
             let parsed: iroh_blobs::ticket::BlobTicket = ticket.parse()?;
@@ -804,13 +668,7 @@ mod tests {
             // Receive folder (data already in store)
             let recv_dir = testdir.path().join("recv_folder");
             fs::create_dir_all(&recv_dir)?;
-            let recv_progress = TestProgress::default();
-            engine.receive(&ticket, recv_dir.to_str().unwrap(), Some(&recv_progress)).await?;
-            
-            // Verify receive progress
-            assert_eq!(recv_progress.file_starts.lock().unwrap().len(), 3);
-            assert_eq!(recv_progress.file_completes.lock().unwrap().len(), 3);
-            assert_eq!(recv_progress.completes.lock().unwrap().len(), 1);
+            engine.receive(&ticket, recv_dir.to_str().unwrap()).await?;
             
             // Verify received files
             assert_eq!(fs::read(recv_dir.join("file1.txt"))?, b"Content of file 1");
@@ -831,7 +689,7 @@ mod tests {
             let test_file = testdir.path().join("test.txt");
             fs::write(&test_file, b"test content")?;
             
-            let ticket = engine.send(test_file.to_str().unwrap(), None).await?;
+            let ticket = engine.send(test_file.to_str().unwrap()).await?;
             let parsed: iroh_blobs::ticket::BlobTicket = ticket.parse()?;
             assert_eq!(parsed.format(), iroh_blobs::BlobFormat::HashSeq);
             
@@ -850,7 +708,7 @@ mod tests {
             fs::create_dir_all(&test_dir)?;
             fs::write(test_dir.join("file.txt"), b"test")?;
             
-            let ticket = engine.send(test_dir.to_str().unwrap(), None).await?;
+            let ticket = engine.send(test_dir.to_str().unwrap()).await?;
             let parsed: iroh_blobs::ticket::BlobTicket = ticket.parse()?;
             assert_eq!(parsed.format(), iroh_blobs::BlobFormat::HashSeq);
             
@@ -868,7 +726,7 @@ mod tests {
             let recv_dir = testdir.path().join("recv");
             fs::create_dir_all(&recv_dir)?;
             
-            let result = engine.receive("invalid_ticket", recv_dir.to_str().unwrap(), None).await;
+            let result = engine.receive("invalid_ticket", recv_dir.to_str().unwrap()).await;
             assert!(matches!(result, Err(SeyfrError::InvalidTicket { .. })));
             
             engine.router.shutdown().await?;
@@ -885,7 +743,7 @@ mod tests {
             let empty_dir = testdir.path().join("empty");
             fs::create_dir_all(&empty_dir)?;
             
-            let result = engine.send_folder(empty_dir.to_str().unwrap(), None).await;
+            let result = engine.send_folder(empty_dir.to_str().unwrap()).await;
             assert!(matches!(result, Err(SeyfrError::EmptyFolder { .. })));
             
             engine.router.shutdown().await?;
@@ -901,7 +759,6 @@ mod tests {
     #[cfg(test)]
     mod network_integration {
         use super::*;
-        use crate::test_utils::TestProgress;
         use iroh::{Endpoint, protocol::Router, endpoint::presets, RelayMode, address_lookup::MemoryLookup};
         use iroh_blobs::store::fs::FsStore;
         use std::time::Duration;
@@ -970,13 +827,13 @@ mod tests {
             fs::write(&test_file, test_data)?;
             
             // Send file
-            let ticket = sender.send_file(test_file.to_str().unwrap(), None).await?;
+            let ticket = sender.send_file(test_file.to_str().unwrap()).await?;
             
             // Receive file with timeout
             let recv_dir = testdir.path().join("recv");
             fs::create_dir_all(&recv_dir)?;
             
-            let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap(), None);
+            let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap());
             tokio::time::timeout(Duration::from_secs(SMALL_TRANSFER_TIMEOUT_SECS), recv_future).await??;
             
             // Verify received file (original name preserved from metadata)
@@ -1024,24 +881,15 @@ mod tests {
             fs::create_dir_all(&subdir)?;
             fs::write(subdir.join("file3.txt"), b"Content 3")?;
             
-            // Send folder with progress tracking
-            let send_progress = TestProgress::default();
-            let ticket = sender.send_folder(send_dir.to_str().unwrap(), Some(&send_progress)).await?;
-            
-            assert_eq!(send_progress.file_starts.lock().unwrap().len(), 3);
-            assert_eq!(send_progress.file_completes.lock().unwrap().len(), 3);
+            // Send folder
+            let ticket = sender.send_folder(send_dir.to_str().unwrap()).await?;
             
             // Receive folder with timeout
             let recv_dir = testdir.path().join("recv_folder");
             fs::create_dir_all(&recv_dir)?;
             
-            let recv_progress = TestProgress::default();
-            let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap(), Some(&recv_progress));
+            let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap());
             tokio::time::timeout(Duration::from_secs(SMALL_TRANSFER_TIMEOUT_SECS), recv_future).await??;
-            
-            // Verify progress
-            assert_eq!(recv_progress.file_starts.lock().unwrap().len(), 3);
-            assert_eq!(recv_progress.file_completes.lock().unwrap().len(), 3);
             
             // Verify files
             assert_eq!(fs::read(recv_dir.join("file1.txt"))?, b"Content 1");
@@ -1082,12 +930,12 @@ mod tests {
             let test_data = vec![0xAB; 1024 * 1024];
             fs::write(&test_file, &test_data)?;
             
-            let ticket = sender.send_file(test_file.to_str().unwrap(), None).await?;
+            let ticket = sender.send_file(test_file.to_str().unwrap()).await?;
             
             let recv_dir = testdir.path().join("recv");
             fs::create_dir_all(&recv_dir)?;
             
-            let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap(), None);
+            let recv_future = receiver.receive(&ticket, recv_dir.to_str().unwrap());
             tokio::time::timeout(Duration::from_secs(LARGE_TRANSFER_TIMEOUT_SECS), recv_future).await??;
             
             let received_file = recv_dir.join("large.bin");

@@ -61,20 +61,6 @@ For peer-to-peer transfers, the real threats are malicious **paths** and **conte
 - A symlink could point to `C:\Windows\System32`
 - These are the attacks that matter for P2P — and Seyfr handles them all
 
-## 📊 Progress Tracking
-
-Implement the `ProgressSink` trait to receive progress callbacks:
-
-```rust
-pub trait ProgressSink {
-    fn on_file_start(&self, name: String, current: u64, total: u64);
-    fn on_file_progress(&self, name: String, bytes: u64, total: u64);
-    fn on_file_complete(&self, name: String, current: u64, total: u64);
-    fn on_complete(&self, message: String);
-    fn on_error(&self, message: String);
-}
-```
-
 ## 🏗️ Architecture
 
 ```
@@ -82,10 +68,8 @@ core/
 ├── src/
 │   ├── lib.rs          # Public API (Core struct)
 │   ├── transfers.rs    # TransferEngine (iroh-blobs integration)
-│   ├── progress.rs     # ProgressSink trait
 │   ├── errors.rs       # SeyfrError enum
-│   ├── walker.rs       # File collection utilities
-│   └── test_utils.rs   # Shared test helpers
+│   └── walker.rs       # File collection utilities
 ├── Cargo.toml
 └── uniffi.toml         # UniFFI configuration
 ```
@@ -102,10 +86,6 @@ core/
 - Integrates with iroh-blobs
 - Implements security validations
 - Methods: `send()`, `send_file()`, `send_folder()`, `receive()`
-
-#### `ProgressSink` (progress.rs)
-- Callback trait for progress reporting
-- Byte-level and file-level progress
 
 #### `SeyfrError` (errors.rs)
 - Comprehensive error types

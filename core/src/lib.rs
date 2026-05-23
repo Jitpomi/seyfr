@@ -1,16 +1,11 @@
 mod errors;
-mod progress;
 mod transfers;
 mod walker;
 
 #[cfg(target_os = "android")]
 mod android;
 
-#[cfg(test)]
-pub mod test_utils;
-
 pub use crate::errors::SeyfrError;
-pub use crate::progress::ProgressSink;
 
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -92,7 +87,7 @@ impl Core {
     /// All tickets use `HashSeq` format with embedded metadata JSON (filename, timestamps, MIME type).
     pub fn send(&self, path: String) -> Result<String, SeyfrError> {
         self.inner.runtime.block_on(async {
-            self.inner.engine.send(&path, None).await
+            self.inner.engine.send(&path).await
         })
     }
 
@@ -101,7 +96,7 @@ impl Core {
     /// Original filenames and timestamps are preserved from the metadata JSON.
     pub fn receive(&self, ticket: String, dest_dir: String) -> Result<(), SeyfrError> {
         self.inner.runtime.block_on(async {
-            self.inner.engine.receive(&ticket, &dest_dir, None).await
+            self.inner.engine.receive(&ticket, &dest_dir).await
         })
     }
 
