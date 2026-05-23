@@ -58,6 +58,12 @@ jobs:
         run: |
           Copy-Item -Path target/publish/seyfr.exe -Destination target/publish/seyfr-x64.exe -Force
 
+      - name: Clean intermediate build artifacts
+        shell: pwsh
+        run: |
+          Remove-Item -Recurse -Force platforms/windows/bin -ErrorAction SilentlyContinue
+          Remove-Item -Recurse -Force platforms/windows/obj -ErrorAction SilentlyContinue
+
       - name: Build and Package Packaged MSIX (For Microsoft Store)
         shell: pwsh
         run: |
@@ -66,8 +72,8 @@ jobs:
       - name: Locate and Rename MSIX package for release
         shell: pwsh
         run: |
-          # Find the generated MSIX package in platforms/windows recursively
-          $msixFile = Get-ChildItem -Path platforms/windows -Filter *.msix -Recurse -File | Select-Object -First 1
+          # Find the generated MSIX package in platforms/windows recursively, excluding intermediate directories
+          $msixFile = Get-ChildItem -Path platforms/windows -Filter *.msix -Recurse -File | Where-Object { $_.FullName -notmatch '\\obj\\' -and $_.FullName -notmatch '\\Layout\\' } | Select-Object -First 1
           if ($msixFile) {
               Write-Host "Found MSIX package at: $($msixFile.FullName)"
               Copy-Item -Path $msixFile.FullName -Destination target/publish/seyfr-x64.msix -Force
