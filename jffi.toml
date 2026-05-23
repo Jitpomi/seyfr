@@ -50,6 +50,11 @@ compile_sdk = 35
 build_type = "release"
 split_debug_symbols = true
 
+[bundle.windows]
+formats = ["msixbundle"]
+targets = ["x86_64-pc-windows-msvc"]
+icon = "playstore-assets/app_icon.png"
+
 [bundle.signing]
 profile = "release"
 
