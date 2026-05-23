@@ -44,10 +44,11 @@ jobs:
         run: |
           cargo install uniffi-bindgen-cs --git https://github.com/jmbryan4/uniffi-bindgen-cs --branch upgrade/uniffi-rs-0.31.0-clean --locked
 
-      - name: Build Rust Core and Bindings
+      - name: Build Packaged MSIX using JFFI
         shell: pwsh
         run: |
-          jffi build --platform windows
+          jffi bundle --platform windows --no-sign
+
       - name: Build Standalone Unpackaged EXE
         shell: pwsh
         run: |
@@ -58,28 +59,17 @@ jobs:
         run: |
           Copy-Item -Path target/publish/seyfr.exe -Destination target/publish/seyfr-x64.exe -Force
 
-      - name: Clean intermediate build artifacts
-        shell: pwsh
-        run: |
-          Remove-Item -Recurse -Force platforms/windows/bin -ErrorAction SilentlyContinue
-          Remove-Item -Recurse -Force platforms/windows/obj -ErrorAction SilentlyContinue
-
-      - name: Build and Package Packaged MSIX (For Microsoft Store)
-        shell: pwsh
-        run: |
-          msbuild platforms/windows/seyfr.csproj /p:Configuration=Release /p:Platform=x64 /p:GenerateAppxPackageOnBuild=true /p:AppxPackageSigningEnabled=false /p:PublishReadyToRun=false /p:PublishTrimmed=false
-
       - name: Locate and Rename MSIX package for release
         shell: pwsh
         run: |
-          # Find the generated MSIX package in platforms/windows recursively, excluding intermediate directories
-          $msixFile = Get-ChildItem -Path platforms/windows -Filter *.msix -Recurse -File | Where-Object { $_.FullName -notmatch '\\obj\\' -and $_.FullName -notmatch '\\Layout\\' } | Select-Object -First 1
+          # Copy the generated MSIX package from the JFFI bundle output directory
+          $msixFile = Get-ChildItem -Path target/bundle/windows -Filter *.msix -Recurse -File | Select-Object -First 1
           if ($msixFile) {
               Write-Host "Found MSIX package at: $($msixFile.FullName)"
               Copy-Item -Path $msixFile.FullName -Destination target/publish/seyfr-x64.msix -Force
               Write-Host "Copied to target/publish/seyfr-x64.msix"
           } else {
-              Write-Error "Could not find generated MSIX package!"
+              Write-Error "Could not find generated MSIX package in target/bundle/windows!"
               exit 1
           }
 
