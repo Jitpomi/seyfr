@@ -45,7 +45,7 @@ class AppState: ObservableObject {
 
         Task {
             do {
-                let result = try core.send(path: url.path, progress: nil)
+                let result = try core.send(path: url.path)
                 await MainActor.run {
                     ticket = result
                     sendStatus = .success("Ready to share")
@@ -69,7 +69,7 @@ class AppState: ObservableObject {
         receiveStatus = .receiving
         Task {
             do {
-                try core.receive(ticket: ticket, destDir: dest, progress: nil)
+                try core.receive(ticket: ticket, destDir: dest)
                 await MainActor.run {
                     receiveStatus = .success("Received successfully")
                 }

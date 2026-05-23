@@ -71,7 +71,7 @@ class AppViewModel(context: Context) : ViewModel() {
         viewModelScope.launch {
             try {
                 val ticket = withContext(Dispatchers.IO) {
-                    core.send(path, null)
+                    core.send(path)
                 }
                 _uiState.value = _uiState.value.copy(
                     ticket = ticket,
@@ -98,7 +98,7 @@ class AppViewModel(context: Context) : ViewModel() {
         viewModelScope.launch {
             try {
                 withContext(Dispatchers.IO) {
-                    core.receive(ticket, _uiState.value.destinationPath, null)
+                    core.receive(ticket, _uiState.value.destinationPath)
                 }
                 _uiState.value = _uiState.value.copy(
                     receiveStatus = TransferStatus.Success("Received successfully")

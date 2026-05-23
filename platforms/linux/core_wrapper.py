@@ -17,14 +17,14 @@ class CoreWrapper:
     def send(self, path, progress_sink=None):
         """Send a file or folder and return the ticket"""
         try:
-            return self.core.send(path, progress_sink)
+            return self.core.send(path)
         except Exception as e:
             raise e
 
     def receive(self, ticket, dest_dir, progress_sink=None):
         """Receive a file or folder from a ticket"""
         try:
-            self.core.receive(ticket, dest_dir, progress_sink)
+            self.core.receive(ticket, dest_dir)
         except Exception as e:
             raise e
 
