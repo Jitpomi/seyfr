@@ -86,7 +86,7 @@
 
                 <Image Width="44"
                        Height="44"
-                       Source="ms-appx:///Assets/Square44x44Logo.png"
+                       Source="Assets/Square44x44Logo.png"
                        HorizontalAlignment="Left" />
 
                 <StackPanel Spacing="4"
