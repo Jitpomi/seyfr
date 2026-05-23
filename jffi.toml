@@ -53,7 +53,7 @@ split_debug_symbols = true
 [bundle.windows]
 formats = ["msixbundle"]
 targets = ["x86_64-pc-windows-msvc"]
-icon = "playstore-assets/app_icon.png"
+icon = "platforms/windows/Assets/app.ico"
 
 [bundle.signing]
 profile = "release"
