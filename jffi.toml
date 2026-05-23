@@ -32,7 +32,7 @@ gtk_version = "4.0"
 target = "es2020"
 
 [bundle]
-name = "Seyfr"
+name = "SEYFR"
 identifier = "com.jitpomi.seyfr"
 version = "1.5"
 display_version = "1.5"
