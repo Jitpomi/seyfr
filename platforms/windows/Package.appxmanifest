@@ -10,7 +10,7 @@
   <Identity
     Name="JITPOMILLC.SEYFR"
     Publisher="CN=82FF2416-2009-4D00-A3ED-37C7375333F7"
-    Version="1.5.10.0" />
+    Version="1.5.11.0" />
 
   <mp:PhoneIdentity PhoneProductId="f1774106-e971-8415-bf64-7689a199d7ff" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -23,6 +23,7 @@
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26226.0" />
+    <PackageDependency Name="Microsoft.VCLibs.140.00.UWPDesktop" MinVersion="14.0.24217.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
   </Dependencies>
 
   <Resources>

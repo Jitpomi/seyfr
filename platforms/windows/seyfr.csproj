@@ -12,10 +12,18 @@
     <UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
     <Nullable>enable</Nullable>
-    <Version>1.5.0</Version>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
-    <FileVersion>1.5.0.0</FileVersion>
+    <Version>1.5.11</Version>
+    <AssemblyVersion>1.5.11.0</AssemblyVersion>
+    <FileVersion>1.5.11.0</FileVersion>
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+
+    <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
+  </PropertyGroup>
+  
+  <!-- Enable self-contained deployment only when targeting a specific Platform or RuntimeIdentifier, preventing build/restore errors on generic configuration passes -->
+  <PropertyGroup Condition="'$(Platform)' == 'x64' or '$(Platform)' == 'x86' or '$(Platform)' == 'ARM64' or '$(RuntimeIdentifier)' != ''">
+    <SelfContained>true</SelfContained>
+    <PublishSelfContained>true</PublishSelfContained>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,7 +54,7 @@
 
   <!-- Native Rust library generated for UniFFI/C# runtime use -->
   <ItemGroup>
-     <None Include="seyfr_core.dll"
+     <Content Include="seyfr_core.dll"
             CopyToOutputDirectory="PreserveNewest"
             CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
