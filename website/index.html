@@ -1416,12 +1416,13 @@
         <div class="download-options">
           <span id="download-macos-m" aria-disabled="true" class="download-option disabled" title="Coming soon to macOS (Apple Silicon)">macOS (M-Series - Coming Soon)</span>
           <span id="download-macos-intel" aria-disabled="true" class="download-option disabled" title="Coming soon to macOS (Intel)">macOS (Intel - Coming Soon)</span>
-          <a id="download-windows" href="https://apps.microsoft.com/detail/9P18ZR98ZXN2" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from the Microsoft Store">Windows (Store)</a>
+          <a id="download-windows" href="https://apps.microsoft.com/detail/9p18zr98zxn2?hl=en-US&gl=US" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from the Microsoft Store">Windows (Store)</a>
           <a id="download-windows-direct" href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x64.exe" rel="noopener noreferrer" class="download-option" title="Download standalone Windows installer">Windows (Direct EXE)</a>
           <div class="download-group">
             <a id="download-linux" href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_amd64.AppImage" rel="noopener noreferrer" class="download-option">Linux</a>
             <a href="/seyfr-public-key.asc" class="gpg-key-btn" title="Download GPG Public Key to verify AppImage cryptographic integrity" target="_blank" rel="noopener noreferrer">GPG Key</a>
           </div>
+          <a id="download-android-store" href="https://play.google.com/store/apps/details?id=com.jitpomi.seyfr&hl=en_US" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from Google Play">Android (Play Store)</a>
           <a id="download-android" href="https://github.com/Jitpomi/seyfr-releases/releases/download/v0.1.23/app-release.apk" rel="noopener noreferrer" class="download-option" title="Download APK for Android">Android (APK)</a>
           <span id="download-ios" aria-disabled="true" class="download-option disabled" title="Coming soon to the App Store">iOS (Coming Soon)</span>
         </div>
@@ -1733,7 +1734,7 @@
       if (isWin) {
         if (btn) {
           btn.textContent = 'Get SEYFR from Microsoft Store';
-          btn.href = 'https://apps.microsoft.com/detail/9P18ZR98ZXN2';
+          btn.href = 'https://apps.microsoft.com/detail/9p18zr98zxn2?hl=en-US&gl=US';
         }
       } else if (isMac) {
         if (btn) {
@@ -1749,8 +1750,8 @@
         }
       } else if (isAndroid) {
         if (btn) {
-          btn.textContent = 'Download for Android';
-          btn.href = 'https://github.com/Jitpomi/seyfr-releases/releases/download/v0.1.23/app-release.apk';
+          btn.textContent = 'Get SEYFR from Google Play';
+          btn.href = 'https://play.google.com/store/apps/details?id=com.jitpomi.seyfr&hl=en_US';
         }
       } else if (isIos) {
         if (btn) {
