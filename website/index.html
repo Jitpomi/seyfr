@@ -10,8 +10,8 @@
   <link rel="canonical" href="https://seyfr.jitpomi.com/" />
   
   <!-- Preload Critical Images -->
-  <link rel="preload" as="image" href="assets/seyfrmobile.webp" media="(max-width: 560px)" fetchpriority="high" imagesizes="100vw" />
-  <link rel="preload" as="image" href="assets/seyfr.webp" media="(min-width: 561px)" fetchpriority="high" imagesizes="min(860px, 118vw)" />
+  <link rel="preload" as="image" href="assets/seyfrmobile-1x.webp" imagesrcset="assets/seyfrmobile-1x.webp 1x, assets/seyfrmobile.webp 2x" media="(max-width: 560px)" fetchpriority="high" imagesizes="100vw" />
+  <link rel="preload" as="image" href="assets/seyfr-1x.webp" imagesrcset="assets/seyfr-1x.webp 1x, assets/seyfr.webp 2x" media="(min-width: 561px)" fetchpriority="high" imagesizes="min(860px, 118vw)" />
   
   <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
@@ -1155,8 +1155,8 @@
 
         <div class="visual">
           <picture>
-            <source media="(min-width: 561px)" srcset="assets/seyfr.webp" width="1536" height="1024">
-            <img src="assets/seyfrmobile.webp" alt="Seyfr running on desktop and mobile devices" fetchpriority="high" width="820" height="1592" />
+            <source media="(min-width: 561px)" srcset="assets/seyfr-1x.webp 1x, assets/seyfr.webp 2x" width="1536" height="1024">
+            <img src="assets/seyfrmobile-1x.webp" srcset="assets/seyfrmobile-1x.webp 1x, assets/seyfrmobile.webp 2x" alt="Seyfr running on desktop and mobile devices" fetchpriority="high" width="820" height="1592" />
           </picture>
         </div>
 
@@ -1173,7 +1173,7 @@
 
         <div class="shot">
           <picture>
-            <img src="assets/seyfrimg.webp" alt="Seyfr seamlessly working across devices" loading="lazy" width="1316" height="826" />
+            <img src="assets/seyfrimg-1x.webp" srcset="assets/seyfrimg-1x.webp 1x, assets/seyfrimg.webp 2x" alt="Seyfr seamlessly working across devices" loading="lazy" width="1316" height="826" />
           </picture>
         </div>
       </section>
