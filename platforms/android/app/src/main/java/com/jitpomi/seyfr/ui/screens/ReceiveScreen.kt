@@ -25,6 +25,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ChevronRight
 import androidx.compose.material.icons.outlined.ContentPaste
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Folder
@@ -52,6 +53,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,6 +76,7 @@ fun ReceiveScreen(
     var ticketInput by remember { mutableStateOf("") }
     var showQRScanner by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
+    val haptic = LocalHapticFeedback.current
 
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
@@ -92,6 +95,8 @@ fun ReceiveScreen(
         }
     }
 
+
+
     LaunchedEffect(ticketInput) {
         if (ticketInput.isNotEmpty()) {
             delay(300)
@@ -104,6 +109,8 @@ fun ReceiveScreen(
             ticketInput = ""
         }
     }
+
+
 
     Column(
         modifier = modifier
@@ -118,6 +125,7 @@ fun ReceiveScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             QRRings(
+                isAnimating = uiState.receiveStatus is TransferStatus.Receiving,
                 modifier = Modifier.clickable {
                     when (PackageManager.PERMISSION_GRANTED) {
                         ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) -> {
@@ -173,6 +181,7 @@ fun ReceiveScreen(
                             onClick = {
                                 clipboardManager.getText()?.text?.let {
                                     ticketInput = it.toString()
+                                    haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
                                 }
                             }
                         ) {
@@ -216,7 +225,9 @@ fun ReceiveScreen(
         }
 
         Card(
-            modifier = Modifier.padding(horizontal = 20.dp),
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .clickable { folderPickerLauncher.launch(null) },
             shape = RoundedCornerShape(20.dp),
             border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -243,25 +254,29 @@ fun ReceiveScreen(
                         Icon(
                             imageVector = Icons.Outlined.Folder,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = MaterialTheme.colorScheme.primary
                         )
-                        Column {
+                        val displayPath = uiState.destinationPath.substringAfter("Download/")
+                            .ifEmpty { uiState.destinationPath.substringAfterLast('/') }
+                            .ifEmpty { "Downloads" }
+                        
+                        androidx.compose.animation.AnimatedContent(
+                            targetState = displayPath,
+                            label = "folder_name"
+                        ) { folderName ->
                             Text(
-                                text = "Documents",
-                                fontSize = 14.sp,
+                                text = folderName,
+                                fontSize = 15.sp,
                                 fontWeight = FontWeight.Medium
-                            )
-                            Text(
-                                text = uiState.destinationPath.takeLast(30),
-                                fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
 
-                    TextButton(onClick = { folderPickerLauncher.launch(null) }) {
-                        Text("Change")
-                    }
+                    Icon(
+                        imageVector = androidx.compose.material.icons.Icons.Outlined.ChevronRight,
+                        contentDescription = "Change",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                 }
             }
         }
@@ -283,6 +298,7 @@ fun ReceiveScreen(
             onScan = { scannedText ->
                 ticketInput = scannedText
                 showQRScanner = false
+                haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
             }
         )
     }

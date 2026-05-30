@@ -56,8 +56,8 @@ class AppViewModel(context: Context) : ViewModel() {
             throw RuntimeException("Failed to initialize Seyfr core: ${e.message}", e)
         }
         
-        val defaultDest = context.getExternalFilesDir(null)?.resolve("received")?.apply { mkdirs() }
-        _uiState.value = _uiState.value.copy(destinationPath = defaultDest?.absolutePath ?: "")
+        val defaultDest = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS).resolve("Seyfr").apply { mkdirs() }
+        _uiState.value = _uiState.value.copy(destinationPath = defaultDest.absolutePath)
         Log.d("AppViewModel", "AppViewModel initialized successfully")
     }
 

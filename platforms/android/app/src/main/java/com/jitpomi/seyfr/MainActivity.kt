@@ -9,6 +9,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -166,20 +170,28 @@ fun SeyfrApp(
             Column {
                 AppLogo()
 
-                when (selectedTab) {
-                    0 -> SendScreen(
-                        uiState = uiState,
-                        onSend = onSend,
-                        onClearSend = onClearSend,
-                        onCopyTicket = onCopyTicket,
-                        onShareTicket = onShareTicket
-                    )
-                    1 -> ReceiveScreen(
-                        uiState = uiState,
-                        onReceive = onReceive,
-                        onSetDestination = onSetDestination
-                    )
-                    2 -> SupportScreen()
+                AnimatedContent(
+                    targetState = selectedTab,
+                    transitionSpec = {
+                        fadeIn() togetherWith fadeOut()
+                    },
+                    label = "tab_transition"
+                ) { tab ->
+                    when (tab) {
+                        0 -> SendScreen(
+                            uiState = uiState,
+                            onSend = onSend,
+                            onClearSend = onClearSend,
+                            onCopyTicket = onCopyTicket,
+                            onShareTicket = onShareTicket
+                        )
+                        1 -> ReceiveScreen(
+                            uiState = uiState,
+                            onReceive = onReceive,
+                            onSetDestination = onSetDestination
+                        )
+                        2 -> SupportScreen()
+                    }
                 }
             }
         }

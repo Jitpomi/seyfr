@@ -3,11 +3,17 @@ package com.jitpomi.seyfr.ui.screens
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,9 +49,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.delay
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,6 +80,7 @@ fun SendScreen(
     val context = LocalContext.current
     var isFolderMode by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
+    val haptic = LocalHapticFeedback.current
 
     val filePicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -115,10 +126,18 @@ fun SendScreen(
                         }
                     }
                 ) {
-                    if (isFolderMode) {
-                        FolderRings()
-                    } else {
-                        FileRings()
+                    AnimatedContent(
+                        targetState = isFolderMode,
+                        transitionSpec = {
+                            (fadeIn() + scaleIn(initialScale = 0.92f)).togetherWith(fadeOut() + scaleOut(targetScale = 0.92f))
+                        },
+                        label = "ring_transition"
+                    ) { folderMode ->
+                        if (folderMode) {
+                            FolderRings(isAnimating = uiState.sendStatus is TransferStatus.Sending)
+                        } else {
+                            FileRings(isAnimating = uiState.sendStatus is TransferStatus.Sending)
+                        }
                     }
                 }
 
@@ -136,7 +155,10 @@ fun SendScreen(
                     )
                     Switch(
                         checked = isFolderMode,
-                        onCheckedChange = { isFolderMode = it },
+                        onCheckedChange = { 
+                            isFolderMode = it
+                            haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.TextHandleMove)
+                        },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = MaterialTheme.colorScheme.onSurface,
                             checkedTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
@@ -152,32 +174,11 @@ fun SendScreen(
             }
         }
 
-        AnimatedVisibility(
-            visible = uiState.selectedFileName != null,
-            enter = slideInVertically() + fadeIn(),
-            exit = slideOutVertically() + fadeOut()
-        ) {
-            Column(
-                modifier = Modifier.padding(horizontal = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                Text(
-                    text = "Active Transfers",
-                    fontSize = 17.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
 
-                FileCard(
-                    fileName = uiState.selectedFileName ?: "",
-                    isLoading = uiState.sendStatus is TransferStatus.Sending,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
 
         AnimatedVisibility(
             visible = uiState.ticket.isNotEmpty(),
-            enter = slideInVertically() + fadeIn(),
+            enter = slideInVertically(animationSpec = spring(stiffness = Spring.StiffnessLow, dampingRatio = Spring.DampingRatioMediumBouncy)) + fadeIn(),
             exit = slideOutVertically() + fadeOut()
         ) {
             LaunchedEffect(uiState.ticket) {
@@ -239,7 +240,10 @@ fun SendScreen(
                     ) {
                         Box(modifier = Modifier.weight(1f)) {
                             SecondaryButton(
-                                onClick = { onCopyTicket(uiState.ticket) }
+                                onClick = { 
+                                    onCopyTicket(uiState.ticket) 
+                                    haptic.performHapticFeedback(androidx.compose.ui.hapticfeedback.HapticFeedbackType.LongPress)
+                                }
                             ) {
                                 Icon(imageVector = Icons.Outlined.ContentCopy, contentDescription = null)
                                 Spacer(modifier = Modifier.width(8.dp))
