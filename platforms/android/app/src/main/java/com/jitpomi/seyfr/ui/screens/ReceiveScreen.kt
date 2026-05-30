@@ -12,12 +12,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -255,11 +257,13 @@ fun ReceiveScreen(
         }
 
         PrimaryButton(
-            title = "Receive File",
-            icon = Icons.Outlined.Download,
             onClick = { onReceive(ticketInput) },
             modifier = Modifier.padding(horizontal = 20.dp)
-        )
+        ) {
+            Icon(imageVector = Icons.Outlined.Download, contentDescription = null)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "Receive File", fontSize = 15.sp)
+        }
 
         AnimatedVisibility(
             visible = uiState.receiveStatus is TransferStatus.Success || uiState.receiveStatus is TransferStatus.Error,
@@ -345,7 +349,8 @@ private fun resolveTreeUriToPath(context: android.content.Context, treeUri: Uri)
 @Composable
 private fun QRScannerDialog(
     onDismiss: () -> Unit,
-    onScan: (String) -> Unit
+    onScan: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Dialog(
         onDismissRequest = onDismiss,
@@ -355,11 +360,13 @@ private fun QRScannerDialog(
             dismissOnBackPress = true
         )
     ) {
-        QRScanner(
-            onScan = { scannedText ->
-                onScan(scannedText)
-            },
-            onDismiss = onDismiss
-        )
+        Box(modifier = modifier) {
+            QRScanner(
+                onScan = { scannedText ->
+                    onScan(scannedText)
+                },
+                onDismiss = onDismiss
+            )
+        }
     }
 }

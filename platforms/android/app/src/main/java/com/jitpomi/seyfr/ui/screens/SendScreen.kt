@@ -1,9 +1,6 @@
 package com.jitpomi.seyfr.ui.screens
 
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
@@ -66,6 +63,8 @@ fun SendScreen(
     uiState: AppUiState,
     onSend: (String) -> Unit,
     onClearSend: () -> Unit,
+    onCopyTicket: (String) -> Unit,
+    onShareTicket: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -170,7 +169,8 @@ fun SendScreen(
 
                 FileCard(
                     fileName = uiState.selectedFileName ?: "",
-                    isLoading = uiState.sendStatus is TransferStatus.Sending
+                    isLoading = uiState.sendStatus is TransferStatus.Sending,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }
@@ -239,27 +239,22 @@ fun SendScreen(
                     ) {
                         Box(modifier = Modifier.weight(1f)) {
                             SecondaryButton(
-                                title = "Copy",
-                                icon = Icons.Outlined.ContentCopy,
-                                onClick = {
-                                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                                    clipboard.setPrimaryClip(ClipData.newPlainText("ticket", uiState.ticket))
-                                }
-                            )
+                                onClick = { onCopyTicket(uiState.ticket) }
+                            ) {
+                                Icon(imageVector = Icons.Outlined.ContentCopy, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(text = "Copy", fontSize = 15.sp)
+                            }
                         }
 
                         Box(modifier = Modifier.weight(1f)) {
                             PrimaryButton(
-                                title = "Share",
-                                icon = Icons.Outlined.Share,
-                                onClick = {
-                                    val intent = Intent(Intent.ACTION_SEND).apply {
-                                        type = "text/plain"
-                                        putExtra(Intent.EXTRA_TEXT, uiState.ticket)
-                                    }
-                                    context.startActivity(Intent.createChooser(intent, "Share ticket"))
-                                }
-                            )
+                                onClick = { onShareTicket(uiState.ticket) }
+                            ) {
+                                Icon(imageVector = Icons.Outlined.Share, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(text = "Share", fontSize = 15.sp)
+                            }
                         }
                     }
                 }
@@ -271,9 +266,13 @@ fun SendScreen(
 }
 
 @Composable
-private fun FileCard(fileName: String, isLoading: Boolean) {
+private fun FileCard(
+    fileName: String,
+    isLoading: Boolean,
+    modifier: Modifier = Modifier
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         shape = RoundedCornerShape(12.dp),
         border = BorderStroke(0.5.dp, MaterialTheme.colorScheme.outline),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -307,11 +306,12 @@ private fun FileCard(fileName: String, isLoading: Boolean) {
 }
 
 @Composable
-private fun StatusPill(status: TransferStatus) {
+private fun StatusPill(status: TransferStatus, modifier: Modifier = Modifier) {
     AnimatedVisibility(
         visible = status is TransferStatus.Success || status is TransferStatus.Error,
         enter = fadeIn(),
-        exit = fadeOut()
+        exit = fadeOut(),
+        modifier = modifier
     ) {
         val (text, color) = when (status) {
             is TransferStatus.Success -> status.message to MaterialTheme.colorScheme.primary

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -182,10 +183,12 @@ fun SupportScreen(modifier: Modifier = Modifier) {
                         )
 
                         PrimaryButton(
-                            title = "Open Venmo App",
-                            icon = Icons.AutoMirrored.Outlined.OpenInNew,
                             onClick = { uriHandler.openUri("https://venmo.com/u/jitpomi") }
-                        )
+                        ) {
+                            Icon(imageVector = Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "Open Venmo App", fontSize = 15.sp)
+                        }
                     }
                 }
             }
@@ -412,10 +415,11 @@ fun SupportScreen(modifier: Modifier = Modifier) {
 private fun BankDetailRow(
     label: String,
     value: String,
-    onCopy: () -> Unit
+    onCopy: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

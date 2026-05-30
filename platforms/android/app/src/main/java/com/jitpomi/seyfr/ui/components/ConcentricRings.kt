@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ConcentricRings(
-    icon: ImageVector,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
 ) {
     val ringColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
     val iconColor = MaterialTheme.colorScheme.onSurface
@@ -45,26 +45,44 @@ fun ConcentricRings(
             }
         }
 
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            modifier = Modifier.height(28.dp),
-            tint = iconColor
-        )
+        Box(contentAlignment = Alignment.Center) {
+            content()
+        }
     }
 }
 
 @Composable
 fun FileRings(modifier: Modifier = Modifier) {
-    ConcentricRings(icon = Icons.Outlined.InsertDriveFile, modifier = modifier)
+    ConcentricRings(modifier = modifier) {
+        Icon(
+            imageVector = Icons.Outlined.InsertDriveFile,
+            contentDescription = null,
+            modifier = Modifier.height(28.dp),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }
 
 @Composable
 fun FolderRings(modifier: Modifier = Modifier) {
-    ConcentricRings(icon = Icons.Outlined.Folder, modifier = modifier)
+    ConcentricRings(modifier = modifier) {
+        Icon(
+            imageVector = Icons.Outlined.Folder,
+            contentDescription = null,
+            modifier = Modifier.height(28.dp),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }
 
 @Composable
 fun QRRings(modifier: Modifier = Modifier) {
-    ConcentricRings(icon = Icons.Outlined.QrCodeScanner, modifier = modifier)
+    ConcentricRings(modifier = modifier) {
+        Icon(
+            imageVector = Icons.Outlined.QrCodeScanner,
+            contentDescription = null,
+            modifier = Modifier.height(28.dp),
+            tint = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }

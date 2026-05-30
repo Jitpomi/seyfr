@@ -1,5 +1,9 @@
 package com.jitpomi.seyfr
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jitpomi.seyfr.ui.components.AppLogo
@@ -62,12 +67,27 @@ fun SeyfrApp(
     onSend: (String) -> Unit,
     onReceive: (String) -> Unit,
     onClearSend: () -> Unit,
-    onSetDestination: (String) -> Unit
+    onSetDestination: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var selectedTab by remember { mutableStateOf(0) }
+    val context = LocalContext.current
+
+    val onCopyTicket: (String) -> Unit = { ticket ->
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("ticket", ticket))
+    }
+
+    val onShareTicket: (String) -> Unit = { ticket ->
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, ticket)
+        }
+        context.startActivity(Intent.createChooser(intent, "Share ticket"))
+    }
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         bottomBar = {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -122,7 +142,9 @@ fun SeyfrApp(
                     0 -> SendScreen(
                         uiState = uiState,
                         onSend = onSend,
-                        onClearSend = onClearSend
+                        onClearSend = onClearSend,
+                        onCopyTicket = onCopyTicket,
+                        onShareTicket = onShareTicket
                     )
                     1 -> ReceiveScreen(
                         uiState = uiState,

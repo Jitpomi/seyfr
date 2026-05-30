@@ -36,7 +36,8 @@ import java.util.concurrent.Executors
 @Composable
 fun QRScanner(
     onScan: (String) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -99,7 +100,7 @@ fun QRScanner(
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier.fillMaxSize()) {
         AndroidView(
             factory = { previewView },
             modifier = Modifier.fillMaxSize()

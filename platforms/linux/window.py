@@ -482,7 +482,7 @@ class SeyfrWindow(Adw.ApplicationWindow):
     def on_select_file_clicked(self, button):
         dialog = Gtk.FileChooserDialog(
             title="Select File",
-            parent=self,
+            transient_for=self,
             action=Gtk.FileChooserAction.OPEN
         )
         dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
@@ -560,7 +560,7 @@ class SeyfrWindow(Adw.ApplicationWindow):
     def on_change_save_location(self, button):
         dialog = Gtk.FileChooserDialog(
             title="Select Save Location",
-            parent=self,
+            transient_for=self,
             action=Gtk.FileChooserAction.SELECT_FOLDER
         )
         dialog.add_button("Cancel", Gtk.ResponseType.CANCEL)
