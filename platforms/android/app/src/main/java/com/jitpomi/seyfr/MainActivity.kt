@@ -8,11 +8,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -47,6 +51,7 @@ import com.jitpomi.seyfr.ui.theme.SeyfrTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
 
         // NDK initialization has been moved to SeyfrApplication
@@ -56,14 +61,29 @@ class MainActivity : ComponentActivity() {
             SeyfrTheme {
                 val viewModel = remember { AppViewModel(applicationContext) }
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+                
+                val navController = rememberNavController()
 
-                SeyfrApp(
-                    uiState = uiState,
-                    onSend = viewModel::send,
-                    onReceive = viewModel::receive,
-                    onClearSend = viewModel::clearSend,
-                    onSetDestination = viewModel::setDestination
-                )
+                NavHost(navController = navController, startDestination = "splash_screen") {
+                    composable("splash_screen") {
+                        com.jitpomi.seyfr.ui.screens.AnimatedSplashScreen(
+                            onSplashComplete = {
+                                navController.navigate("home_screen") {
+                                    popUpTo("splash_screen") { inclusive = true }
+                                }
+                            }
+                        )
+                    }
+                    composable("home_screen") {
+                        SeyfrApp(
+                            uiState = uiState,
+                            onSend = viewModel::send,
+                            onReceive = viewModel::receive,
+                            onClearSend = viewModel::clearSend,
+                            onSetDestination = viewModel::setDestination
+                        )
+                    }
+                }
             }
         }
     }
