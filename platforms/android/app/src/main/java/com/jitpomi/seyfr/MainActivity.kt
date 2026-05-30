@@ -20,9 +20,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jitpomi.seyfr.ui.components.AppLogo
+import com.jitpomi.seyfr.ui.components.CustomSnackbar
 import com.jitpomi.seyfr.ui.screens.ReceiveScreen
 import com.jitpomi.seyfr.ui.screens.SendScreen
 import com.jitpomi.seyfr.ui.screens.SupportScreen
@@ -72,6 +76,25 @@ fun SeyfrApp(
 ) {
     var selectedTab by remember { mutableStateOf(0) }
     val context = LocalContext.current
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(uiState.sendStatus) {
+        val message = when (val status = uiState.sendStatus) {
+            is TransferStatus.Success -> status.message
+            is TransferStatus.Error -> status.message
+            else -> null
+        }
+        message?.let { snackbarHostState.showSnackbar(it) }
+    }
+
+    LaunchedEffect(uiState.receiveStatus) {
+        val message = when (val status = uiState.receiveStatus) {
+            is TransferStatus.Success -> status.message
+            is TransferStatus.Error -> status.message
+            else -> null
+        }
+        message?.let { snackbarHostState.showSnackbar(it) }
+    }
 
     val onCopyTicket: (String) -> Unit = { ticket ->
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -88,6 +111,11 @@ fun SeyfrApp(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) { data ->
+                CustomSnackbar(snackbarData = data)
+            }
+        },
         bottomBar = {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surface,

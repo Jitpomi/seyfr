@@ -99,6 +99,12 @@ fun ReceiveScreen(
         }
     }
 
+    LaunchedEffect(uiState.receiveStatus) {
+        if (uiState.receiveStatus is TransferStatus.Success) {
+            ticketInput = ""
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -177,7 +183,11 @@ fun ReceiveScreen(
                             Text("Paste", modifier = Modifier.padding(start = 4.dp))
                         }
 
-                        if (ticketInput.isNotEmpty()) {
+                        androidx.compose.animation.AnimatedVisibility(
+                            visible = ticketInput.isNotEmpty(),
+                            enter = androidx.compose.animation.fadeIn() + androidx.compose.animation.expandHorizontally(),
+                            exit = androidx.compose.animation.fadeOut() + androidx.compose.animation.shrinkHorizontally()
+                        ) {
                             TextButton(onClick = { ticketInput = "" }) {
                                 Text("Clear")
                             }
@@ -265,32 +275,6 @@ fun ReceiveScreen(
             Text(text = "Receive File", fontSize = 15.sp)
         }
 
-        AnimatedVisibility(
-            visible = uiState.receiveStatus is TransferStatus.Success || uiState.receiveStatus is TransferStatus.Error,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            val (text, color) = when (val status = uiState.receiveStatus) {
-                is TransferStatus.Success -> status.message to MaterialTheme.colorScheme.primary
-                is TransferStatus.Error -> status.message to MaterialTheme.colorScheme.error
-                else -> "" to MaterialTheme.colorScheme.onSurface
-            }
-
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp),
-                shape = RoundedCornerShape(12.dp),
-                color = color.copy(alpha = 0.1f)
-            ) {
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(12.dp),
-                    fontSize = 13.sp,
-                    color = color
-                )
-            }
-        }
     }
 
     if (showQRScanner) {

@@ -260,8 +260,6 @@ fun SendScreen(
                 }
             }
         }
-
-        StatusPill(status = uiState.sendStatus)
     }
 }
 
@@ -301,37 +299,6 @@ private fun FileCard(
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun StatusPill(status: TransferStatus, modifier: Modifier = Modifier) {
-    AnimatedVisibility(
-        visible = status is TransferStatus.Success || status is TransferStatus.Error,
-        enter = fadeIn(),
-        exit = fadeOut(),
-        modifier = modifier
-    ) {
-        val (text, color) = when (status) {
-            is TransferStatus.Success -> status.message to MaterialTheme.colorScheme.primary
-            is TransferStatus.Error -> status.message to MaterialTheme.colorScheme.error
-            else -> "" to MaterialTheme.colorScheme.onSurface
-        }
-
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            shape = RoundedCornerShape(12.dp),
-            color = color.copy(alpha = 0.1f)
-        ) {
-            Text(
-                text = text,
-                modifier = Modifier.padding(12.dp),
-                fontSize = 13.sp,
-                color = color
-            )
         }
     }
 }
