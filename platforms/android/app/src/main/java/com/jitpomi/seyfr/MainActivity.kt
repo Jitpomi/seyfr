@@ -36,9 +36,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Initialize ndk-context before any Rust code that needs it
-        // (e.g. hickory-resolver DNS via iroh::Endpoint::bind)
-        JffiAndroidInit.initNdkContext(applicationContext)
+        // NDK initialization has been moved to SeyfrApplication
 
         enableEdgeToEdge()
         setContent {
