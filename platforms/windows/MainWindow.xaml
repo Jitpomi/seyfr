@@ -13,7 +13,7 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid x:Name="RootGrid" Background="Transparent">
         <Grid.Resources>
             <local:TabBackgroundConverter x:Key="TabBackgroundConverter" />
             <local:TabForegroundConverter x:Key="TabForegroundConverter" />
@@ -92,17 +92,17 @@
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="Send" Content="Send" IsSelected="True">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE898;" />
+                        <FontIcon Glyph="&#xE898;" FontFamily="Segoe Fluent Icons" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Receive" Content="Receive">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE896;" />
+                        <FontIcon Glyph="&#xE896;" FontFamily="Segoe Fluent Icons" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem Tag="Support" Content="Support">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE00B;" />
+                        <FontIcon Glyph="&#xE00B;" FontFamily="Segoe Fluent Icons" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
