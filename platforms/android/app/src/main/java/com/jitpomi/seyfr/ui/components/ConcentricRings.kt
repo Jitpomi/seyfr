@@ -31,27 +31,17 @@ fun ConcentricRings(
 ) {
     val infiniteTransition = rememberInfiniteTransition(label = "rings")
     
-    val scale by infiniteTransition.animateFloat(
-        initialValue = 1f,
-        targetValue = if (isAnimating) 1.2f else 1f,
+    val phase by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = LinearOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
+            animation = tween(1200, easing = androidx.compose.animation.core.LinearEasing),
+            repeatMode = RepeatMode.Restart
         ),
-        label = "scale"
-    )
-    
-    val alphaAnim by infiniteTransition.animateFloat(
-        initialValue = 0.4f,
-        targetValue = if (isAnimating) 0.1f else 0.4f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(1500, easing = LinearOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "alpha"
+        label = "phase"
     )
 
-    val strokeColor = MaterialTheme.colorScheme.outlineVariant
+    val strokeColor = androidx.compose.material3.MaterialTheme.colorScheme.secondary.copy(alpha = 0.35f)
 
     Box(
         modifier = modifier
@@ -64,15 +54,23 @@ fun ConcentricRings(
             val centerY = size.height / 2
             
             for (i in 0..7) {
-                val baseRadius = 40.dp.toPx() + (i * 11.dp.toPx())
-                val radius = if (isAnimating) baseRadius * scale else baseRadius
-                val alpha = if (isAnimating) alphaAnim else 0.4f
+                // Rings ALWAYS expand outwards to give a continuous "vibrating wave" impression
+                val currentPhase = i + phase
+                
+                val baseRadius = 40.dp.toPx()
+                val spacing = 14.dp.toPx()
+                val radius = baseRadius + (currentPhase * spacing)
+                
+                // Rings fade out as they get further from the center.
+                // When actively transferring (isAnimating), they pulse brighter.
+                val maxAlpha = if (isAnimating) 0.7f else 0.3f
+                val alpha = kotlin.math.max(0f, maxAlpha - (currentPhase / 12f))
                 
                 drawCircle(
                     color = strokeColor.copy(alpha = alpha),
                     radius = radius,
                     center = androidx.compose.ui.geometry.Offset(centerX, centerY),
-                    style = androidx.compose.ui.graphics.drawscope.Stroke(width = 0.5.dp.toPx())
+                    style = androidx.compose.ui.graphics.drawscope.Stroke(width = 0.8.dp.toPx())
                 )
             }
         }
@@ -90,7 +88,7 @@ fun FileRings(isAnimating: Boolean = false, modifier: Modifier = Modifier) {
             imageVector = Icons.Outlined.InsertDriveFile,
             contentDescription = null,
             modifier = Modifier.height(28.dp),
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -102,7 +100,7 @@ fun FolderRings(isAnimating: Boolean = false, modifier: Modifier = Modifier) {
             imageVector = Icons.Outlined.Folder,
             contentDescription = null,
             modifier = Modifier.height(28.dp),
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
         )
     }
 }
@@ -114,7 +112,7 @@ fun QRRings(isAnimating: Boolean = false, modifier: Modifier = Modifier) {
             imageVector = Icons.Outlined.QrCodeScanner,
             contentDescription = null,
             modifier = Modifier.height(28.dp),
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = androidx.compose.material3.MaterialTheme.colorScheme.onSurface
         )
     }
 }

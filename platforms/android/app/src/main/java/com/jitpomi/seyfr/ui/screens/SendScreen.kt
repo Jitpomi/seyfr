@@ -161,7 +161,9 @@ fun SendScreen(
                         },
                         colors = SwitchDefaults.colors(
                             checkedThumbColor = MaterialTheme.colorScheme.onSurface,
-                            checkedTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                            checkedTrackColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                            uncheckedThumbColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            uncheckedTrackColor = MaterialTheme.colorScheme.outlineVariant
                         )
                     )
                     Text(
