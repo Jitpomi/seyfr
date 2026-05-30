@@ -5,6 +5,9 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using System.Threading.Tasks;
+using Microsoft.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -48,6 +51,87 @@ namespace Seyfr
 
             ViewModel = new AppViewModel();
             RootGrid.DataContext = ViewModel;
+
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+            RootGrid.Loaded += (s, e) =>
+            {
+                if (RootGrid.Resources["BreathingAnimation"] is Microsoft.UI.Xaml.Media.Animation.Storyboard breathingAnim)
+                {
+                    breathingAnim.Begin();
+                }
+            };
+        }
+
+        private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AppViewModel.Status) && !string.IsNullOrEmpty(ViewModel.Status))
+            {
+                ShowSnackbar(ViewModel.Status, ViewModel.IsError);
+            }
+        }
+
+        private void ShowSnackbar(string message, bool isError)
+        {
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                SnackbarText.Text = message;
+                SnackbarIcon.Glyph = isError ? "\uE783" : "\uE73E"; // Warning vs Check mark
+                SnackbarIcon.Foreground = isError ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
+
+                var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+                var translateAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+                {
+                    To = -20,
+                    Duration = TimeSpan.FromMilliseconds(300),
+                    EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase() { EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut }
+                };
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(translateAnimation, SnackbarTransform);
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(translateAnimation, "Y");
+
+                var opacityAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+                {
+                    To = 1.0,
+                    Duration = TimeSpan.FromMilliseconds(300)
+                };
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(opacityAnimation, SnackbarBorder);
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(opacityAnimation, "Opacity");
+
+                storyboard.Children.Add(translateAnimation);
+                storyboard.Children.Add(opacityAnimation);
+                storyboard.Begin();
+
+                _ = HideSnackbarAsync();
+            });
+        }
+
+        private async Task HideSnackbarAsync()
+        {
+            await Task.Delay(3000);
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
+                var translateAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+                {
+                    To = 0,
+                    Duration = TimeSpan.FromMilliseconds(300),
+                    EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase() { EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseIn }
+                };
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(translateAnimation, SnackbarTransform);
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(translateAnimation, "Y");
+
+                var opacityAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
+                {
+                    To = 0.0,
+                    Duration = TimeSpan.FromMilliseconds(300)
+                };
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(opacityAnimation, SnackbarBorder);
+                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(opacityAnimation, "Opacity");
+
+                storyboard.Children.Add(translateAnimation);
+                storyboard.Children.Add(opacityAnimation);
+                storyboard.Begin();
+            });
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

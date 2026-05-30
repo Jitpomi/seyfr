@@ -10,9 +10,29 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!-- Other merged dictionaries here -->
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <Color x:Key="SystemAccentColor">#5480BA</Color>
+                    <Color x:Key="SystemAccentColorLight1">#769ACD</Color>
+                    <Color x:Key="SystemAccentColorLight2">#97B4DF</Color>
+                    <Color x:Key="SystemAccentColorLight3">#B9CFF1</Color>
+                    <Color x:Key="SystemAccentColorDark1">#3C649A</Color>
+                    <Color x:Key="SystemAccentColorDark2">#26497B</Color>
+                    <Color x:Key="SystemAccentColorDark3">#11315D</Color>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <Color x:Key="SystemAccentColor">#5480BA</Color>
+                    <Color x:Key="SystemAccentColorLight1">#769ACD</Color>
+                    <Color x:Key="SystemAccentColorLight2">#97B4DF</Color>
+                    <Color x:Key="SystemAccentColorLight3">#B9CFF1</Color>
+                    <Color x:Key="SystemAccentColorDark1">#3C649A</Color>
+                    <Color x:Key="SystemAccentColorDark2">#26497B</Color>
+                    <Color x:Key="SystemAccentColorDark3">#11315D</Color>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
             <!-- Accent color brush derived from the documented SystemAccentColor Color resource -->
             <SolidColorBrush x:Key="AccentBorderBrush" Color="{ThemeResource SystemAccentColor}" />
-            <!-- Other app resources here -->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
