@@ -304,80 +304,6 @@
 
                     </StackPanel>
 
-                    <!-- File Card -->
-                    <Border Visibility="{Binding HasSelectedFile, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="16"
-                Padding="16,14"
-                HorizontalAlignment="Stretch">
-
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <!-- Progress / Check / Error -->
-                            <Grid Grid.Column="0" Width="40" Height="40" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <ProgressRing IsActive="{Binding IsBusy, Mode=OneWay}"
-                                  Width="40"
-                                  Height="40"
-                                  Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                                  Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                                  Background="Transparent" />
-                                
-                                <!-- Success Icon -->
-                                <Grid Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
-                                    <Grid Visibility="{Binding IsError, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
-                                        <Ellipse Width="40"
-                                                 Height="40"
-                                                 Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                                                 StrokeThickness="2"
-                                                 Opacity="0.25"
-                                                 HorizontalAlignment="Center"
-                                                 VerticalAlignment="Center" />
-                                        <FontIcon Glyph="&#xE73E;"
-                                                  FontSize="12"
-                                                  FontWeight="SemiBold"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
-                                    </Grid>
-                                    
-                                    <!-- Error Icon -->
-                                    <Grid Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
-                                        <Ellipse Width="40"
-                                                 Height="40"
-                                                 Stroke="{ThemeResource SystemFillColorCriticalBrush}"
-                                                 StrokeThickness="2"
-                                                 Opacity="0.5"
-                                                 HorizontalAlignment="Center"
-                                                 VerticalAlignment="Center" />
-                                        <FontIcon Glyph="&#xE783;"
-                                                  FontSize="12"
-                                                  FontWeight="SemiBold"
-                                                  Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center" />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-
-                            <!-- File Info -->
-                            <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" Spacing="4">
-                                <TextBlock Text="{Binding SelectedFileName, Mode=OneWay}"
-                           FontSize="15"
-                           FontWeight="Medium"
-                           TextTrimming="CharacterEllipsis" />
-                                <TextBlock Text="{Binding FileStatusText, Mode=OneWay}"
-                                           FontSize="13"
-                                           Opacity="0.6" />
-                            </StackPanel>
-
-                        </Grid>
-                    </Border>
-
                     <!-- Ticket Card -->
                     <Border Visibility="{Binding HasTicket, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
@@ -388,19 +314,25 @@
 
                         <StackPanel Spacing="16">
 
-                            <Grid Margin="0,0,0,16">
-                                <TextBlock Text="Transfer Ticket"
-                           FontSize="18"
-                           FontWeight="Bold"
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <FontIcon Glyph="&#xE8A5;" FontSize="15" />
+                                    <TextBlock Text="Transfer Ticket"
+                           FontSize="15"
+                           FontWeight="SemiBold"
                            VerticalAlignment="Center" />
+                                </StackPanel>
 
-                                <local:HandCursorButton Padding="8"
+                                <local:HandCursorButton Padding="10,6"
                                         HorizontalAlignment="Right"
                                         CornerRadius="8"
                                         Background="Transparent"
-                                        BorderThickness="0"
+                                        BorderThickness="0.5"
                                         Command="{Binding ClearSendCommand, Mode=OneWay}">
-                                    <FontIcon Glyph="&#xE711;" FontSize="14" />
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <FontIcon Glyph="&#xE894;" FontSize="12" />
+                                        <TextBlock Text="Clear" FontSize="12" FontWeight="Medium" />
+                                    </StackPanel>
                                 </local:HandCursorButton>
                             </Grid>
 
@@ -422,7 +354,7 @@
                             <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="12"
-                    Padding="6">
+                    Padding="12,12">
                                 <TextBlock Text="{Binding Ticket, Mode=OneWay}"
                        FontSize="11"
                        FontFamily="Consolas"
@@ -430,14 +362,13 @@
                        IsTextSelectionEnabled="True" />
                             </Border>
 
-                            <Grid Margin="0,16,0,0">
+                            <Grid Margin="0,8,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="12" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Copy Button (Outlined) -->
                                 <local:HandCursorButton Grid.Column="0"
                                         HorizontalAlignment="Stretch"
                                         Padding="0,12"
@@ -445,63 +376,33 @@
                                         Command="{Binding CopyTicketCommand, Mode=OneWay}"
                                         BorderBrush="{ThemeResource SystemAccentColor}"
                                         BorderThickness="1"
-                                        Background="Transparent">
-                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                                        <FontIcon Glyph="&#xE8C8;" FontSize="15" Foreground="{ThemeResource SystemAccentColor}" />
-                                        <TextBlock Text="Copy" FontSize="15" FontWeight="SemiBold" Foreground="{ThemeResource SystemAccentColor}" />
+                                        Background="Transparent"
+                                        Foreground="{ThemeResource SystemAccentColor}">
+                                    <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
+                                        <FontIcon Glyph="&#xE8C8;" FontSize="15" Foreground="{ThemeResource SystemAccentColor}" FontFamily="Segoe Fluent Icons" />
+                                        <TextBlock Text="Copy" FontSize="15" FontWeight="Medium" Foreground="{ThemeResource SystemAccentColor}" />
                                     </StackPanel>
                                 </local:HandCursorButton>
 
-                                <!-- Share Button (Filled) -->
                                 <local:HandCursorButton Grid.Column="2"
                                         HorizontalAlignment="Stretch"
                                         Padding="0,12"
                                         CornerRadius="12"
-                                        Command="{Binding ShareTicketCommand, Mode=OneWay}"
+                                        BorderBrush="Transparent"
+                                        BorderThickness="0"
                                         Background="{ThemeResource SystemAccentColor}"
-                                        BorderThickness="0">
-                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                                        <FontIcon Glyph="&#xE72D;" FontSize="15" Foreground="White" />
-                                        <TextBlock Text="Share" FontSize="15" FontWeight="SemiBold" Foreground="White" />
+                                        Foreground="White"
+                                        Command="{Binding ShareTicketCommand, Mode=OneWay}">
+                                    <StackPanel Orientation="Horizontal" Spacing="6" HorizontalAlignment="Center">
+                                        <FontIcon Glyph="&#xE72D;" FontSize="15" Foreground="White" FontFamily="Segoe Fluent Icons" />
+                                        <TextBlock Text="Share" FontSize="15" FontWeight="Medium" Foreground="White" />
                                     </StackPanel>
                                 </local:HandCursorButton>
                             </Grid>
                         </StackPanel>
                     </Border>
 
-                    <!-- Status Pill -->
-                    <Border Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="12"
-                Padding="16,10"
-                HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <ProgressRing IsActive="{Binding IsBusy, Mode=OneWay}"
-                              Width="16"
-                              Height="16"
-                              Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                              Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                              Background="Transparent" />
-                            <FontIcon Glyph="&#xE783;"
-                          FontSize="12"
-                          FontWeight="SemiBold"
-                          Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                          Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                          VerticalAlignment="Center" />
-                            <Grid Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
-                                <FontIcon Glyph="&#xE73E;"
-                          FontSize="12"
-                          FontWeight="SemiBold"
-                          Visibility="{Binding IsError, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
-                          VerticalAlignment="Center" />
-                            </Grid>
-                            <TextBlock Text="{Binding Status, Mode=OneWay}"
-                           FontSize="13"
-                           FontWeight="Medium"
-                           VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
+
 
                 </StackPanel>
 
@@ -512,49 +413,57 @@
             MaxWidth="720"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Receive, Mode=OneWay}">
 
-                    <StackPanel Spacing="8" HorizontalAlignment="Center" Margin="0,0,0,16">
-                        <TextBlock Text="Receive a file" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" />
-                        <TextBlock Text="Tap to scan a QR code or paste below" FontSize="14" Opacity="0.6" HorizontalAlignment="Center" />
-                    </StackPanel>
-
                     <!-- Ticket Card -->
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
-            CornerRadius="16"
-            Padding="20"
+            CornerRadius="18"
+            Padding="24"
             MaxWidth="720"
             HorizontalAlignment="Stretch">
 
-                        <StackPanel Spacing="16">
+                        <StackPanel Spacing="18">
+
                             <Grid>
-                                <TextBlock Text="Ticket"
-                           FontSize="16"
+                                <TextBlock Text="Enter ticket"
+                           FontSize="15"
                            FontWeight="SemiBold"
                            VerticalAlignment="Center" />
 
-                                <local:HandCursorButton Padding="10,6"
-                                        HorizontalAlignment="Right"
-                                        CornerRadius="8"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        Command="{Binding PasteTicketCommand, Mode=OneWay}">
-                                    <StackPanel Orientation="Horizontal" Spacing="6">
-                                        <FontIcon Glyph="&#xE77F;" FontSize="14" Foreground="{ThemeResource SystemAccentColor}" />
-                                        <TextBlock Text="Paste" FontSize="14" FontWeight="SemiBold" Foreground="{ThemeResource SystemAccentColor}" />
-                                    </StackPanel>
-                                </local:HandCursorButton>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+                                    <local:HandCursorButton Padding="10,6"
+                                            CornerRadius="8"
+                                            Background="Transparent"
+                                            BorderThickness="0.5"
+                                            Command="{Binding PasteTicketCommand, Mode=OneWay}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE77F;" FontSize="12" />
+                                            <TextBlock Text="Paste" FontSize="12" FontWeight="Medium" />
+                                        </StackPanel>
+                                    </local:HandCursorButton>
+                                    <local:HandCursorButton Padding="10,6"
+                                            CornerRadius="8"
+                                            Background="Transparent"
+                                            BorderThickness="0.5"
+                                            Command="{Binding ClearTicketCommand, Mode=OneWay}"
+                                            Visibility="{Binding HasTicketInput, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4">
+                                            <FontIcon Glyph="&#xE894;" FontSize="12" />
+                                            <TextBlock Text="Clear" FontSize="12" FontWeight="Medium" />
+                                        </StackPanel>
+                                    </local:HandCursorButton>
+                                </StackPanel>
                             </Grid>
 
                             <TextBox Text="{Binding TicketInput, Mode=TwoWay}"
                                      TextChanged="TicketInput_TextChanged"
                                      PlaceholderText="Paste ticket here..."
                      AcceptsReturn="True"
-                     MinHeight="80"
+                     MinHeight="72"
                      TextWrapping="Wrap"
-                     Padding="12"
+                     Padding="10"
                      FontFamily="Consolas"
-                     FontSize="12"
+                     FontSize="11"
                      CornerRadius="12" />
                         </StackPanel>
                     </Border>
@@ -563,34 +472,52 @@
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
-            CornerRadius="16"
-            Padding="20"
+            CornerRadius="18"
+            Padding="24"
             MaxWidth="720"
             HorizontalAlignment="Stretch">
-                        
-                        <StackPanel Spacing="16">
-                            <TextBlock Text="Save Location"
-                               FontSize="16"
-                               FontWeight="SemiBold" />
 
-                            <local:HandCursorButton HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
-                                        Padding="0"
-                                        CornerRadius="0"
+                        <StackPanel Spacing="18">
+
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <FontIcon Glyph="&#xE8D4;" FontSize="18" />
+                                    <TextBlock Text="Save Location"
+                               FontSize="15"
+                               FontWeight="SemiBold" />
+                                </StackPanel>
+
+                                <local:HandCursorButton Content="Change"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Padding="14,8"
+                                        CornerRadius="8"
                                         Background="Transparent"
-                                        BorderThickness="0"
-                                        Command="{Binding SelectDestinationCommand, Mode=OneWay}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <FontIcon Grid.Column="0" Glyph="&#xE8B7;" FontSize="20" Foreground="{ThemeResource SystemAccentColor}" Margin="0,0,16,0" />
-                                    <TextBlock Grid.Column="1" Text="{Binding DestinationName, Mode=OneWay}" FontSize="15" FontWeight="Medium" VerticalAlignment="Center" />
-                                    <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="14" Opacity="0.5" VerticalAlignment="Center" />
-                                </Grid>
-                            </local:HandCursorButton>
+                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                        BorderThickness="1"
+                                        Command="{Binding SelectDestinationCommand, Mode=OneWay}" />
+                            </Grid>
+
+                            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="14"
+                    Padding="14">
+
+                                <StackPanel Orientation="Horizontal" Spacing="12">
+                                    <FontIcon Glyph="&#xE8B7;" FontSize="20" />
+
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding DestinationName, Mode=OneWay}"
+                                   FontSize="14"
+                                   FontWeight="Medium" />
+
+                                        <TextBlock Text="{Binding DestinationPath, Mode=OneWay}"
+                                   FontSize="12"
+                                   Opacity="0.6"
+                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
                         </StackPanel>
                     </Border>
 
@@ -600,46 +527,16 @@
             CornerRadius="12"
             Command="{Binding ReceiveCommand, Mode=OneWay}"
             IsEnabled="{Binding HasTicketInput, Mode=OneWay}"
-            Background="{ThemeResource SystemAccentColor}"
-            BorderThickness="0">
+            BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
+            BorderThickness="1"
+            Background="Transparent">
                         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
-                            <TextBlock Text="Receive File" FontSize="15" FontWeight="SemiBold" Foreground="White" />
+                            <FontIcon Glyph="&#xE896;" FontSize="18" />
+                            <TextBlock Text="Receive File" FontSize="15" FontWeight="SemiBold" />
                         </StackPanel>
                     </local:HandCursorButton>
 
-                    <!-- Status Pill -->
-                    <Border Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="12"
-                Padding="16,10"
-                HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <ProgressRing IsActive="{Binding IsBusy, Mode=OneWay}"
-                              Width="16"
-                              Height="16"
-                              Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                              Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-                              Background="Transparent" />
-                            <FontIcon Glyph="&#xE783;"
-                          FontSize="12"
-                          FontWeight="SemiBold"
-                          Visibility="{Binding IsError, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                          Foreground="{ThemeResource SystemFillColorCriticalBrush}"
-                          VerticalAlignment="Center" />
-                            <Grid Visibility="{Binding IsBusy, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}">
-                                <FontIcon Glyph="&#xE73E;"
-                          FontSize="12"
-                          FontWeight="SemiBold"
-                          Visibility="{Binding IsError, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}"
-                          VerticalAlignment="Center" />
-                            </Grid>
-                            <TextBlock Text="{Binding Status, Mode=OneWay}"
-                           FontSize="13"
-                           FontWeight="Medium"
-                           VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
+
 
                     <TextBlock Text="Once you enter a valid ticket, the files will be ready to download."
                FontSize="13"
