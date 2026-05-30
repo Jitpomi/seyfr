@@ -65,164 +65,60 @@
             <local:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
             <local:InverseBoolToOpacityConverter x:Key="InverseBoolToOpacityConverter" />
         </Grid.Resources>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <!-- Sidebar -->
-        <Grid Grid.Column="0" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,0,1,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <!-- Logo -->
-            <StackPanel Grid.Row="0"
-            Margin="16,20,16,32"
-            Spacing="12"
-            HorizontalAlignment="Left">
-
-                <Image Width="44"
-                       Height="44"
-                       Source="ms-appx:///Assets/sidebar_logo.png"
-                       HorizontalAlignment="Left" />
-
-                <StackPanel Spacing="4"
-                HorizontalAlignment="Left">
-
-                    <TextBlock Text="SEYFR"
-                   FontSize="22"
-                   FontWeight="ExtraLight"
-                   CharacterSpacing="136"
-                   TextAlignment="Left"
-                   HorizontalAlignment="Left" />
-
-                    <TextBlock Text="Send Your Files Right"
-                   FontSize="11"
-                   FontWeight="Normal"
-                   CharacterSpacing="91"
-                   Opacity="0.6"
-                   TextAlignment="Left"
-                   HorizontalAlignment="Left" />
-                </StackPanel>
-            </StackPanel>
-
-            <!-- Navigation -->
-            <StackPanel Grid.Row="1" Margin="12,0" Spacing="4">
-                <!-- Send Button -->
-                <local:HandCursorButton x:Name="SendNavButton"
-        HorizontalAlignment="Stretch"
-        HorizontalContentAlignment="Left"
-        Padding="12,8"
-        CornerRadius="8"
-        BorderThickness="0"
-        Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Send, Mode=OneWay}"
-        Style="{StaticResource NavButtonStyle}">
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-
-                        <Border Width="28"
-                                Height="28"
-                                CornerRadius="14"
-                                Background="{Binding SelectedTab, Converter={StaticResource IconBubbleBackgroundConverter}, ConverterParameter=Send}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                            <FontIcon Glyph="&#xE898;"
-                                      FontSize="12"
-                                      Foreground="White"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center" />
-                        </Border>
-
-                        <TextBlock Text="Send"
-                   FontSize="14"
-                   FontWeight="{Binding SelectedTab, Converter={StaticResource TabFontWeightConverter}, ConverterParameter=Send}"
-                   VerticalAlignment="Center"
-                   Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Send}" />
-                    </StackPanel>
-                </local:HandCursorButton>
-
-                <!-- Receive Button -->
-                <local:HandCursorButton x:Name="ReceiveNavButton"
-                     HorizontalAlignment="Stretch"
-                     HorizontalContentAlignment="Left"
-                     Padding="12,8"
-                     CornerRadius="8"
-                     BorderThickness="0"
-                     Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Receive, Mode=OneWay}"
-                     Style="{StaticResource NavButtonStyle}">
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-
-                        <Border Width="28"
-                                Height="28"
-                                CornerRadius="14"
-                                Background="{Binding SelectedTab, Converter={StaticResource IconBubbleBackgroundConverter}, ConverterParameter=Receive}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                            <FontIcon Glyph="&#xE896;"
-                                      FontSize="12"
-                                      Foreground="White"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center" />
-                        </Border>
-
-                        <TextBlock Text="Receive"
-                            FontSize="14"
-                            FontWeight="{Binding SelectedTab, Converter={StaticResource TabFontWeightConverter}, ConverterParameter=Receive}"
-                            VerticalAlignment="Center"
-                            Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Receive}" />
-                    </StackPanel>
-                </local:HandCursorButton>
-
-                <!-- Support Button -->
-                <local:HandCursorButton x:Name="SupportNavButton"
-                     HorizontalAlignment="Stretch"
-                     HorizontalContentAlignment="Left"
-                     Padding="12,8"
-                     CornerRadius="8"
-                     BorderThickness="0"
-                     Background="{Binding SelectedTab, Converter={StaticResource TabBackgroundConverter}, ConverterParameter=Support, Mode=OneWay}"
-                     Style="{StaticResource NavButtonStyle}">
-
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-
-                        <Border Width="28"
-                                Height="28"
-                                CornerRadius="14"
-                                Background="{Binding SelectedTab, Converter={StaticResource IconBubbleBackgroundConverter}, ConverterParameter=Support}"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                            <FontIcon Glyph="&#xE00B;"
-                                      FontSize="12"
-                                      Foreground="White"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center" />
-                        </Border>
-
-                        <TextBlock Text="Support"
-                            FontSize="14"
-                            FontWeight="{Binding SelectedTab, Converter={StaticResource TabFontWeightConverter}, ConverterParameter=Support}"
-                            VerticalAlignment="Center"
-                            Foreground="{Binding SelectedTab, Converter={StaticResource TabForegroundConverter}, ConverterParameter=Support}" />
-                    </StackPanel>
-                </local:HandCursorButton>
-            </StackPanel>
-
-            <!-- Status -->
-            <StackPanel Grid.Row="2" Margin="16,16" Spacing="6">
-                <StackPanel Orientation="Horizontal" Spacing="6">
-                    <Ellipse Width="8" Height="8" Fill="{ThemeResource SystemFillColorSuccessBrush}" />
-                    <TextBlock Text="Online" FontSize="12" FontWeight="SemiBold" />
-                </StackPanel>
-                <TextBlock Text="{Binding SelectedTab, Converter={StaticResource TabStatusTextConverter}, Mode=OneWay}" FontSize="11" Opacity="0.6" />
-            </StackPanel>
+        <!-- Custom TitleBar -->
+        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40" Background="Transparent">
+            <!-- Draggable region for ExtendsContentIntoTitleBar -->
         </Grid>
 
-        <!-- Main Content -->
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+        <NavigationView x:Name="NavView" 
+                        Grid.Row="1"
+                        IsBackButtonVisible="Collapsed" 
+                        IsSettingsVisible="False"
+                        SelectionChanged="NavView_SelectionChanged"
+                        PaneDisplayMode="Auto">
+            
+            <NavigationView.PaneHeader>
+                <StackPanel Margin="0,12,0,12" Spacing="12" Orientation="Horizontal">
+                    <Image Width="24" Height="24" Source="ms-appx:///Assets/sidebar_logo.png" VerticalAlignment="Center" />
+                    <TextBlock Text="SEYFR" FontSize="16" FontWeight="SemiBold" CharacterSpacing="50" VerticalAlignment="Center" />
+                </StackPanel>
+            </NavigationView.PaneHeader>
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Tag="Send" Content="Send" IsSelected="True">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE898;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Receive" Content="Receive">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE896;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Tag="Support" Content="Support">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE00B;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <StackPanel Margin="16,16" Spacing="6">
+                    <StackPanel Orientation="Horizontal" Spacing="6">
+                        <Ellipse Width="8" Height="8" Fill="{ThemeResource SystemFillColorSuccessBrush}" />
+                        <TextBlock Text="Online" FontSize="12" FontWeight="SemiBold" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding SelectedTab, Converter={StaticResource TabStatusTextConverter}, Mode=OneWay}" FontSize="11" Opacity="0.6" />
+                </StackPanel>
+            </NavigationView.PaneFooter>
+
+            <!-- Main Content -->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
             <Grid Margin="40,32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -1109,6 +1005,6 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-
+        </NavigationView>
     </Grid>
 </Window>

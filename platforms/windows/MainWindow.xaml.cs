@@ -22,6 +22,9 @@ namespace Seyfr
         {
             this.InitializeComponent();
 
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(AppTitleBar);
+
             // Set window icon
             try
             {
@@ -45,11 +48,25 @@ namespace Seyfr
 
             ViewModel = new AppViewModel();
             RootGrid.DataContext = ViewModel;
+        }
 
-            // Wire up navigation button clicks
-            SendNavButton.Click += (s, e) => ViewModel.SelectedTab = TransferTab.Send;
-            ReceiveNavButton.Click += (s, e) => ViewModel.SelectedTab = TransferTab.Receive;
-            SupportNavButton.Click += (s, e) => ViewModel.SelectedTab = TransferTab.Support;
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.SelectedItem is NavigationViewItem item)
+            {
+                switch (item.Tag?.ToString())
+                {
+                    case "Send":
+                        ViewModel.SelectedTab = TransferTab.Send;
+                        break;
+                    case "Receive":
+                        ViewModel.SelectedTab = TransferTab.Receive;
+                        break;
+                    case "Support":
+                        ViewModel.SelectedTab = TransferTab.Support;
+                        break;
+                }
+            }
         }
 
         private string? FindIconPath()
