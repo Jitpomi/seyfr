@@ -453,6 +453,7 @@ namespace Seyfr
                     _core.Receive(ticket, DestinationPath);
                 });
                 Status = "Received successfully";
+                TicketInput = "";
             }
             catch (SeyfrException ex)
             {
