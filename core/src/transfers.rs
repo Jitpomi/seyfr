@@ -426,6 +426,12 @@ impl TransferEngine {
                         details: format!("{}", e),
                     })?;
                     
+                    if file_dest.exists() {
+                        return Err(SeyfrError::FileExists {
+                            path: item.name.clone(),
+                        });
+                    }
+                    
                     if let Some(parent) = file_dest.parent() {
                         tokio::fs::create_dir_all(parent).await.map_err(SeyfrError::from)?;
                     }
@@ -448,8 +454,15 @@ impl TransferEngine {
                     }
 
                     // Export to destination
-                    store.blobs().export(hash, &file_dest).await.map_err(|e| SeyfrError::Store {
-                        details: format!("export failed for '{}': {}", item.name, e),
+                    store.blobs().export(hash, &file_dest).await.map_err(|e| {
+                        let e_str = e.to_string();
+                        if e_str.contains("Permission denied") || e_str.contains("os error 13") {
+                            SeyfrError::PermissionDenied { details: e_str }
+                        } else {
+                            SeyfrError::Store {
+                                details: format!("export failed for '{}': {}", item.name, e_str),
+                            }
+                        }
                     })?;
 
                     // Apply timestamps if available (our format).

@@ -13,6 +13,8 @@ pub enum SeyfrError {
     Internal { details: String },
     PathTraversal { path: String, details: String },
     InvalidPath { details: String },
+    FileExists { path: String },
+    PermissionDenied { details: String },
 }
 
 
@@ -31,6 +33,8 @@ impl std::fmt::Display for SeyfrError {
             SeyfrError::Internal { details } => write!(f, "internal error: {}", details),
             SeyfrError::PathTraversal { path, details } => write!(f, "path traversal attempt: {} - {}", path, details),
             SeyfrError::InvalidPath { details } => write!(f, "invalid path: {}", details),
+            SeyfrError::FileExists { path } => write!(f, "file already exists: {}", path),
+            SeyfrError::PermissionDenied { details } => write!(f, "permission denied: {}", details),
         }
     }
 }
@@ -52,6 +56,8 @@ impl SeyfrError {
             SeyfrError::Internal { .. } => 9001,
             SeyfrError::PathTraversal { .. } => 1005,
             SeyfrError::InvalidPath { .. } => 1006,
+            SeyfrError::FileExists { .. } => 1007,
+            SeyfrError::PermissionDenied { .. } => 1008,
         }
     }
 }

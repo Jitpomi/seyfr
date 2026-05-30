@@ -79,7 +79,7 @@ class AppViewModel(context: Context) : ViewModel() {
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    sendStatus = TransferStatus.Error(e.message ?: "Send failed")
+                    sendStatus = TransferStatus.Error(getUserFriendlyErrorMessage(e, "Send failed"))
                 )
             }
         }
@@ -105,7 +105,7 @@ class AppViewModel(context: Context) : ViewModel() {
                 )
             } catch (e: Exception) {
                 _uiState.value = _uiState.value.copy(
-                    receiveStatus = TransferStatus.Error(e.message ?: "Receive failed")
+                    receiveStatus = TransferStatus.Error(getUserFriendlyErrorMessage(e, "Receive failed"))
                 )
             }
         }
@@ -121,5 +121,31 @@ class AppViewModel(context: Context) : ViewModel() {
 
     fun setDestination(path: String) {
         _uiState.value = _uiState.value.copy(destinationPath = path)
+    }
+
+    private fun getUserFriendlyErrorMessage(e: Exception, defaultMsg: String): String {
+        Log.e("AppViewModel", "Core error: ${e.message}", e)
+        
+        if (e is uniffi.seyfr_core.SeyfrException) {
+            return when (e) {
+                is uniffi.seyfr_core.SeyfrException.PathTraversal ->
+                    "Blocked: Sender attempted unauthorized access."
+                is uniffi.seyfr_core.SeyfrException.FileExists ->
+                    "You already received '${e.path}'."
+                is uniffi.seyfr_core.SeyfrException.PermissionDenied ->
+                    "Save failed: Storage permission denied."
+                is uniffi.seyfr_core.SeyfrException.Io ->
+                    "Storage access failed."
+                is uniffi.seyfr_core.SeyfrException.Network ->
+                    "Connection lost."
+                is uniffi.seyfr_core.SeyfrException.Timeout ->
+                    "Transfer timed out."
+                is uniffi.seyfr_core.SeyfrException.InvalidTicket ->
+                    "Invalid ticket."
+                else -> "Transfer failed: ${e.message}"
+            }
+        }
+        
+        return defaultMsg
     }
 }
