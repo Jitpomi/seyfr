@@ -133,84 +133,87 @@ fun SeyfrApp(
         context.startActivity(Intent.createChooser(intent, "Share ticket"))
     }
 
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) { data ->
-                CustomSnackbar(snackbarData = data)
-            }
-        },
-        bottomBar = {
-            NavigationBar(
-                containerColor = MaterialTheme.colorScheme.surface,
-                tonalElevation = 0.dp
-            ) {
-                NavigationBarItem(
-                    selected = selectedTab == 0,
-                    onClick = { selectedTab = 0 },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.KeyboardArrowUp,
-                            contentDescription = "Send"
-                        )
-                    },
-                    label = { Text("Send") }
-                )
-                NavigationBarItem(
-                    selected = selectedTab == 1,
-                    onClick = { selectedTab = 1 },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.KeyboardArrowDown,
-                            contentDescription = "Receive"
-                        )
-                    },
-                    label = { Text("Receive") }
-                )
-                NavigationBarItem(
-                    selected = selectedTab == 2,
-                    onClick = { selectedTab = 2 },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Outlined.FavoriteBorder,
-                            contentDescription = "Support"
-                        )
-                    },
-                    label = { Text("Support") }
-                )
-            }
+    androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold(
+        navigationSuiteColors = androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaults.colors(
+            navigationBarContainerColor = MaterialTheme.colorScheme.surface,
+            navigationRailContainerColor = MaterialTheme.colorScheme.surface,
+            navigationDrawerContainerColor = MaterialTheme.colorScheme.surface
+        ),
+        navigationSuiteItems = {
+            item(
+                selected = selectedTab == 0,
+                onClick = { selectedTab = 0 },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowUp,
+                        contentDescription = "Send"
+                    )
+                },
+                label = { Text("Send") }
+            )
+            item(
+                selected = selectedTab == 1,
+                onClick = { selectedTab = 1 },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.KeyboardArrowDown,
+                        contentDescription = "Receive"
+                    )
+                },
+                label = { Text("Receive") }
+            )
+            item(
+                selected = selectedTab == 2,
+                onClick = { selectedTab = 2 },
+                icon = {
+                    Icon(
+                        imageVector = Icons.Outlined.FavoriteBorder,
+                        contentDescription = "Support"
+                    )
+                },
+                label = { Text("Support") }
+            )
         }
-    ) { paddingValues ->
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            color = MaterialTheme.colorScheme.background
-        ) {
-            Column {
-                AppLogo()
+    ) {
+        Scaffold(
+            modifier = modifier.fillMaxSize(),
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState) { data ->
+                    CustomSnackbar(snackbarData = data)
+                }
+            }
+        ) { paddingValues ->
+            Surface(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                Column {
+                    AppLogo()
 
-                AnimatedContent(
-                    targetState = selectedTab,
-                    transitionSpec = {
-                        fadeIn() togetherWith fadeOut()
-                    },
-                    label = "tab_transition"
-                ) { tab ->
-                    when (tab) {
-                        0 -> SendScreen(
-                            uiState = uiState,
-                            onSend = onSend,
-                            onClearSend = onClearSend,
-                            onCopyTicket = onCopyTicket,
-                            onShareTicket = onShareTicket
-                        )
-                        1 -> ReceiveScreen(
-                            uiState = uiState,
-                            onReceive = onReceive,
-                            onSetDestination = onSetDestination
-                        )
-                        2 -> SupportScreen()
+                    AnimatedContent(
+                        targetState = selectedTab,
+                        transitionSpec = {
+                            fadeIn() togetherWith fadeOut()
+                        },
+                        label = "tab_transition"
+                    ) { tab ->
+                        when (tab) {
+                            0 -> SendScreen(
+                                uiState = uiState,
+                                onSend = onSend,
+                                onClearSend = onClearSend,
+                                onCopyTicket = onCopyTicket,
+                                onShareTicket = onShareTicket
+                            )
+                            1 -> ReceiveScreen(
+                                uiState = uiState,
+                                onReceive = onReceive,
+                                onSetDestination = onSetDestination
+                            )
+                            2 -> SupportScreen()
+                        }
                     }
                 }
             }

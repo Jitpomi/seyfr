@@ -83,6 +83,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.compose.material3:material3-adaptive-navigation-suite")
     implementation(libs.jna) {
         artifact {
             type = "aar"

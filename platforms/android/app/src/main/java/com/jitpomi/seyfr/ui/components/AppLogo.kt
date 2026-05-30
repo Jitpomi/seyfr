@@ -30,13 +30,13 @@ fun AppLogo(modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .border(1.2.dp, MaterialTheme.colorScheme.onSurface, CircleShape),
+                .border(2.dp, MaterialTheme.colorScheme.onSurface, CircleShape),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "S",
                 fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
@@ -46,7 +46,7 @@ fun AppLogo(modifier: Modifier = Modifier) {
         Text(
             text = "SEYFR",
             fontSize = 28.sp,
-            fontWeight = FontWeight.Thin,
+            fontWeight = FontWeight.Normal,
             letterSpacing = 3.sp,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -56,9 +56,9 @@ fun AppLogo(modifier: Modifier = Modifier) {
         Text(
             text = "Send Your Files Right",
             fontSize = 13.sp,
-            fontWeight = FontWeight.Normal,
+            fontWeight = FontWeight.Medium,
             letterSpacing = 1.5.sp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center
         )
     }
