@@ -460,16 +460,16 @@ namespace Seyfr
                 IsError = true;
                 Status = ex switch
                 {
-                    SeyfrException.Network e      => $"Network error: {e.details}",
-                    SeyfrException.Io e           => $"File error: {e.details}",
+                    SeyfrException.Network        => "Connection lost.",
+                    SeyfrException.Io             => "Storage access failed.",
                     SeyfrException.InvalidTicket e => $"Invalid ticket: {e.details}",
                     SeyfrException.Store e        => $"Store error: {e.details}",
                     SeyfrException.Internal e     => $"Internal error: {e.details}",
-                    SeyfrException.FileExists e   => $"File already exists: {e.path}",
-                    SeyfrException.PathTraversal  => "Blocked: Sender attempted unauthorized access",
-                    SeyfrException.PermissionDenied => "Save failed: Storage permission denied",
-                    SeyfrException.Cancelled      => "Transfer cancelled",
-                    SeyfrException.Timeout        => "Transfer timed out",
+                    SeyfrException.FileExists e   => $"You already received '{e.path}'.",
+                    SeyfrException.PathTraversal  => "Blocked: Sender attempted unauthorized access.",
+                    SeyfrException.PermissionDenied => "Save failed: Storage permission denied.",
+                    SeyfrException.Cancelled      => "Transfer cancelled.",
+                    SeyfrException.Timeout        => "Transfer timed out.",
                     _                             => ex.Message
                 };
             }
