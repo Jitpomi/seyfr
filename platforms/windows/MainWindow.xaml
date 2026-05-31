@@ -381,57 +381,50 @@
                     </Border>
 
                     <!-- Save Location Card -->
-                    <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1"
-            CornerRadius="18"
-            Padding="24"
-            MaxWidth="720"
-            HorizontalAlignment="Stretch">
+                    <local:HandCursorButton HorizontalAlignment="Stretch"
+                            Padding="0"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Command="{Binding SelectDestinationCommand, Mode=OneWay}"
+                            MaxWidth="720">
+                        <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                BorderThickness="1"
+                                CornerRadius="18"
+                                Padding="24">
+                            <StackPanel Spacing="20">
+                                <!-- Title -->
+                                <TextBlock Text="Save Location"
+                                           Style="{StaticResource BodyStrongTextBlockStyle}" />
 
-                        <StackPanel Spacing="18">
-
-                            <Grid>
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <FontIcon Glyph="&#xE8D4;" FontSize="18" />
-                                    <TextBlock Text="Save Location"
-                               FontSize="15"
-                               FontWeight="SemiBold" />
-                                </StackPanel>
-
-                                <local:HandCursorButton Content="Change"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"
-                                        Padding="14,8"
-                                        CornerRadius="8"
-                                        Background="Transparent"
-                                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                                        BorderThickness="1"
-                                        Command="{Binding SelectDestinationCommand, Mode=OneWay}" />
-                            </Grid>
-
-                            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                    BorderThickness="1"
-                    CornerRadius="14"
-                    Padding="14">
-
-                                <StackPanel Orientation="Horizontal" Spacing="12">
-                                    <FontIcon Glyph="&#xE8B7;" FontSize="20" />
-
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding DestinationName, Mode=OneWay}"
-                                   FontSize="14"
-                                   FontWeight="Medium" />
-
-                                        <TextBlock Text="{Binding DestinationPath, Mode=OneWay}"
-                                   FontSize="12"
-                                   Opacity="0.6"
-                                   TextTrimming="CharacterEllipsis" />
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </Border>
+                                <!-- Folder Info -->
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <FontIcon Grid.Column="0" 
+                                              Glyph="&#xE8B7;" 
+                                              FontSize="20" 
+                                              Foreground="{ThemeResource SystemAccentColor}" 
+                                              Margin="0,0,16,0" />
+                                    
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding DestinationName, Mode=OneWay}" 
+                                               Style="{StaticResource BodyTextBlockStyle}" 
+                                               VerticalAlignment="Center" />
+                                    
+                                    <FontIcon Grid.Column="2" 
+                                              Glyph="&#xE76C;" 
+                                              FontSize="14" 
+                                              Foreground="{ThemeResource TextFillColorSecondaryBrush}" 
+                                              VerticalAlignment="Center" />
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </local:HandCursorButton>
 
                     <!-- Receive Button -->
                     <local:HandCursorButton HorizontalAlignment="Stretch"
