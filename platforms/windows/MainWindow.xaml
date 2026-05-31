@@ -66,21 +66,9 @@
             <local:InverseBoolToOpacityConverter x:Key="InverseBoolToOpacityConverter" />
             
             <Storyboard x:Key="BreathingAnimation" RepeatBehavior="Forever">
-                <DoubleAnimation Storyboard.TargetName="RingsScale" Storyboard.TargetProperty="ScaleX" From="1.0" To="1.05" Duration="0:0:2" AutoReverse="True">
-                    <DoubleAnimation.EasingFunction>
-                        <SineEase EasingMode="EaseInOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="RingsScale" Storyboard.TargetProperty="ScaleY" From="1.0" To="1.05" Duration="0:0:2" AutoReverse="True">
-                    <DoubleAnimation.EasingFunction>
-                        <SineEase EasingMode="EaseInOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation Storyboard.TargetName="RingsCanvas" Storyboard.TargetProperty="Opacity" From="1.0" To="0.5" Duration="0:0:2" AutoReverse="True">
-                    <DoubleAnimation.EasingFunction>
-                        <SineEase EasingMode="EaseInOut" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
+                <DoubleAnimation Storyboard.TargetName="RingsScale" Storyboard.TargetProperty="ScaleX" From="1.0" To="1.02" Duration="0:0:0.06" AutoReverse="True" />
+                <DoubleAnimation Storyboard.TargetName="RingsScale" Storyboard.TargetProperty="ScaleY" From="1.0" To="1.02" Duration="0:0:0.06" AutoReverse="True" />
+                <DoubleAnimation Storyboard.TargetName="RingsCanvas" Storyboard.TargetProperty="Opacity" From="1.0" To="0.7" Duration="0:0:0.06" AutoReverse="True" />
             </Storyboard>
         </Grid.Resources>
         <Grid.RowDefinitions>
@@ -187,7 +175,7 @@
                          Height="234"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="34"
                          Canvas.Top="34"
@@ -195,7 +183,7 @@
                          Height="212"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="45"
                          Canvas.Top="45"
@@ -203,7 +191,7 @@
                          Height="190"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="56"
                          Canvas.Top="56"
@@ -211,7 +199,7 @@
                          Height="168"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="67"
                          Canvas.Top="67"
@@ -219,7 +207,7 @@
                          Height="146"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="78"
                          Canvas.Top="78"
@@ -227,7 +215,7 @@
                          Height="124"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="89"
                          Canvas.Top="89"
@@ -235,7 +223,7 @@
                          Height="102"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
 
                                 <Ellipse Canvas.Left="100"
                          Canvas.Top="100"
@@ -243,7 +231,7 @@
                          Height="80"
                          Stroke="{ThemeResource TextFillColorSecondaryBrush}"
                          StrokeThickness="0.5"
-                         Opacity="0.1" />
+                         Opacity="0.3" />
                             </Canvas>
 
                             <FontIcon Glyph="{Binding IsFolderMode, Converter={StaticResource FolderModeGlyphConverter}}"
