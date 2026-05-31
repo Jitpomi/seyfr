@@ -780,20 +780,6 @@
                         </PivotItem>
                     </Pivot>
 
-                    <!-- Status Pill -->
-                    <Border Visibility="{Binding HasStatus, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                            BorderThickness="1"
-                            CornerRadius="12"
-                            Padding="16,10"
-                            HorizontalAlignment="Stretch">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="{Binding Status, Mode=OneWay}"
-                                       FontSize="13"
-                                       FontWeight="Medium"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
                 </StackPanel>
             </Grid>
         </ScrollViewer>
