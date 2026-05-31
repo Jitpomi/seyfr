@@ -56,6 +56,9 @@ namespace Seyfr
 
             RootGrid.Loaded += (s, e) =>
             {
+                // Override the default Keyboard focus state to Pointer so the dark focus ring doesn't appear on startup
+                NavView.Focus(FocusState.Pointer);
+
                 if (RootGrid.Resources["BreathingAnimation"] is Microsoft.UI.Xaml.Media.Animation.Storyboard breathingAnim)
                 {
                     breathingAnim.Begin();
