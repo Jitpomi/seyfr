@@ -12,6 +12,7 @@ namespace Seyfr
         public HandCursorButton()
         {
             this.ProtectedCursor = InputSystemCursor.Create(InputSystemCursorShape.Hand);
+            this.UseSystemFocusVisuals = true;
         }
     }
 }

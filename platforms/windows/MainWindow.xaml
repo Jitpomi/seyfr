@@ -139,6 +139,11 @@
             HorizontalAlignment="Stretch"
             MaxWidth="720"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Send, Mode=OneWay}">
+                    <StackPanel.Transitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.Transitions>
 
                     <!-- Drop Area -->
                     <StackPanel Spacing="16"
@@ -221,7 +226,7 @@
                 Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
-                CornerRadius="18"
+                CornerRadius="{ThemeResource OverlayCornerRadius}"
                 Padding="24">
 
                         <StackPanel Spacing="16">
@@ -265,7 +270,7 @@
 
                             <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="12"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
                     Padding="12,12">
                                 <TextBlock Text="{Binding Ticket, Mode=OneWay}"
                        FontSize="11"
@@ -284,7 +289,7 @@
                                 <local:HandCursorButton Grid.Column="0"
                                         HorizontalAlignment="Stretch"
                                         Padding="0,12"
-                                        CornerRadius="12"
+                                        CornerRadius="{ThemeResource ControlCornerRadius}"
                                         Command="{Binding CopyTicketCommand, Mode=OneWay}"
                                         BorderBrush="{ThemeResource SystemAccentColor}"
                                         BorderThickness="1"
@@ -299,7 +304,7 @@
                                 <local:HandCursorButton Grid.Column="2"
                                         HorizontalAlignment="Stretch"
                                         Padding="0,12"
-                                        CornerRadius="12"
+                                        CornerRadius="{ThemeResource ControlCornerRadius}"
                                         BorderBrush="Transparent"
                                         BorderThickness="0"
                                         Background="{ThemeResource SystemAccentColor}"
@@ -324,12 +329,17 @@
             HorizontalAlignment="Stretch"
             MaxWidth="720"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Receive, Mode=OneWay}">
+                    <StackPanel.Transitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.Transitions>
 
                     <!-- Ticket Card -->
                     <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
             BorderThickness="1"
-            CornerRadius="18"
+            CornerRadius="{ThemeResource OverlayCornerRadius}"
             Padding="24"
             MaxWidth="720"
             HorizontalAlignment="Stretch">
@@ -367,6 +377,7 @@
                             </Grid>
 
                             <TextBox Text="{Binding TicketInput, Mode=TwoWay}"
+                                     AutomationProperties.Name="Ticket Input"
                                      TextChanged="TicketInput_TextChanged"
                                      PlaceholderText="Paste ticket here..."
                      AcceptsReturn="True"
@@ -375,12 +386,13 @@
                      Padding="10"
                      FontFamily="Consolas"
                      FontSize="11"
-                     CornerRadius="12" />
+                     CornerRadius="{ThemeResource ControlCornerRadius}" />
                         </StackPanel>
                     </Border>
 
                     <!-- Save Location Card -->
                     <local:HandCursorButton HorizontalAlignment="Stretch"
+                            AutomationProperties.Name="Save Location"
                             HorizontalContentAlignment="Stretch"
                             Padding="0"
                             Background="Transparent"
@@ -390,7 +402,7 @@
                         <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                 BorderThickness="1"
-                                CornerRadius="18"
+                                CornerRadius="{ThemeResource OverlayCornerRadius}"
                                 Padding="24">
                             <StackPanel Spacing="20">
                                 <!-- Title -->
@@ -428,8 +440,9 @@
 
                     <!-- Receive Button -->
                     <local:HandCursorButton HorizontalAlignment="Stretch"
+            AutomationProperties.Name="Receive File"
             Padding="0,12"
-            CornerRadius="12"
+            CornerRadius="{ThemeResource ControlCornerRadius}"
             Command="{Binding ReceiveCommand, Mode=OneWay}"
             IsEnabled="{Binding HasTicketInput, Mode=OneWay}"
             BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
@@ -457,6 +470,11 @@
             HorizontalAlignment="Stretch"
             MaxWidth="720"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Support, Mode=OneWay}">
+                    <StackPanel.Transitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.Transitions>
 
                     <Pivot>
                         <Pivot.HeaderTemplate>
@@ -470,7 +488,7 @@
                             <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                     BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                     BorderThickness="1"
-                                    CornerRadius="18"
+                                    CornerRadius="{ThemeResource OverlayCornerRadius}"
                                     Padding="24"
                                     Margin="0,16,0,0">
                                 <StackPanel Spacing="20">
@@ -513,7 +531,7 @@
                                     <!-- Open Web Button -->
                                     <local:HandCursorButton HorizontalAlignment="Stretch"
                                                             Padding="0,12"
-                                                            CornerRadius="12"
+                                                            CornerRadius="{ThemeResource ControlCornerRadius}"
                                                             Command="{Binding OpenVenmoWebCommand, Mode=OneWay}"
                                                             BorderBrush="{ThemeResource TextFillColorPrimaryBrush}"
                                                             BorderThickness="1"
@@ -542,7 +560,7 @@
                                         <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="1"
-                                                CornerRadius="18"
+                                                CornerRadius="{ThemeResource OverlayCornerRadius}"
                                                 Padding="20"
                                                 Margin="0,10,0,0">
                                             <StackPanel Spacing="12">
@@ -616,7 +634,7 @@
                                         <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="1"
-                                                CornerRadius="18"
+                                                CornerRadius="{ThemeResource OverlayCornerRadius}"
                                                 Padding="20"
                                                 Margin="0,10,0,0">
                                             <StackPanel Spacing="12">
@@ -693,7 +711,7 @@
                                         <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                                 BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                                 BorderThickness="1"
-                                                CornerRadius="18"
+                                                CornerRadius="{ThemeResource OverlayCornerRadius}"
                                                 Padding="20"
                                                 Margin="0,10,0,0">
                                             <StackPanel Spacing="12">
@@ -758,7 +776,7 @@
                                 <Border Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                                         BorderThickness="1"
-                                        CornerRadius="18"
+                                        CornerRadius="{ThemeResource OverlayCornerRadius}"
                                         Padding="20">
                                     <StackPanel Spacing="8">
                                         <StackPanel Orientation="Horizontal" Spacing="8">
