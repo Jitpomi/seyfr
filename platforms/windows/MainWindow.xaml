@@ -136,8 +136,9 @@
             </NavigationView.PaneFooter>
 
             <!-- Main Content -->
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <Grid Margin="40,32">
+            <Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid Margin="40,32">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -892,16 +893,16 @@
                 </StackPanel>
             </Grid>
         </ScrollViewer>
-        </NavigationView>
 
-        <!-- Native InfoBar for notifications -->
-        <InfoBar x:Name="StatusInfoBar"
-                 Grid.Row="1"
-                 IsOpen="False"
-                 Severity="Success"
-                 Margin="0,16,0,0"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top" />
+            <!-- Native InfoBar for notifications -->
+            <InfoBar x:Name="StatusInfoBar"
+                     IsOpen="False"
+                     Severity="Success"
+                     Margin="0,0,0,24"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Bottom" />
+        </Grid>
+        </NavigationView>
 
     </Grid>
 </Window>
