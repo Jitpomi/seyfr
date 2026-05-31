@@ -35,7 +35,7 @@ namespace Seyfr
                 var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
                 
                 // Increase default window size so the Support view fits without scrolling
-                appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 1100, Height = 880 });
+                appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 1150, Height = 820 });
 
                 var iconPath = FindIconPath();
                 if (iconPath != null)
