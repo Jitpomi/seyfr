@@ -59,7 +59,6 @@ namespace Seyfr
                 // Override the default Keyboard focus state to Pointer so the dark focus ring doesn't appear on startup
                 NavView.Focus(FocusState.Pointer);
 
-                // Start the dynamic concentric rings wave animation
                 StartWaveAnimation();
             };
         }
@@ -72,14 +71,14 @@ namespace Seyfr
         private void StartWaveAnimation()
         {
             RingsCanvas.Children.Clear();
-            var brush = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"];
+            var brush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(255, 128, 128, 128));
 
             for (int i = 0; i < 8; i++)
             {
                 var el = new Microsoft.UI.Xaml.Shapes.Ellipse
                 {
                     Stroke = brush,
-                    StrokeThickness = 0.8
+                    StrokeThickness = 0.5
                 };
                 _waveRings[i] = el;
                 RingsCanvas.Children.Add(el);
@@ -90,7 +89,6 @@ namespace Seyfr
             _waveTimer.Tick += (s, e) =>
             {
                 var elapsed = (DateTime.Now - _waveStartTime).TotalMilliseconds;
-                // 1200ms period
                 var phase = (elapsed % 1200.0) / 1200.0;
 
                 double centerX = 140.0;
@@ -98,8 +96,7 @@ namespace Seyfr
                 double baseRadius = 40.0;
                 double spacing = 14.0;
                 
-                // Binding to ViewModel state for active transfer pulsing
-                bool isAnimating = !string.IsNullOrEmpty(ViewModel.TransferId) || ViewModel.IsListening;
+                bool isAnimating = ViewModel.IsBusy;
                 double maxAlpha = isAnimating ? 0.7 : 0.4;
 
                 for (int i = 0; i < 8; i++)
