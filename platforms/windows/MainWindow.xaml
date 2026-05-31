@@ -899,9 +899,9 @@
                  Grid.Row="1"
                  IsOpen="False"
                  Severity="Success"
-                 Margin="0,0,0,24"
+                 Margin="0,16,0,0"
                  HorizontalAlignment="Center"
-                 VerticalAlignment="Bottom" />
+                 VerticalAlignment="Top" />
 
     </Grid>
 </Window>
