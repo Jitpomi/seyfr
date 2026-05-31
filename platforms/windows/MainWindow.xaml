@@ -89,9 +89,9 @@
         </Grid.RowDefinitions>
 
         <!-- Custom TitleBar -->
-        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40" Background="Transparent" Canvas.ZIndex="1">
+        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="40" Background="Transparent" Canvas.ZIndex="1" Margin="48,0,0,0">
             <!-- Draggable region for ExtendsContentIntoTitleBar -->
-            <StackPanel Margin="48,0,0,0" Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <StackPanel Spacing="12" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                 <Image Width="18" Height="18" Source="ms-appx:///Assets/sidebar_logo.png" />
                 <TextBlock Text="SEYFR" FontSize="13" FontWeight="SemiBold" CharacterSpacing="50" VerticalAlignment="Center" />
             </StackPanel>
