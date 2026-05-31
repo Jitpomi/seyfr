@@ -1096,6 +1096,97 @@
         font-size: 13px;
       }
     }
+    /* Global Reach Section */
+    .global-reach {
+      width: 100%;
+      overflow: hidden;
+      padding: 32px 0 64px 0;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .global-reach-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #86868b;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .marquee-container {
+      width: 100vw;
+      max-width: 100%;
+      overflow: hidden;
+      position: relative;
+      /* Premium fade effect on edges */
+      -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    }
+    .marquee-content {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: scrollMarquee 35s linear infinite;
+      align-items: center;
+      padding: 0;
+    }
+    .marquee-content span {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1d1d1f;
+      display: inline-flex;
+      align-items: center;
+    }
+    .marquee-content .dot {
+      color: #d2d2d7;
+      margin: 0 32px;
+      font-size: 12px;
+    }
+    .marquee-content:hover {
+      animation-play-state: paused;
+    }
+    @keyframes scrollMarquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .appreciation-box {
+      margin: 40px auto 0 auto;
+      text-align: center;
+      max-width: 560px;
+      width: 90%;
+    }
+    .appreciation-box p {
+      margin: 0 0 16px 0;
+      color: #5e5e63;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .appreciation-box strong {
+      color: #1d1d1f;
+      font-size: 16px;
+    }
+    .review-links {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .review-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 16px;
+      background: #f5f5f7;
+      border-radius: 999px;
+      color: #1d1d1f;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+    .review-btn:hover {
+      background: #e8e8ed;
+    }
   </style>
 </head>
 
@@ -1162,6 +1253,44 @@
 
       </section>
 
+      <!-- Global Reach Section -->
+      <section class="global-reach">
+        <div class="global-reach-inner">
+          <p class="global-reach-title">Trusted by users across the globe in just a week</p>
+          <div class="marquee-container">
+            <div class="marquee-content">
+              <span>🇺🇸 7 early adopters in United States</span><span class="dot">•</span>
+              <span>🇬🇧 3 in United Kingdom</span><span class="dot">•</span>
+              <span>🇲🇽 2 in Mexico</span><span class="dot">•</span>
+              <span>🇫🇮 1 in Finland</span><span class="dot">•</span>
+              <span>🇩🇴 1 in Dominican Republic</span><span class="dot">•</span>
+              <span>🇺🇬 3 in Uganda</span><span class="dot">•</span>
+              <span>🇩🇪 1 in Germany</span><span class="dot">•</span>
+              <span>🇵🇱 1 in Poland</span><span class="dot">•</span>
+              
+              <!-- Duplicate for seamless scrolling -->
+              <span>🇺🇸 7 early adopters in United States</span><span class="dot">•</span>
+              <span>🇬🇧 3 in United Kingdom</span><span class="dot">•</span>
+              <span>🇲🇽 2 in Mexico</span><span class="dot">•</span>
+              <span>🇫🇮 1 in Finland</span><span class="dot">•</span>
+              <span>🇩🇴 1 in Dominican Republic</span><span class="dot">•</span>
+              <span>🇺🇬 3 in Uganda</span><span class="dot">•</span>
+              <span>🇩🇪 1 in Germany</span><span class="dot">•</span>
+              <span>🇵🇱 1 in Poland</span><span class="dot">•</span>
+            </div>
+          </div>
+          
+          <div class="appreciation-box">
+            <p><strong>Are you one of our early adopters?</strong><br>We are incredibly grateful for your support. We would love to hear your thoughts and feedback on the experience.</p>
+            <div class="review-links">
+              <a href="mailto:hello@jitpomi.com?subject=SEYFR%20Early%20Adopter%20Feedback" class="review-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                Email the Founders
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
       <section class="section" aria-labelledby="how-it-works-heading">
         <h2 id="how-it-works-heading" class="line">
           Send from one device. Receive on another.
