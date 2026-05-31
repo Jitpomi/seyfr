@@ -28,15 +28,18 @@ namespace Seyfr
             ExtendsContentIntoTitleBar = true;
             SetTitleBar(AppTitleBar);
 
-            // Set window icon
             try
             {
+                var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+                var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
+                var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
+                
+                // Increase default window size so the Support view fits without scrolling
+                appWindow.Resize(new Windows.Graphics.SizeInt32 { Width = 1100, Height = 880 });
+
                 var iconPath = FindIconPath();
                 if (iconPath != null)
                 {
-                    var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-                    var windowId = Microsoft.UI.Win32Interop.GetWindowIdFromWindow(hWnd);
-                    var appWindow = Microsoft.UI.Windowing.AppWindow.GetFromWindowId(windowId);
                     appWindow.SetIcon(iconPath);
                 }
                 else
