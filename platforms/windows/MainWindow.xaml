@@ -382,6 +382,7 @@
 
                     <!-- Save Location Card -->
                     <local:HandCursorButton HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
                             Padding="0"
                             Background="Transparent"
                             BorderThickness="0"
