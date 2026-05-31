@@ -16,8 +16,8 @@ android {
         applicationId = "com.jitpomi.seyfr"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.5"
+        versionCode = 6
+        versionName = "1.5.13"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
