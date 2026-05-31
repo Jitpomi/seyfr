@@ -89,7 +89,7 @@
                         IsSettingsVisible="False"
                         SelectionChanged="NavView_SelectionChanged"
                         PaneDisplayMode="Auto"
-                        IsTitleBarAutoPaddingEnabled="False">
+                        IsTitleBarAutoPaddingEnabled="True">
 
             <NavigationView.MenuItems>
                 <NavigationViewItem Tag="Send" Content="Send" IsSelected="True">
@@ -128,14 +128,14 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <!-- Header -->
-                <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,48,0,32" Spacing="8">
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,8,0,16" Spacing="4">
                     <TextBlock Text="{Binding SelectedTab, Converter={StaticResource TabTitleConverter}, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Center" />
                     <TextBlock Text="{Binding SelectedTab, Converter={StaticResource TabSubtitleConverter}, Mode=OneWay}" Style="{StaticResource BodyTextBlockStyle}" Opacity="0.6" HorizontalAlignment="Center" />
                 </StackPanel>
 
                 <!-- Send View -->
                 <StackPanel Grid.Row="1"
-            Spacing="24"
+            Spacing="16"
             HorizontalAlignment="Stretch"
             MaxWidth="720"
             Visibility="{Binding SelectedTab, Converter={StaticResource TabVisibilityConverter}, ConverterParameter=Send, Mode=OneWay}">
