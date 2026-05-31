@@ -34,9 +34,9 @@ target = "es2020"
 [bundle]
 name = "SEYFR"
 identifier = "com.jitpomi.seyfr"
-version = "1.5"
-display_version = "1.5"
-build_number = 5
+version = "1.5.14"
+display_version = "1.5.14"
+build_number = 6
 
 [bundle.icons]
 source = "playstore-assets/app_icon.png"
