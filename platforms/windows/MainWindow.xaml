@@ -894,27 +894,14 @@
         </ScrollViewer>
         </NavigationView>
 
-        <!-- Snackbar Overlay -->
-        <Border x:Name="SnackbarBorder" 
-                Grid.Row="1"
-                Background="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="20"
-                Padding="20,12"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Margin="0,0,0,-80"
-                Opacity="0"
-                IsHitTestVisible="False">
-            <Border.RenderTransform>
-                <TranslateTransform x:Name="SnackbarTransform" Y="0" />
-            </Border.RenderTransform>
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <FontIcon x:Name="SnackbarIcon" Glyph="&#xE73E;" FontSize="14" FontFamily="Segoe Fluent Icons" />
-                <TextBlock x:Name="SnackbarText" Text="" FontSize="14" FontWeight="Medium" VerticalAlignment="Center" />
-            </StackPanel>
-        </Border>
+        <!-- Native InfoBar for notifications -->
+        <InfoBar x:Name="StatusInfoBar"
+                 Grid.Row="1"
+                 IsOpen="False"
+                 Severity="Success"
+                 Margin="0,0,0,24"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Bottom" />
 
     </Grid>
 </Window>

@@ -63,75 +63,33 @@ namespace Seyfr
             };
         }
 
+        private DispatcherTimer? _infoBarTimer;
+
         private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(AppViewModel.Status) && !string.IsNullOrEmpty(ViewModel.Status))
             {
-                ShowSnackbar(ViewModel.Status, ViewModel.IsError);
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    StatusInfoBar.Message = ViewModel.Status;
+                    StatusInfoBar.Severity = ViewModel.IsError ? Microsoft.UI.Xaml.Controls.InfoBarSeverity.Error : Microsoft.UI.Xaml.Controls.InfoBarSeverity.Success;
+                    StatusInfoBar.IsOpen = true;
+
+                    if (_infoBarTimer != null)
+                    {
+                        _infoBarTimer.Stop();
+                    }
+
+                    _infoBarTimer = new DispatcherTimer();
+                    _infoBarTimer.Interval = TimeSpan.FromSeconds(3);
+                    _infoBarTimer.Tick += (s, args) =>
+                    {
+                        StatusInfoBar.IsOpen = false;
+                        _infoBarTimer.Stop();
+                    };
+                    _infoBarTimer.Start();
+                });
             }
-        }
-
-        private void ShowSnackbar(string message, bool isError)
-        {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                SnackbarText.Text = message;
-                SnackbarIcon.Glyph = isError ? "\uE783" : "\uE73E"; // Warning vs Check mark
-                SnackbarIcon.Foreground = isError ? new SolidColorBrush(Colors.Red) : new SolidColorBrush(Colors.White);
-
-                var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
-                var translateAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
-                {
-                    To = -20,
-                    Duration = TimeSpan.FromMilliseconds(300),
-                    EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase() { EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseOut }
-                };
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(translateAnimation, SnackbarTransform);
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(translateAnimation, "Y");
-
-                var opacityAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
-                {
-                    To = 1.0,
-                    Duration = TimeSpan.FromMilliseconds(300)
-                };
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(opacityAnimation, SnackbarBorder);
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(opacityAnimation, "Opacity");
-
-                storyboard.Children.Add(translateAnimation);
-                storyboard.Children.Add(opacityAnimation);
-                storyboard.Begin();
-
-                _ = HideSnackbarAsync();
-            });
-        }
-
-        private async Task HideSnackbarAsync()
-        {
-            await Task.Delay(3000);
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                var storyboard = new Microsoft.UI.Xaml.Media.Animation.Storyboard();
-                var translateAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
-                {
-                    To = 0,
-                    Duration = TimeSpan.FromMilliseconds(300),
-                    EasingFunction = new Microsoft.UI.Xaml.Media.Animation.CubicEase() { EasingMode = Microsoft.UI.Xaml.Media.Animation.EasingMode.EaseIn }
-                };
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(translateAnimation, SnackbarTransform);
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(translateAnimation, "Y");
-
-                var opacityAnimation = new Microsoft.UI.Xaml.Media.Animation.DoubleAnimation()
-                {
-                    To = 0.0,
-                    Duration = TimeSpan.FromMilliseconds(300)
-                };
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTarget(opacityAnimation, SnackbarBorder);
-                Microsoft.UI.Xaml.Media.Animation.Storyboard.SetTargetProperty(opacityAnimation, "Opacity");
-
-                storyboard.Children.Add(translateAnimation);
-                storyboard.Children.Add(opacityAnimation);
-                storyboard.Begin();
-            });
         }
 
         private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
