@@ -59,14 +59,64 @@ namespace Seyfr
                 // Override the default Keyboard focus state to Pointer so the dark focus ring doesn't appear on startup
                 NavView.Focus(FocusState.Pointer);
 
-                if (RootGrid.Resources["BreathingAnimation"] is Microsoft.UI.Xaml.Media.Animation.Storyboard breathingAnim)
-                {
-                    breathingAnim.Begin();
-                }
+                // Start the dynamic concentric rings wave animation
+                StartWaveAnimation();
             };
         }
 
         private DispatcherTimer? _infoBarTimer;
+        private DispatcherTimer? _waveTimer;
+        private DateTime _waveStartTime;
+        private Microsoft.UI.Xaml.Shapes.Ellipse[] _waveRings = new Microsoft.UI.Xaml.Shapes.Ellipse[8];
+
+        private void StartWaveAnimation()
+        {
+            RingsCanvas.Children.Clear();
+            var brush = (Brush)Application.Current.Resources["TextFillColorSecondaryBrush"];
+
+            for (int i = 0; i < 8; i++)
+            {
+                var el = new Microsoft.UI.Xaml.Shapes.Ellipse
+                {
+                    Stroke = brush,
+                    StrokeThickness = 0.8
+                };
+                _waveRings[i] = el;
+                RingsCanvas.Children.Add(el);
+            }
+
+            _waveStartTime = DateTime.Now;
+            _waveTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(16) };
+            _waveTimer.Tick += (s, e) =>
+            {
+                var elapsed = (DateTime.Now - _waveStartTime).TotalMilliseconds;
+                // 1200ms period
+                var phase = (elapsed % 1200.0) / 1200.0;
+
+                double centerX = 140.0;
+                double centerY = 140.0;
+                double baseRadius = 40.0;
+                double spacing = 14.0;
+                
+                // Binding to ViewModel state for active transfer pulsing
+                bool isAnimating = !string.IsNullOrEmpty(ViewModel.TransferId) || ViewModel.IsListening;
+                double maxAlpha = isAnimating ? 0.7 : 0.4;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    double currentPhase = i + phase;
+                    double radius = baseRadius + (currentPhase * spacing);
+                    double alpha = Math.Max(0.0, maxAlpha - (currentPhase / 12.0));
+
+                    _waveRings[i].Width = radius * 2;
+                    _waveRings[i].Height = radius * 2;
+                    Canvas.SetLeft(_waveRings[i], centerX - radius);
+                    Canvas.SetTop(_waveRings[i], centerY - radius);
+                    _waveRings[i].Opacity = alpha;
+                }
+            };
+            _waveTimer.Start();
+        }
 
         private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

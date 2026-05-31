@@ -64,12 +64,7 @@
             <local:BoolToStatusTextConverter x:Key="BoolToStatusTextConverter" />
             <local:BoolToOpacityConverter x:Key="BoolToOpacityConverter" />
             <local:InverseBoolToOpacityConverter x:Key="InverseBoolToOpacityConverter" />
-            
-            <Storyboard x:Key="BreathingAnimation" RepeatBehavior="Forever">
-                <DoubleAnimation Storyboard.TargetName="RingsScale" Storyboard.TargetProperty="ScaleX" From="1.0" To="1.02" Duration="0:0:0.06" AutoReverse="True" />
-                <DoubleAnimation Storyboard.TargetName="RingsScale" Storyboard.TargetProperty="ScaleY" From="1.0" To="1.02" Duration="0:0:0.06" AutoReverse="True" />
-                <DoubleAnimation Storyboard.TargetName="RingsCanvas" Storyboard.TargetProperty="Opacity" From="1.0" To="0.7" Duration="0:0:0.06" AutoReverse="True" />
-            </Storyboard>
+            <!-- Dynamic rings generated in C# -->
         </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -158,81 +153,8 @@
                               Drop="DropArea_Drop"
                               Tapped="DropArea_Tapped">
 
-                            <!-- Rings -->
-                            <Canvas x:Name="RingsCanvas"
-                    Width="280"
-                    Height="280"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    RenderTransformOrigin="0.5,0.5">
-                                <Canvas.RenderTransform>
-                                    <ScaleTransform x:Name="RingsScale" ScaleX="1" ScaleY="1" />
-                                </Canvas.RenderTransform>
-
-                                <Ellipse Canvas.Left="23"
-                         Canvas.Top="23"
-                         Width="234"
-                         Height="234"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="34"
-                         Canvas.Top="34"
-                         Width="212"
-                         Height="212"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="45"
-                         Canvas.Top="45"
-                         Width="190"
-                         Height="190"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="56"
-                         Canvas.Top="56"
-                         Width="168"
-                         Height="168"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="67"
-                         Canvas.Top="67"
-                         Width="146"
-                         Height="146"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="78"
-                         Canvas.Top="78"
-                         Width="124"
-                         Height="124"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="89"
-                         Canvas.Top="89"
-                         Width="102"
-                         Height="102"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-
-                                <Ellipse Canvas.Left="100"
-                         Canvas.Top="100"
-                         Width="80"
-                         Height="80"
-                         Stroke="{ThemeResource TextFillColorSecondaryBrush}"
-                         StrokeThickness="0.5"
-                         Opacity="0.3" />
-                            </Canvas>
+                            <!-- Dynamic Wave Rings generated in C# -->
+                            <Canvas x:Name="RingsCanvas" Width="280" Height="280" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" />
 
                             <FontIcon Glyph="{Binding IsFolderMode, Converter={StaticResource FolderModeGlyphConverter}}"
                                     FontSize="28"
