@@ -465,6 +465,9 @@ namespace Seyfr
                     SeyfrException.InvalidTicket e => $"Invalid ticket: {e.details}",
                     SeyfrException.Store e        => $"Store error: {e.details}",
                     SeyfrException.Internal e     => $"Internal error: {e.details}",
+                    SeyfrException.FileExists e   => $"File already exists: {e.path}",
+                    SeyfrException.PathTraversal  => "Blocked: Sender attempted unauthorized access",
+                    SeyfrException.PermissionDenied => "Save failed: Storage permission denied",
                     SeyfrException.Cancelled      => "Transfer cancelled",
                     SeyfrException.Timeout        => "Transfer timed out",
                     _                             => ex.Message
