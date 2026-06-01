@@ -1241,6 +1241,36 @@
       margin-left: 4px;
       margin-bottom: 2px;
     }
+    .platform-groups {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      margin-top: 32px;
+      text-align: left;
+    }
+    .platform-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 160px;
+    }
+    .platform-column h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: #86868b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+    .platform-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
   </style>
 </head>
 
@@ -1622,18 +1652,39 @@
           Download SEYFR
         </a>
         
-        <div class="download-options">
-          <span id="download-macos-m" aria-disabled="true" class="download-option disabled" title="Coming soon to macOS (Apple Silicon)">macOS (M-Series - Coming Soon)</span>
-          <span id="download-macos-intel" aria-disabled="true" class="download-option disabled" title="Coming soon to macOS (Intel)">macOS (Intel - Coming Soon)</span>
-          <a id="download-windows" href="https://apps.microsoft.com/detail/9p18zr98zxn2?hl=en-US&gl=US" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from the Microsoft Store">Windows (Store)</a>
-          <a id="download-windows-direct" href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x64.exe" rel="noopener noreferrer" class="download-option" title="Download standalone Windows installer">Windows (Direct EXE)</a>
-          <div class="download-group">
-            <a id="download-linux" href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_amd64.AppImage" rel="noopener noreferrer" class="download-option">Linux</a>
-            <a href="/seyfr-public-key.asc" class="gpg-key-btn" title="Download GPG Public Key to verify AppImage cryptographic integrity" target="_blank" rel="noopener noreferrer">GPG Key</a>
+        <div class="platform-groups">
+          <div class="platform-column">
+            <h4>Windows</h4>
+            <div class="platform-links">
+              <a id="download-windows" href="https://apps.microsoft.com/detail/9p18zr98zxn2?hl=en-US&gl=US" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from the Microsoft Store">Microsoft Store</a>
+              <a id="download-windows-direct" href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/seyfr-x64.exe" rel="noopener noreferrer" class="download-option" title="Download standalone Windows installer">Direct EXE</a>
+            </div>
           </div>
-          <a id="download-android-store" href="https://play.google.com/store/apps/details?id=com.jitpomi.seyfr&hl=en_US" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from Google Play">Android (Play Store)</a>
-          <a id="download-android" href="https://github.com/Jitpomi/seyfr-releases/releases/download/v0.1.23/app-release.apk" rel="noopener noreferrer" class="download-option" title="Download APK for Android">Android (APK)</a>
-          <span id="download-ios" aria-disabled="true" class="download-option disabled" title="Coming soon to the App Store">iOS (Coming Soon)</span>
+
+          <div class="platform-column">
+            <h4>Android</h4>
+            <div class="platform-links">
+              <a id="download-android-store" href="https://play.google.com/store/apps/details?id=com.jitpomi.seyfr&hl=en_US" target="_blank" rel="noopener noreferrer" class="download-option primary-blue" title="Get SEYFR from Google Play">Google Play</a>
+              <a id="download-android" href="https://github.com/Jitpomi/seyfr-releases/releases/download/v0.1.23/app-release.apk" rel="noopener noreferrer" class="download-option" title="Download APK for Android">Direct APK</a>
+            </div>
+          </div>
+
+          <div class="platform-column">
+            <h4>Linux</h4>
+            <div class="platform-links">
+              <a id="download-linux" href="https://github.com/Jitpomi/seyfr-releases/releases/latest/download/Seyfr_amd64.AppImage" rel="noopener noreferrer" class="download-option">AppImage</a>
+              <a href="/seyfr-public-key.asc" class="download-option" title="Download GPG Public Key to verify AppImage cryptographic integrity" target="_blank" rel="noopener noreferrer">GPG Key</a>
+            </div>
+          </div>
+          
+          <div class="platform-column">
+            <h4>Apple</h4>
+            <div class="platform-links">
+              <span id="download-macos-m" aria-disabled="true" class="download-option disabled" title="Coming soon to macOS (Apple Silicon)">macOS (M-Series)</span>
+              <span id="download-macos-intel" aria-disabled="true" class="download-option disabled" title="Coming soon to macOS (Intel)">macOS (Intel)</span>
+              <span id="download-ios" aria-disabled="true" class="download-option disabled" title="Coming soon to the App Store">iOS (App Store)</span>
+            </div>
+          </div>
         </div>
         
         <div style="margin: 24px auto 0 auto; font-size: 13px; color: #86868b; text-align: center; max-width: 500px; line-height: 1.5;">
