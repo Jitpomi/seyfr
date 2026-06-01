@@ -1215,14 +1215,15 @@
     .announcement-banner a {
       color: white;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      display: inline-block;
+      line-height: 1.5;
     }
     .announcement-banner a:hover {
       text-decoration: underline;
     }
     .announcement-banner .badge {
+      display: inline-block;
+      vertical-align: middle;
       background: #0071e3;
       color: white;
       padding: 2px 8px;
@@ -1231,6 +1232,14 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      margin-right: 6px;
+      margin-bottom: 2px;
+    }
+    .announcement-banner svg {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 4px;
+      margin-bottom: 2px;
     }
   </style>
 </head>
